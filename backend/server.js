@@ -16,12 +16,14 @@ const userRoutes=require('./routers/userRouter.js')
 const patientRoutes=require('./routers/patientRouter.js')
 const pharmacyRoutes=require('./routers/pharmacyRouter.js')
 const medicineRoutes=require('./routers/medicineRouter.js')
+const doctorRoutes=require('./routers/doctorRouter.js')
 
 
 app.use('/api/user',userRoutes)
 app.use('/api/patient',patientRoutes)
 app.use('/api/pharmacy',pharmacyRoutes)
 app.use('/api/medicine',medicineRoutes)
+app.use('/api/doctor',doctorRoutes )
 
 
 db()

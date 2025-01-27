@@ -45,6 +45,8 @@ function Login() {
         dispatch(setUser({username:userData.username,role:userData.role,email:userData.email}))
         if(userData.role=="2")
           return navigate('/pharmacy/home')
+        if(userData.role=="1")
+          return navigate('/doctor/')
         navigate('/')
       }
       

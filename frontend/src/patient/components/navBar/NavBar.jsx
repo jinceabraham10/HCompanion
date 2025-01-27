@@ -6,6 +6,7 @@ import { setPatient } from '../../../redux/slices/patientSlice'
 import { getPatientBasicDetails } from '../../services/patientLoginService'
 import { getPatientProfileDetails } from '../../services/patientProfileService'
 
+
 function NavBar() {
 
 const dispatch=useDispatch()

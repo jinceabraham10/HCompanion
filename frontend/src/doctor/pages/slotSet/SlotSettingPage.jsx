@@ -3,13 +3,36 @@ import {slotDates} from '../../utils/slotDatesUtils'
 import { slotTimings } from '../../utils/slotTimings'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-dayjs.extend(customParseFormat);
+import { addSlot, checkSlotService, getSlotsService } from '../../services/doctorSlotServices';
+import { useDispatch,useSelector } from 'react-redux';
+import { setDoctor } from '../../../redux/slices/doctorSlice';
 
+dayjs.extend(customParseFormat);
 
 
 function SlotSettingPage() {
 
     const [selectedDate,setSelectedDate]=useState(undefined)
+    const [slots,setSlots]=useState([])
+    const doctor=useSelector((state)=>state.doctor)
+
+    // const handleCheckSlot=async (slotDate,startTime)=>{
+    //     const slot=await checkSlotService({slotDate,startTime})
+    //     if(slot)
+    //         return true
+
+    // }
+
+       const handleClickOnDate=async (slotDate)=>{
+
+            await setSelectedDate(slotDate)
+            const tempSlots=await getSlotsService({slotDate})
+            console.log(tempSlots)
+            await setSlots(tempSlots)
+
+    
+        }
+    
 
   return (
     <div className='w-full h-full flex p-4'>
@@ -19,7 +42,7 @@ function SlotSettingPage() {
              <div className='dates w-full h-[10%] grid grid-cols-1 justify-items-start gap-4 '>
                 {
                     slotDates.map((date,index)=>(
-                        <button key={index} className='p-2 w-full h-full font-medium bg-emerald-400 bg-opacity-50 border flex justify-start pl-5 ' onClick={()=>setSelectedDate(date)}>
+                        <button key={index} className='p-2 w-full h-full font-medium bg-emerald-400 bg-opacity-50 border flex justify-start pl-5 ' onClick={()=>handleClickOnDate(date)}>
                             {date}
                         </button>
                     ))
@@ -37,7 +60,14 @@ function SlotSettingPage() {
                     {
                         slotTimings.map((timing,index)=>(
                             <div className='w-auto h-auto' key={index}>
-                                <AddedSlot time={timing}/>
+                                {
+                                    (slots)&&(slots.length>0)&&(slots.some((slot)=>slot.startTime==timing))?
+                                    (slots.find((slot)=>slot.startTime==timing).bookStatus==1) ? <BookedSlot time={timing}  />: <AddedSlot time={timing}/>:
+                                    <SlotAvailable time={timing} selectedDate={selectedDate}/>
+
+
+                                }
+                                
                             </div>
                         ))
                     }
@@ -53,6 +83,13 @@ function SlotSettingPage() {
 
 
 function SlotAvailable(props){
+
+    const handleClickAdd=async ()=>{
+        console.log(`slot date ${props.slotDate}`)
+        const addedSlot=await addSlot({slotDate:props.selectedDate,startTime:props.time})
+    }
+
+
     return(
         <div className='w-full h-[15vh] p-4 flex flex-row gap-2 border rounded-lg shadow-lg'>
             <div className='w-[20%] flex items-center justify-center border shadow-md'>
@@ -60,7 +97,7 @@ function SlotAvailable(props){
             </div>
 
             <div className='flex flex-1 flex-row gap-10 items-center pl-10 border shadow-md'>
-                <button className='w-[30%] h-[60%] bg-green-400 font-medium border '>Add</button>
+                <button className='w-[30%] h-[60%] bg-green-400 font-medium border ' onClick={handleClickAdd}>Add</button>
                 
             </div>
 
@@ -96,7 +133,7 @@ function AddedSlot(props){
         <div className='w-full h-[15vh] p-4 bg-orange-400 bg-opacity-50 flex flex-row gap-2 border rounded-lg shadow-lg'>
 
             <div className='w-[20%] flex items-center justify-center border shadow-md'>
-                <span className='text-emerald-400 font-medium text-lg'>time</span>
+                <span className='text-emerald-400 font-medium text-lg'>{props.time}</span>
             </div>
 
             <div className='flex flex-1 flex-row items-center pl-10 border shadow-md'>

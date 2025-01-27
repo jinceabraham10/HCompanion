@@ -1,9 +1,49 @@
 import { FloatingLabel } from 'flowbite-react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch,useSelector } from 'react-redux'
+import { setDoctor } from '../../../redux/slices/doctorSlice'
+import { setUser } from '../../../redux/slices/userSlice'
+import { getDoctorBasicDetails, getDoctorProfileDetails } from '../../services/doctorLoginService'
+import { setPatient } from '../../../redux/slices/patientSlice'
+
 
 function DoctorNavBar() {
     const navigate=useNavigate()
+    const dispatch=useDispatch()
+    const {username,email,role,isLoggedIn}=useSelector((state)=>state.user)
+    const doctor=useSelector((state)=>state.doctor)
+    
+
+    const onLoad=async ()=>{
+        if(sessionStorage.getItem('token') && !isLoggedIn){
+            const tempPatient=await getDoctorBasicDetails({token:sessionStorage.getItem('token')})
+            const tempDoctor=await getDoctorProfileDetails({token:sessionStorage.getItem('token')})
+            dispatch(setUser({
+                username:tempPatient.username,
+                email:tempPatient.email,
+                role:tempPatient.role,
+                isLoggedIn:true
+            }))
+
+            dispatch(setDoctor({
+                        firstName:tempDoctor.firstName,
+                        lastName:tempDoctor.lastName,
+                        profileImage:tempDoctor.profileImage,
+                        weight:tempDoctor.weight,
+                        height:tempDoctor.height,
+                        profileImage:tempDoctor.profileImage
+                    }))
+            // await setIsUserLoggedIn(true)
+        }
+        
+    
+    } 
+    
+    useEffect(()=>{
+        onLoad()
+        
+    },[])
   return (
     <div className='navBar w-full h-full flex flex-col'>
         <div className='w-full h-full flex flex-col gap-4 p-4 bg-slate-800 bg-opacity-90 rounded-tr-[3%]  '>
@@ -12,7 +52,7 @@ function DoctorNavBar() {
                 <img src="/normalUser.png" className='rounded-full w-[6vw] h-[80%]'/>
 
                 <div className='h-full w-full pl-4 flex flex-1 flex-col justify-center gap-2 bg-white bg-opacity-40 rounded-lg '>
-                    <h2 className='text-lg font-bold'>Jince</h2>
+                    <h2 className='text-lg font-bold'>{(username) && username}</h2>
                     <span className=' font-sm'>Doctor</span>
 
                 </div>         
@@ -52,6 +92,19 @@ function DoctorNavBar() {
                     }}>
                     Bookings
                     </button>  
+                </div>
+
+                <div className='option p-2 w-full h-[10%] flex flex-row gap-4 justify-start bg-white bg-opacity-10 '>
+                            <img src="/icons/logout.png" alt="home img" className='bg-white h-full rounded-sm' />
+                            <button className='h-full' onClick={()=>{
+                              sessionStorage.removeItem('token')
+                              dispatch(setUser({}))
+                              dispatch(setPatient({}))
+                              navigate('/')
+                              
+                            }}>
+                              sign out
+                            </button>
                 </div>
 
 

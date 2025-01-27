@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FloatingLabel } from "flowbite-react";
 import { useFormik } from "formik";
 import { registerValidation } from "../validations/registerValidations";
-import { OtpGenerate, registerPatient } from "../services/registerService";
+import { OtpGenerate, registerDoctor, registerPatient, registerPharmacy } from "../services/registerService";
 import Swal from "sweetalert2"
 import Modal from "react-modal"
 import { maskedEmail } from "../utils/email";
@@ -31,21 +31,21 @@ function Registeration() {
     },
     validationSchema:registerValidation,
     onSubmit:async (values,actions)=>{
-      actions.rese
-      if(values.role=="0"){
+      // actions.resetForm()
+      
         const otpStatus=await OtpGenerate(values)
         if(otpStatus){
           await setisOtpGenerated(true)
           
         }
-      }
-      else if(values.role=="1"){
-        const otpStatus=await OtpGenerate(values)
-        if(otpStatus){
-          await setisOtpGenerated(true)
+      
+      // else if(values.role=="1"){
+      //   const otpStatus=await OtpGenerate(values)
+      //   if(otpStatus){
+      //     await setisOtpGenerated(true)
           
-        }
-      }
+      //   }
+      // }
       
 
     }
@@ -162,7 +162,10 @@ export function OtpEnter(props){
       if(props.role=="0")
         registredUser=await registerPatient(values)
       else if(props.role=="1")
-        registredUser=await registerPatient(values)
+        registredUser=await registerDoctor(values)
+      else if(props.role=="2")
+        registredUser=await registerPharmacy(values)
+
 
 
         if(registredUser){

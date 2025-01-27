@@ -22,7 +22,23 @@ export async function registerPatient({otp,email}) {
 export async function registerDoctor({otp,email}) {
   try {
     const response = await axios.post(
-      `${API}/user/register/createPatient`,
+      `${API}/user/register/createDoctor`,
+      {otp,email},{withCredentials:true}
+    );
+    console.log(response.data);
+    return response.data.CreationStatus;
+  } catch (error) {
+    if(error.response.status=="404"){
+      Swal.fire("Otp has been expired")
+    }
+    console.log(error);
+  }
+}
+
+export async function registerPharmacy({otp,email}) {
+  try {
+    const response = await axios.post(
+      `${API}/user/register/createPharmacy`,
       {otp,email},{withCredentials:true}
     );
     console.log(response.data);
