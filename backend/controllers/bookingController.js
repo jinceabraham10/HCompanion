@@ -65,3 +65,30 @@ exports.addSlot=async (req,res)=>{
         return res.status(500).json({message:"error at the backend"})
     }
 }
+
+
+exports.getDoctorSlots=async (req,res)=>{
+    try {
+        const {slotDate,doctorId}=req.body
+        // const fetchedDoctor=await Doctor.findOne({userId:req.user.userId})
+        const fetchedSlots=await Booking.find({slotDate:slotDate,doctorId:doctorId})
+        return res.status(200).json({message:"fetched Slots",slots:fetchedSlots})
+        
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({message:"error at the backend"})
+    }
+}
+
+exports.getDoctorFreeSlots=async (req,res)=>{
+    try {
+        const {slotDate,doctorId}=req.body
+        // const fetchedDoctor=await Doctor.findOne({userId:req.user.userId})
+        const fetchedSlots=await Booking.find({slotDate:slotDate,doctorId:doctorId,bookStatus:0}).sort({startTime:1})
+        return res.status(200).json({message:"fetched Slots",slots:fetchedSlots})
+        
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({message:"error at the backend"})
+    }
+}

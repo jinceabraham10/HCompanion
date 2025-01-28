@@ -67,7 +67,7 @@ const navigate=useNavigate()
                         Profile
                     </button> */}
 
-                    <button className={`font-medium text-lg p-2 `} >
+                    <button className={`font-medium text-lg p-2 `} onClick={()=>navigate('/patient/doctors')} >
                         Find Doctors
                     </button>
 

@@ -82,7 +82,7 @@ exports.patientViewProfileDetails= async (req,res)=>{
     if(!fetchedDetails)
       return res.status(404).json({message:"patient Not found under the database",errorNoPatient:true})
     // const uDetails=await Patient.updateOne({userId:req.user.userId},{profileDetails})
-    await console.log(fetchedDetails)
+    // await console.log(fetchedDetails)
     res.status(200).json({message:"Details has been fetched",patientDetails:fetchedDetails})
      
   } catch (error) {
@@ -91,3 +91,4 @@ exports.patientViewProfileDetails= async (req,res)=>{
       
   }
 }
+

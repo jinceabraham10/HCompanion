@@ -25,4 +25,5 @@ router.get('/profile/viewDetails',jwtMiddleware,doctorViewProfileDetails)
 
 
 
+
 module.exports=router

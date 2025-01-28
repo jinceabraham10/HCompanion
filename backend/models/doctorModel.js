@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const DoctorSchema=new mongoose.Schema({
     userId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"user",
+        ref:"users",
         required:true
     },
     firstName:{
@@ -19,6 +19,7 @@ const DoctorSchema=new mongoose.Schema({
         default:0
     },
     bloodGroup:{
+
         type:String,
         default:""
     },
