@@ -32,12 +32,12 @@ function MedicinePage() {
 
   return (
     <div className='w-full h-full flex flex-col'>
-        <div className='medicinesList w-full h-full flex '>
-            <div className='w-full h-[full] p-4 grid grid-cols-4 justify-items-center gap-y-10' >
+        <div className='medicinesList w-full h-full flex flex px-20 py-5 '>
+            <div className='w-full h-full p-4 grid grid-cols-4 justify-items-center gap-y-10 ' >
               {
                 (medicines && medicines.length>0) ?
                 medicines.map((medicine,index)=>(
-                  <div className='w-auto h-auto cursor-pointer hover:bg-slate-400 rounded-lg' key={medicine._id} onClick={(e)=>handleClickOnMedicine(e,medicine._id)}>
+                  <div className='w-auto h-auto flex flex-col cursor-pointer hover:bg-slate-400 rounded-lg' key={medicine._id} onClick={(e)=>handleClickOnMedicine(e,medicine._id)}>
                      <MedicineCard medicine={medicine} key={medicine._id}/>
                   </div>
                  

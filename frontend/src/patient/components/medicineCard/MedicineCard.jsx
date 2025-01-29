@@ -7,7 +7,7 @@ function MedicineCard(props) {
     const {medicine}=props
     console.log(`medicine ${JSON.stringify(medicine)}`)
   return (
-    <div className='w-[20vw] h-full flex flex-col shadow-lg rounded-lg '>
+    <div className='w-[18vw] h-full flex flex-col shadow-lg rounded-lg '>
         <div className='h-full w-full flex flex-col '>
             <div className='w-full h-[50%] '>
                 <img src={medicine.medicineImage} className='w-full h-full rounded-t-lg' />
@@ -16,7 +16,7 @@ function MedicineCard(props) {
 
                 <div className='content w-full h-full flex flex-col pl-4 gap-2  '>
 
-                    <h1 className='w-full flex justify-start font-medium text-lg'>{medicine.medicineId.medicineName}</h1>
+                    <h1 className='w-full flex justify-start font-medium text-md'>{medicine.medicineId.medicineName}</h1>
 
                     <div className='w-full font-medium flex flex-col gap-4 flex-1 '>
                         

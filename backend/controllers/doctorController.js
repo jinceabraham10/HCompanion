@@ -61,3 +61,20 @@ exports.getAllDoctors= async (req,res)=>{
     }
   }
 
+exports.getDoctorDetails= async (req,res)=>{
+    try {  
+      const {doctorId}=req.body
+      const fetchedDoctor=await Doctor.findOne({_id:doctorId}).populate("userId")
+      // if(!fetchedDetails)
+      //   return res.status(404).json({message:"doctor Not found under the database",errorNoDoctor:true})
+      // const uDetails=await Patient.updateOne({userId:req.user.userId},{profileDetails})
+      await console.log(`doctor ${fetchedDoctor}`)
+      res.status(200).json({message:"Doctors have been fetched",doctor:fetchedDoctor})
+       
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Faced issue on the backend",error:error})
+        
+    }
+  }
+

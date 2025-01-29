@@ -67,8 +67,8 @@ function SlotSettingPage() {
                         slotTimings.map((timing,index)=>(
                             <div className='w-auto h-auto' key={index}>
                                 {
-                                   (dayjs().isBefore(dayjs(`${selectedDate} ${timing}`,'DD MMM, dddd h:mm A')))&&((slots)&&(slots.length>0)&&(slots.some((slot)=>slot.startTime==timing))?
-                                    (slots.find((slot)=>slot.startTime==timing).bookStatus==1) ? <BookedSlot time={timing}  />: <AddedSlot time={timing}/>:
+                                   (dayjs().isBefore(dayjs(`${selectedDate} ${timing}`,'DD MMM, dddd h:mm A')))&&((slots)&&(slots.length>0)&&(slots.some((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString()))?
+                                    (slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString()).bookStatus==1) ? <BookedSlot time={timing}  />: <AddedSlot time={timing}/>:
                                     <SlotAvailable time={timing} selectedDate={selectedDate}/>)
 
 
@@ -92,7 +92,7 @@ function SlotAvailable(props){
 
     const handleClickAdd=async ()=>{
         console.log(`slot date ${props.slotDate}`)
-        const addedSlot=await addSlot({slotDate:props.selectedDate,startTime:props.time})
+        const addedSlot=await addSlot({slotDate:props.selectedDate,startTime:dayjs(props.time,'h:mm A').format('H:mm A').toString()})
     }
 
 

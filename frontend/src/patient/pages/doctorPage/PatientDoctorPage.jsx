@@ -26,7 +26,7 @@ function PatientDoctorPage() {
             <div className='w-[60%] h-full flex flex-1 flex-col flex-1 gap-10'>
                {
                 (doctors)&&(doctors.length>0)&&doctors.map((doctor,index)=>(
-                  <div className='w-auto h-auto' key={index} onClick={()=>navigate(`/patient/doctors/${doctor._id}`)}>
+                  <div className='w-auto h-auto cursor-pointer ' key={index} onClick={()=>navigate(`/patient/doctors/${doctor._id}`)}>
                     <DoctorCard doctor={doctor}/>
 
                   </div>
