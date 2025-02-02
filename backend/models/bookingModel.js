@@ -22,16 +22,23 @@ const BookingSchema=new mongoose.Schema({
         type:String,
         default:""
     },
-    bookDate:{
+    bookedDate:{
         type:String,
         default:""
     },
-    bookStatus:{
+    bookedStatus:{
         type:mongoose.Schema.Types.Int32,
         default:0
     },
+    paymentId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"payment"
+    },
+    price:{
+        type:mongoose.Schema.Types.Double,
+        default:100.0
+    }
     
-   
 
 
 },{timestamps:true})

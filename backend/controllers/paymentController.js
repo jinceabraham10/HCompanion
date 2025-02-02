@@ -4,6 +4,12 @@ dotenv.config()
 const dayjs=require('dayjs')
 const customParseFormat = require("dayjs/plugin/customParseFormat");
 const Razorpay = require('razorpay');
+// const { validatePaymentVerification, validateWebhookSignature } = require('./dist/utils/razorpay-utils');
+const Payment = require('../models/paymentModel');
+const Patient = require('../models/patientModel');
+const User = require('../models/userModel');
+const Doctor = require('../models/doctorModel');
+const crypto=require('crypto')
 dayjs.extend(customParseFormat)
 
 RAZOR_PAY_ID=process.env.RAZOR_PAY_ID
@@ -35,10 +41,30 @@ exports.paymentCreateOrder=async (req,res)=>{
 
 }
 
-exports.paymentSuccess=async (req,res)=>{
+exports.paymentBookingVerification=async (req,res)=>{
     try {
-        
-        
+
+        const { razorpay_order_id,razorpay_payment_id,razorpay_signature,doctorId,order}=req.body
+        // await console.log(req.body)
+        // await console.log(`recieved order ${JSON.stringify(order)}`)
+        // const paymentVerificationStatus=validatePaymentVerification({"order_id": razorpay_order_id, "payment_id": razorpay_payment_id }, razorpay_signature,RAZOR_PAY_SECRET);
+        const generatedSignature=await crypto.createHmac('sha256',RAZOR_PAY_SECRET).update(`${razorpay_order_id}|${razorpay_payment_id}`).digest('hex')
+        // await console.log(`generated signature ${generatedSignature}`)
+        // await console.log(`razorpay signature ${razorpay_signature}`)
+        const paymentVerificationStatus=(generatedSignature==razorpay_signature)
+        // await console.log(`paymentVerificationStatus ${paymentVerificationStatus}`)
+        if(!paymentVerificationStatus)
+            return res.status(400).json({message:"payment verification failed",paymentNotVerified:true})
+        // const payer=await User({_id:req.user.userId})
+        const reciever=await Doctor.findOne({_id:doctorId})
+        // await console.log(`doctor ${JSON.stringify(Doctor)}`)
+        const newPayment=new Payment({payerId:req.user.userId,recieverId:reciever.userId,paymentCategory:"bookingDoctor",paymentDetails:order})
+        const savedPayment=await newPayment.save()
+        if(savedPayment)
+            return res.status(200).json({message:"payment verified",paymentDetails:savedPayment})
+        return res.status(400).json({message:"payment has been done and updation on the process"},paymentNotVerified)
+
+
         
     } catch (error) {
         console.log(error)

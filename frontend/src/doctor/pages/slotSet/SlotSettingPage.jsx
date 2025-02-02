@@ -67,7 +67,7 @@ function SlotSettingPage() {
                         slotTimings.map((timing,index)=>(
                             <div className='w-auto h-auto' key={index}>
                                 {
-                                   (dayjs().isBefore(dayjs(`${selectedDate} ${timing}`,'DD MMM, dddd h:mm A')))&&((slots)&&(slots.length>0)&&(slots.some((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString()))?
+                                   (dayjs().isBefore(dayjs(`${selectedDate} ${timing}`,'D MMM, dddd h:mm A')))&&((slots)&&(slots.length>0)&&(slots.some((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString()))?
                                     (slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString()).bookStatus==1) ? <BookedSlot time={timing}  />: <AddedSlot time={timing}/>:
                                     <SlotAvailable time={timing} selectedDate={selectedDate}/>)
 

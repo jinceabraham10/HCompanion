@@ -3,6 +3,9 @@ import Swal from 'sweetalert2'
 const API=import.meta.env.VITE_API
 
 
+const token=sessionStorage.getItem('token')
+
+
 export const getAllDoctorsService=async ()=>{
     try {
 

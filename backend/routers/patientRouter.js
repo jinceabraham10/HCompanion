@@ -6,7 +6,7 @@ const { getUserDetails } = require("../controllers/jwtController")
 const { getAllMedicinesFromInventory, patientViewMedicineDetails, patientUpdateProfileDetails, patientViewProfileDetails } = require("../controllers/patientController");
 const { getAllDoctors, getDoctorDetails } = require("../controllers/doctorController");
 const { getDoctorFreeSlots, bookSlot } = require("../controllers/bookingController");
-const { paymentCreateOrder } = require("../controllers/paymentController");
+const { paymentCreateOrder, paymentBookingVerification } = require("../controllers/paymentController");
 
 const router=express.Router()
 
@@ -31,6 +31,7 @@ router.post('/doctors/doctorDetails',getDoctorDetails)
 
 //slots
 router.post('/doctors/slots/payment/createOrder',jwtMiddleware,paymentCreateOrder)
+router.post('/doctors/slots/payment/paymentVerification',jwtMiddleware,paymentBookingVerification)
 router.post('/doctors/slots/book',jwtMiddleware,bookSlot)
 
 

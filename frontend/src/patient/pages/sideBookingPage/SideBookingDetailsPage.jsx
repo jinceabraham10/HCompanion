@@ -24,6 +24,7 @@ const RAZOR_PAY_ID = import.meta.env.RAZOR_PAY_ID;
 function SideBookingDetailsPage() {
     const [slotDate,setSlotDate]=useState(dayjs().format('D MMM, dddd').toString())
     const [slotTime,setSlotTime]=useState(undefined)
+    // const [slot,setSlot]=useState(undefined)
     const [freeSlots,setFreeSlots]=useState([])
     const [doctor,setDoctor]=useState(undefined)
     const [openModal,setOpenModal]=useState(false)
@@ -137,28 +138,31 @@ function SideBookingDetailsPage() {
 
 
 function BookingModal(props){
-    const {setOpenModal,openModal,doctor}=props
+    const {setOpenModal,openModal,doctor,time,slotDate}=props
     const patient=useSelector((state)=>state.patient)
     const user=useSelector((state)=>state.user)
 
     const formik=useFormik({
         initialValues:{
             amount:500,
-            description:""
+            description:"",
+            doctorId:doctor
 
 
         },
         validationSchema:bookingPaymentValidationSchema,
         onSubmit:async (values,actions)=>{
-            console.log("hhhh")
-            console.log(values)
+            // console.log(values)
             const order=await paymentCreateOrderService({amount:500})
+            // await console.log(`order ${JSON.stringify(order)}`)
             if(order){
                 const options=paymentOption({
                     order:order,
                     patient:patient,
-                    user:user
+                    user:user,
+                    doctor:doctor
                 })
+                // await console.log(`options ${JSON.stringify(options)}`)
                 const paymentObject=new Razorpay(options)
                 await paymentObject.open()
             }
@@ -166,7 +170,7 @@ function BookingModal(props){
 
         }
     })
-    console.log(formik.values)
+    // console.log(formik.values)
     return(
     <div>
       <Modal show={openModal} onClose={()=>setOpenModal(false)}   >
@@ -208,7 +212,7 @@ function BookingModal(props){
         <Modal.Footer className='gap-x-5 w-full flex flex-row'>
             
             <button type='submit' onClick={formik.handleSubmit}  className='w-[40%] border rounded-[5%] bg-orange-500 p-2'>Book</button>
-            <button type='button' className='w-[40%] border rounded-[5%] bg-red-500 p-2'>cancel</button>
+            <button type='button' className='w-[40%] border rounded-[5%] bg-red-500 p-2' onClick={()=>setOpenModal(false)}>cancel</button>
 
         </Modal.Footer>
       </Modal>

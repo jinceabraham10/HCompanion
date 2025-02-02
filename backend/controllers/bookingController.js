@@ -84,7 +84,7 @@ exports.getDoctorFreeSlots=async (req,res)=>{
     try {
         const {slotDate,doctorId}=req.body
         // const fetchedDoctor=await Doctor.findOne({userId:req.user.userId})
-        const fetchedSlots=await Booking.find({slotDate:slotDate,doctorId:doctorId,bookStatus:0}).then((bookings)=>{
+        const fetchedSlots=await Booking.find({slotDate:slotDate,doctorId:doctorId,bookedStatus:0}).then((bookings)=>{
             return bookings.sort((a,b)=>dayjs(a.startTime,'H:mm A')-dayjs(b.startTime,'H:mm A'))
         })
         return res.status(200).json({message:"fetched Slots",slots:fetchedSlots})
@@ -97,10 +97,12 @@ exports.getDoctorFreeSlots=async (req,res)=>{
 
 exports.bookSlot=async (req,res)=>{
     try {
-        const {_id,patientDescription}=req.body
+        const {slotId,patientDescription,paymentId}=req.body
         // const fetchedDoctor=await Doctor.findOne({userId:req.user.userId})
         const patient=await Patient.findOne({userId:req.user.userId})
-        const bookedSlot=await Booking.updateOne({_id:_id},{patientId:patient._id,patientDescription,bookDate:dayjs().format('H:mm A').toString(),bookStatus:1})
+        if(!paymentId)
+            return res.status(401).json({message:"payment no done",paymentNotDone:true})
+        const bookedSlot=await Booking.updateOne({_id:slotId},{patientId:patient._id,patientDescription:(patientDescription)?patientDescription:"",bookDate:dayjs().toString(),bookStatus:1,paymentId})
         await console.log(`bookedSlot ${JSON.stringify(bookSlot)}`)
         if(bookedSlot)
          return res.status(200).json({message:"fetched Slots",bookedSlot:bookedSlot})
