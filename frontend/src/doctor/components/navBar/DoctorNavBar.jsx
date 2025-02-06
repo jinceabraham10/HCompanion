@@ -5,7 +5,7 @@ import { useDispatch,useSelector } from 'react-redux'
 import { setDoctor } from '../../../redux/slices/doctorSlice'
 import { setUser } from '../../../redux/slices/userSlice'
 import { getDoctorBasicDetails, getDoctorProfileDetails } from '../../services/doctorLoginService'
-import { setPatient } from '../../../redux/slices/patientSlice'
+// import { setPatient } from '../../../redux/slices/patientSlice'
 
 
 function DoctorNavBar() {
@@ -18,7 +18,12 @@ function DoctorNavBar() {
     const onLoad=async ()=>{
         if(sessionStorage.getItem('token') && !isLoggedIn){
             const tempPatient=await getDoctorBasicDetails({token:sessionStorage.getItem('token')})
+            // if(!tempPatient){
+            // //    return navigate('/')
+
+            // }
             const tempDoctor=await getDoctorProfileDetails({token:sessionStorage.getItem('token')})
+            console.log(tempDoctor)
             dispatch(setUser({
                 username:tempPatient.username,
                 email:tempPatient.email,
@@ -36,9 +41,14 @@ function DoctorNavBar() {
                     }))
             // await setIsUserLoggedIn(true)
         }
+        // else{
+        //     return navigate('/')
+        // }
         
     
     } 
+
+    console.log(doctor)
     
     useEffect(()=>{
         onLoad()
@@ -49,10 +59,10 @@ function DoctorNavBar() {
         <div className='w-full h-full flex flex-col gap-4 p-4 bg-slate-800 bg-opacity-90 rounded-tr-[3%]  '>
 
             <div className='w-full h-[15vh] flex flex-row items-center gap-4  p-1  '>
-                <img src="/normalUser.png" className='rounded-full w-[6vw] h-[80%]'/>
+                <img src={doctor.profileImage} className='rounded-full w-[4vw] h-[100%]'/>
 
                 <div className='h-full w-full pl-4 flex flex-1 flex-col justify-center gap-2 bg-white bg-opacity-40 rounded-lg '>
-                    <h2 className='text-lg font-bold'>{(username) && username}</h2>
+                    <h2 className='text-lg font-bold'>{(doctor) && (doctor.firstName) ? doctor.firstName:username }</h2>
                     <span className=' font-sm'>Doctor</span>
 
                 </div>         
@@ -65,7 +75,7 @@ function DoctorNavBar() {
 
             <div className='options h-full w-full mt-10 flex flex-col gap-4 font-medium text-white '>
                 <div className='option p-2 w-full h-[8%] flex flex-row gap-4 justify-start bg-white bg-opacity-40 shadow-lg '>
-                    <img src="/icons/pharmacyHome.jpg" alt="home img" className='bg-white h-full rounded-sm' />
+                    <img src="/icons/doctorHome.jpg" alt="home img" className='bg-white h-full rounded-sm' />
                     <button className='h-full' onClick={()=>{
                     navigate('/doctor')
                     }}>
@@ -77,7 +87,7 @@ function DoctorNavBar() {
 
 
                 <div className='option p-2 w-full h-[8%] flex flex-row gap-4 justify-start bg-white bg-opacity-40 shadow-lg '>
-                    <img src="/icons/pharmacyHome.jpg" alt="home img" className='bg-white h-full rounded-sm' />
+                    <img src="/icons/doctorSlotSetting.jpg" alt="home img" className='bg-white h-full rounded-sm' />
                     <button className='h-full' onClick={()=>{
                     navigate('/doctor/slot')
                     }}>
@@ -86,11 +96,20 @@ function DoctorNavBar() {
                 </div>
 
                 <div className='option p-2 w-full h-[8%] flex flex-row gap-4 justify-start bg-white bg-opacity-40 shadow-lg '>
-                    <img src="/icons/pharmacyHome.jpg" alt="home img" className='bg-white h-full rounded-sm' />
+                    <img src="/icons/doctorBookings.jpg" alt="home img" className='bg-white h-full rounded-sm' />
                     <button className='h-full' onClick={()=>{
                     navigate('/doctor/slot')
                     }}>
                     Bookings
+                    </button>  
+                </div>
+
+                <div className='option p-2 w-full h-[8%] flex flex-row gap-4 justify-start bg-white bg-opacity-40 shadow-lg '>
+                    <img src="/icons/profileIcon.jpg" alt="home img" className='bg-white h-full rounded-sm' />
+                    <button className='h-full' onClick={()=>{
+                    navigate('/doctor/profile')
+                    }}>
+                    Profile
                     </button>  
                 </div>
 
@@ -99,7 +118,7 @@ function DoctorNavBar() {
                             <button className='h-full' onClick={()=>{
                               sessionStorage.removeItem('token')
                               dispatch(setUser({}))
-                              dispatch(setPatient({}))
+                              dispatch(setDoctor({}))
                               navigate('/')
                               
                             }}>

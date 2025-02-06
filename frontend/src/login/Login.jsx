@@ -46,7 +46,7 @@ function Login() {
         if(userData.role=="2")
           return navigate('/pharmacy/home')
         if(userData.role=="1")
-          return navigate('/doctor/')
+          return navigate('/doctor')
         navigate('/')
       }
       

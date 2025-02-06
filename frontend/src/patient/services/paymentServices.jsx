@@ -12,7 +12,7 @@ export const paymentCreateOrderService=async ({amount})=>{
                 Authorization:`bearer ${token}`
             }
         })
-        await console.log(response.data)
+        // await console.log(response.data)
         return response.data.order
         
     } catch (error) {
@@ -38,15 +38,15 @@ export const paymentCreateOrderService=async ({amount})=>{
 
 }
 
-export const paymentVerificationService=async ({razorpay_payment_id,razorpay_order_id,razorpay_signature,order,doctorId})=>{
+export const paymentVerificationService=async ({razorpay_payment_id,razorpay_order_id,razorpay_signature,order,doctorId,slotDetails})=>{
     try {
-        const response=await axios.post(`${API}/patient/doctors/slots/payment/paymentVerification`,{razorpay_payment_id,razorpay_order_id,razorpay_signature,order,doctorId},{
+        const response=await axios.post(`${API}/patient/doctors/slots/payment/paymentVerification`,{razorpay_payment_id,razorpay_order_id,razorpay_signature,order,doctorId,slotDetails},{
             headers:{
                 Authorization:`bearer ${token}`
             }
         })
-        console.log(response.data)
-        return response.data.order
+        // console.log(response.data)
+        return true
         
     } catch (error) {
         console.log(error)
@@ -62,7 +62,15 @@ export const paymentVerificationService=async ({razorpay_payment_id,razorpay_ord
             Swal.fire(
                 {
                     icon:"error",
-                    text:"Login for booking"
+                    text:"Login Again"
+                }
+            )
+        }
+        else if(error.response.status="500"){
+            Swal.fire(
+                {
+                    icon:"error",
+                    text:"Server issue please try later"
                 }
             )
         }

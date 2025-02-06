@@ -5,7 +5,7 @@ function DoctorCard(props) {
   return (
     <div className='w-auto h-[25vh] flex flex-row gap-1 hover:bg-blue-400 hover:bg-opacity-40 border shadow-xl p-2 rounded-lg'>
         <div className='w-[30%] h-full flex gap-4 '>
-            <img src="/normalUser.png" className='w-full h-full rounded-md' />
+            <img src={props.doctor.profileImage} className='w-full h-full rounded-md' />
             
         </div>
         <div className='details w-full h-full pl-2 pt-5 flex flex-row  gap-4 '>

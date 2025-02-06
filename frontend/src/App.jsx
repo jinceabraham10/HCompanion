@@ -22,6 +22,9 @@ import DoctorPageBasic from './doctor/pages/doctorPageBasic/DoctorPageBasic'
 import SlotSettingPage from './doctor/pages/slotSet/SlotSettingPage'
 import PatientDoctorPage from './patient/pages/doctorPage/PatientDoctorPage'
 import SideBookingDetailsPage from './patient/pages/sideBookingPage/SideBookingDetailsPage'
+import TreatmentPlan from './patient/pages/treatmentPlan/TreatmentPlan'
+import DoctorProfilePageBasic from './doctor/pages/profilePage/DoctorProfilePageBasic'
+import DoctorProfileDetails from './doctor/pages/profileDetails/DoctorProfileDetails'
 
 
 
@@ -51,6 +54,9 @@ function App() {
                <Route path='/patient/doctors' element={<PatientDoctorPage/>}>
                    <Route path='/patient/doctors/:doctorId' element={<SideBookingDetailsPage/>}/>     
                </Route>
+
+               <Route path='/patient/treatmentPlan' element={<TreatmentPlan/>}/>
+
           </Route>
 
 
@@ -73,6 +79,9 @@ function App() {
 
           <Route path='/doctor' element={<DoctorPageBasic/>}>
              <Route path='/doctor/slot' element={<SlotSettingPage/>}/>
+             <Route path='/doctor/profile' element={<DoctorProfilePageBasic/>}>
+                       <Route path='/doctor/profile/details' element={<DoctorProfileDetails/>}/>
+             </Route>
           
           </Route>
 

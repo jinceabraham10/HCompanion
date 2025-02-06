@@ -36,7 +36,7 @@ export const getPatientProfileDetails=async ()=>{
         
     } catch (error) {
         console.log(error)
-        if(error.response.status="401" && ierror.response.data.invalidToken){
+        if(error.response.status="401" && error.response.data.invalidToken){
             Swal.fire({
                 icon:"warning",
                 text:"Login to access profile"

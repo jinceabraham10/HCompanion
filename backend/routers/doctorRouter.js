@@ -4,8 +4,9 @@ const { checkOtpRegisteration, checkOtpForgotPassword } = require("../controller
 const sessionMiddleware = require("../middlewares/sessionConfig")
 const jwtMiddleware = require("../middlewares/jwtConfig")
 const { getUserDetails } = require("../controllers/jwtController")
-const { doctorViewProfileDetails } = require("../controllers/doctorController")
+const { doctorViewProfileDetails, doctor_updateDoctorDetails } = require("../controllers/doctorController")
 const { getSlots, checkSlot, addSlot } = require("../controllers/bookingController")
+const { uploadDoctorProfileImage } = require("../middlewares/storageConfig")
 const router=express.Router()
 
 router.get('/getBasicDetails',jwtMiddleware,getUserDetails)
@@ -20,6 +21,7 @@ router.post('/slot/checkSlot',jwtMiddleware,checkSlot)
 
 
 router.get('/profile/viewDetails',jwtMiddleware,doctorViewProfileDetails)
+router.post('/profile/updateDetails',jwtMiddleware,uploadDoctorProfileImage.single('updateDetails[profileImage]'),doctor_updateDoctorDetails)
 
 
 

@@ -23,6 +23,10 @@ console.log(username)
 const onLoad=async ()=>{
     if(sessionStorage.getItem('token') && !isLoggedIn){
         const tempPatient=await getPatientBasicDetails({token:sessionStorage.getItem('token')})
+        if(!tempPatient){
+            return navigate('/')
+
+         }
         const patientDetails=await getPatientProfileDetails()
         console.log(`profile ${JSON.stringify(patientDetails)}  `)
         dispatch(setUser({
@@ -73,6 +77,10 @@ const navigate=useNavigate()
 
                     <button className={`font-medium text-lg p-2 `} onClick={()=>navigate('/patient/medicines')}>
                         Medicines
+                    </button>
+
+                    <button className={`font-medium text-lg p-2 `} onClick={()=>navigate('/patient/treatmentPlan')}>
+                        Treatment Plan
                     </button>
                 </div>
 

@@ -25,6 +25,7 @@
     "react-modal": "^3.16.3",
     "react-redux": "^9.2.0",
     "react-router-dom": "^6.28.0",
+    "react-simple-chatbot": "^0.6.1",
     "sweetalert2": "^11.15.2",
     "yup": "^1.6.0"
   },

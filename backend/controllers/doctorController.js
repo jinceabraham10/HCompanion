@@ -29,7 +29,7 @@ dotenv.config();
 exports.doctorViewProfileDetails= async (req,res)=>{
     try {  
       // const profileDetails=req.body
-      const fetchedDetails=await Doctor.findOne({userId:req.user.userId})
+      const fetchedDetails=await Doctor.findOne({userId:req.user.userId}).populate({path:'userId'})
       if(!fetchedDetails)
         return res.status(404).json({message:"doctor Not found under the database",errorNoDoctor:true})
       // const uDetails=await Patient.updateOne({userId:req.user.userId},{profileDetails})
@@ -77,6 +77,26 @@ exports.getDoctorDetails= async (req,res)=>{
         
     }
   }
+
+exports.doctor_updateDoctorDetails=async (req,res)=>{
+  try {
+
+    const {updateDetails}=req.body
+    await console.log('update Details',JSON.stringify(updateDetails))
+    // await console.log('req',req)
+    const doctor=await Doctor.findOne({userId:req.user.userId})
+    if(!doctor)
+      return res.status(404).json({message:"No Doctor found ",errorNoDoctor:true})
+    const updatedDetails=await Doctor.updateOne({_id:doctor._id},{...(JSON.parse(JSON.stringify(updateDetails))),profileImage:(req.file)?req.file.path:doctor.profileImage})
+    await console.log(updatedDetails)
+    if(!updatedDetails)
+      return res.status(400).json({message:"Some issue happend at the server",errorDatabaseIssue:true})
+    return res.status(200).json({message:"profile Details has been updated"})
+    
+  } catch (error) {
+    console.log(error)
+  }
+}
 
   
 

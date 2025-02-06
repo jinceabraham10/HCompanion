@@ -41,7 +41,7 @@ exports.paymentCreateOrder=async (req,res)=>{
 
 }
 
-exports.paymentBookingVerification=async (req,res)=>{
+exports.paymentBookingVerification=async (req,res,next)=>{
     try {
 
         const { razorpay_order_id,razorpay_payment_id,razorpay_signature,doctorId,order}=req.body
@@ -60,8 +60,11 @@ exports.paymentBookingVerification=async (req,res)=>{
         // await console.log(`doctor ${JSON.stringify(Doctor)}`)
         const newPayment=new Payment({payerId:req.user.userId,recieverId:reciever.userId,paymentCategory:"bookingDoctor",paymentDetails:order})
         const savedPayment=await newPayment.save()
-        if(savedPayment)
-            return res.status(200).json({message:"payment verified",paymentDetails:savedPayment})
+        if(savedPayment){
+            req.user.paymentId=savedPayment._id
+            return next()
+        }
+            
         return res.status(400).json({message:"payment has been done and updation on the process"},paymentNotVerified)
 
 

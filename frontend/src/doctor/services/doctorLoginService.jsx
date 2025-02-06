@@ -21,6 +21,7 @@ export const getDoctorBasicDetails=async ({token})=>{
             })
         }
         console.log(error)
+        return false
     }
 }
 

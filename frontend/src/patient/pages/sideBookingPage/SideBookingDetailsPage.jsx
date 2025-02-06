@@ -24,7 +24,7 @@ const RAZOR_PAY_ID = import.meta.env.RAZOR_PAY_ID;
 function SideBookingDetailsPage() {
     const [slotDate,setSlotDate]=useState(dayjs().format('D MMM, dddd').toString())
     const [slotTime,setSlotTime]=useState(undefined)
-    // const [slot,setSlot]=useState(undefined)
+    const [selectedSlot,setSelectedSlot]=useState(undefined)
     const [freeSlots,setFreeSlots]=useState([])
     const [doctor,setDoctor]=useState(undefined)
     const [openModal,setOpenModal]=useState(false)
@@ -49,11 +49,13 @@ function SideBookingDetailsPage() {
 
     },[doctorId])
 
-    const handleClickOnTime=(e)=>{
-        const val=e.target.value
-        // console.log(`value ${val}`)
-        setSlotTime(e.target.value)
-        setOpenModal(!openModal)
+    const handleClickOnTime=async (e)=>{
+        const val=JSON.parse(e.target.value)
+        console.log(`slot ${JSON.stringify(val)}`)
+        await setSelectedSlot(val)
+        await setSlotTime(dayjs(val.startTime,'H:mm A').format('h:mm A').toString())
+        await setOpenModal(!openModal)
+        
         
     }
 
@@ -65,7 +67,7 @@ function SideBookingDetailsPage() {
     }
   return (
     <div className='w-full h-full'>
-        {(openModal)&&<BookingModal openModal={openModal} setOpenModal={setOpenModal} time={slotTime} slotDate={slotDate} doctor={doctor} slotTime={slotTime}/>}
+        {(openModal)&&<BookingModal openModal={openModal} setOpenModal={setOpenModal} time={slotTime} slotDate={slotDate} selectedSlot={selectedSlot} doctor={doctor} slotTime={slotTime}/>}
         <div className='w-full h-full flex flex-col gap-2 pt-5 overflow-y-scroll pr-2 '>
 
             <div className='w-full h-auto px-8 bg-black bg-opacity-20 flex flex-col gap-4 border py-5 rounded-tl-xl shadow-xl'>
@@ -115,9 +117,9 @@ function SideBookingDetailsPage() {
 
                 <div className='w-full h-full grid grid-cols-3 justify-items-center content-start'>
                     {
-                        (freeSlots)&&(freeSlots.length>0)&&freeSlots.map((slot,index)=>(
+                       (freeSlots)&&(freeSlots.length>0)&&freeSlots.map((slot,index)=>(                                  
 
-                            <button value={dayjs(slot.startTime,'H:mm A').format('h:mm A').toString()} className='w-auto h-auto border p-6 rounded-lg bg-green-400 font-medium shadow-lg' key={index} onClick={handleClickOnTime}>
+                            <button value={JSON.stringify(slot)} className='w-auto h-auto border p-6 rounded-lg bg-green-400 font-medium shadow-lg' key={index} onClick={handleClickOnTime}>
                                 {dayjs(slot.startTime,'H:mm A').format('h:mm A').toString()}
                             </button>
 
@@ -138,15 +140,17 @@ function SideBookingDetailsPage() {
 
 
 function BookingModal(props){
-    const {setOpenModal,openModal,doctor,time,slotDate}=props
+    const {setOpenModal,openModal,doctor,time,slotDate,selectedSlot}=props
+    // console.log(`selected slot ${selectedSlot._id}`)
     const patient=useSelector((state)=>state.patient)
     const user=useSelector((state)=>state.user)
 
     const formik=useFormik({
         initialValues:{
             amount:500,
-            description:"",
-            doctorId:doctor
+            patientdDescription:"",
+            // doctorId:doctor._id,
+            slotId:selectedSlot._id
 
 
         },
@@ -161,16 +165,23 @@ function BookingModal(props){
                     patient:patient,
                     user:user,
                     doctor:doctor
-                })
+                },values)
                 // await console.log(`options ${JSON.stringify(options)}`)
                 const paymentObject=new Razorpay(options)
                 await paymentObject.open()
+                
             }
+
+            setOpenModal(false)
             
 
         }
     })
     // console.log(formik.values)
+    useEffect(()=>{
+        formik.setFieldValue('slotId',selectedSlot._id)
+
+    },[])
     return(
     <div>
       <Modal show={openModal} onClose={()=>setOpenModal(false)}   >
@@ -200,7 +211,9 @@ function BookingModal(props){
 
             <div className='h-[50vh]  w-full flex flex-col gap-2'>
                 <h2 className='font-medium opacity-40'>Description (Optional)</h2>
-                <textarea name="description" id="id_description" placeholder='Write down a short description on the purpose of the booking' className='flex flex-1  '>
+                <textarea name="description" onChange={(e)=>{
+                    formik.setFieldValue('patientDescription',e.target.value)
+                }} id="id_description" placeholder='Write down a short description on the purpose of the booking' className='flex flex-1  '>
 
 
                 </textarea>

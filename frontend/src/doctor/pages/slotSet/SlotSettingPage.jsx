@@ -42,8 +42,8 @@ function SlotSettingPage() {
 
   return (
     <div className='w-full h-full flex p-4'>
-        <div className='w-full h-full flex flex-row gap-2'>
-           <div className='w-[20%] h-auto p-4 flex flex-col gap-2 border shadow-lg shadow-emerald-400 '>
+        <div className='w-full h-full flex flex-row gap-8'>
+           <div className='w-[20%] h-auto p-4 flex flex-col gap-2 border shadow-lg shadow-emerald-400 bg-black bg-opacity-30 rounded-2xl '>
               <h1 className='font-bold'>Dates</h1>
              <div className='dates w-full h-[10%] grid grid-cols-1 justify-items-start gap-4 '>
                 {
@@ -58,17 +58,20 @@ function SlotSettingPage() {
             
            </div>
 
-           <div className='w-[80%] h-full  pt-10 pl-8 pr-5 flex flex-col overflow-y-scroll'>
+           <div className='w-[80%] h-full bg-black bg-opacity-30 rounded-xl  pt-10 pl-8 pr-5 flex flex-col overflow-y-scroll'>
 
                 <h2 className='font-bold flex flex-row justify-evenly'>Slots <span>{((selectedDate)?selectedDate:"date")}</span></h2>
 
-                <div className='w-full mt-10 gap-4 flex flex-col '>
+                <div className='w-full mt-10 gap-4 flex flex-col  p-8 '>
                     {
                         slotTimings.map((timing,index)=>(
-                            <div className='w-auto h-auto' key={index}>
+                            <div className='w-auto h-auto bg-white rounded-lg' key={index}>
+                                {/* <h1>{dayjs().isBefore(dayjs(`${selectedDate} ${timing}`,'D MMM, ddd h:mm A'))?"true":"false"}</h1> */}
+                                
                                 {
-                                   (dayjs().isBefore(dayjs(`${selectedDate} ${timing}`,'D MMM, dddd h:mm A')))&&((slots)&&(slots.length>0)&&(slots.some((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString()))?
-                                    (slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString()).bookStatus==1) ? <BookedSlot time={timing}  />: <AddedSlot time={timing}/>:
+                                    
+                                   (dayjs().isBefore(dayjs(`${selectedDate} ${timing}`,'D MMM, dddd h:mm ')))&&(((slots)&&(slots.length>0)&&(slots.some((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())))?
+                                    (slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString()).bookedStatus==1) ? <BookedSlot time={timing} slot={slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())} />: <AddedSlot time={timing}/>:
                                     <SlotAvailable time={timing} selectedDate={selectedDate}/>)
 
 
@@ -117,14 +120,14 @@ function BookedSlot(props){
         <div className='w-full h-[20vh] p-4 bg-red-400 bg-opacity-50 flex flex-row gap-2 border rounded-lg shadow-lg'>
 
             <div className='w-[20%] flex items-center justify-center  shadow-md'>
-                <span className='text-emerald-400 font-medium text-lg'>time</span>
+                <span className='text-emerald-400 font-medium text-lg'>{props.time}</span>
             </div>
 
-            <div className='w-full h-full flex flex-1 flex-row gap-10 items-center pl-10 shadow-md'>
+            <div className='w-full h-full flex flex-1 flex-row gap-10 items-center pl-10 py-2 shadow-md'>
                 <button className='w-[30%] h-[60%] bg-red-400 font-medium border '>Reschedule</button>
                 <div className='w-full h-full grid grid-cols-1 justify-items-center pt-2 gap-2 '>
-                    <button className='w-full h-full bg-red-400 font-medium '>View Booking Details </button>
-                    <span className='w-full h-full  text-center'>by jince</span>
+                    <button className='w-[70%] h-full bg-green-400 font-medium '>View Booking Details </button>
+                    <span className='w-[70%] h-full  text-center bg-blue-500 flex justify-center items-center text-white font-medium text-md'>{props.slot.patientId}</span>
                     
                 </div>
             </div>

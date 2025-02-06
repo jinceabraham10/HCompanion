@@ -97,15 +97,17 @@ exports.getDoctorFreeSlots=async (req,res)=>{
 
 exports.bookSlot=async (req,res)=>{
     try {
-        const {slotId,patientDescription,paymentId}=req.body
+        await console.log(req)
+        const {slotId,patientDescription}=req.body.slotDetails
         // const fetchedDoctor=await Doctor.findOne({userId:req.user.userId})
         const patient=await Patient.findOne({userId:req.user.userId})
-        if(!paymentId)
+        if(!req.user.paymentId)
             return res.status(401).json({message:"payment no done",paymentNotDone:true})
-        const bookedSlot=await Booking.updateOne({_id:slotId},{patientId:patient._id,patientDescription:(patientDescription)?patientDescription:"",bookDate:dayjs().toString(),bookStatus:1,paymentId})
-        await console.log(`bookedSlot ${JSON.stringify(bookSlot)}`)
-        if(bookedSlot)
+        const bookedSlot=await Booking.updateOne({_id:slotId},{patientId:patient._id,patientDescription:(patientDescription)?patientDescription:"",bookedDate:dayjs().toString(),bookedStatus:1,paymentId:req.user.paymentId})
+        await console.log(`bookedSlot ${JSON.stringify(bookedSlot)}`)
+        if(bookedSlot.modifiedCount>0)
          return res.status(200).json({message:"fetched Slots",bookedSlot:bookedSlot})
+        return res.status(400).json({message:"hasn't been booked",notBooked:true})
         
     } catch (error) {
         console.log(error)
