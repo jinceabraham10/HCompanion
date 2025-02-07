@@ -21,7 +21,7 @@ function DoctorCard(props) {
             
 
             <div className='w-[50%] h-full pb-8 flex flex-col gap-10 justify-end pr-5'>
-                <span className='text-lg font-bold opacity-80 flex justify-end items-center gap-2'><span className='font-medium'>consultation fee</span><FaRupeeSign/><span>555</span></span>
+                <span className='text-lg font-bold opacity-80 flex justify-end items-center gap-2'><span className='font-medium'>consultation fee</span><FaRupeeSign/><span>{props.doctor.bookingPrice}</span></span>
                 <button className='w-full h-[5vh] font-medium border rounded-[5%] bg-orange-500 p-2 hover:bg-opacity-50'>Book Consult</button>
 
             </div>

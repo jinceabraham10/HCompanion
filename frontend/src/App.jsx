@@ -25,6 +25,9 @@ import SideBookingDetailsPage from './patient/pages/sideBookingPage/SideBookingD
 import TreatmentPlan from './patient/pages/treatmentPlan/TreatmentPlan'
 import DoctorProfilePageBasic from './doctor/pages/profilePage/DoctorProfilePageBasic'
 import DoctorProfileDetails from './doctor/pages/profileDetails/DoctorProfileDetails'
+import DoctorContactPage from './doctor/pages/doctorProfileContactPage/DoctorContactPage'
+import ResetPassword from './components/resetPassword/ResetPassword'
+import DoctorResetPassword from './doctor/pages/doctorResetPassword/DoctorResetPassword'
 
 
 
@@ -81,6 +84,8 @@ function App() {
              <Route path='/doctor/slot' element={<SlotSettingPage/>}/>
              <Route path='/doctor/profile' element={<DoctorProfilePageBasic/>}>
                        <Route path='/doctor/profile/details' element={<DoctorProfileDetails/>}/>
+                       <Route path='/doctor/profile/contact' element={<DoctorContactPage/>}/>
+                       <Route path='/doctor/profile/resetPassword' element={<DoctorResetPassword/>}/>
              </Route>
           
           </Route>

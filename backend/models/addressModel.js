@@ -1,11 +1,15 @@
 const mongoose = require("mongoose");
 
-const AddressSchema=new mongoose.Schema({
+const AddressSchema=new mongoose.Schema({   
     place:{
         type:String,
         default:""
     },
     state:{
+        type:String,
+        default:""
+    },
+    district:{
         type:String,
         default:""
     },
@@ -24,6 +28,6 @@ const AddressSchema=new mongoose.Schema({
     }
 },{timestamps:true})
 
-const Address= new mongoose.model('address',PatientSchema)
+const Address= new mongoose.model('address',AddressSchema)
 
 module.exports=Address

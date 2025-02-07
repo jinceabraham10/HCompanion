@@ -270,6 +270,34 @@ exports.createDoctorAccount = async (req, res) => {
   }
 };
 
+exports.resetPasswordFromProfile = async (req, res) => {
+  try {
+
+    // await console.log(`session ${req.sessionID}`);
+    // await console.log(`user ${JSON.stringify(req.session.user)}`);
+    // const userData = req.session.user;
+    const {email,password}=req.body
+    hashedPassword = await bcryptjs.hash(password, 10);
+    const passwordUpdated = await User.findOneAndUpdate({email},{password:hashedPassword})
+    // console.log(passwordUpdated)
+    if (passwordUpdated.modifiedCount>0) {
+      await sendMail({
+        to:email,
+        body:`<p>Hi,<br/><br/>Your password has been updated. <br/><br/>by,<br/>HealthCompanion</p>`,
+        subject:`Password Reset`
+      });
+    }
+    res.status(200)
+    .json({
+      message: `user has created the account successfully`,
+      CreationStatus: true,
+    });
+  } catch (error) {
+    res.status(500).json({ message: `error found : ${error}`,errorServer:true });
+    console.log(error)
+  }
+};
+
 
 
 

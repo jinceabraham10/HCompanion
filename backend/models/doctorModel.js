@@ -14,6 +14,10 @@ const DoctorSchema=new mongoose.Schema({
         type:String,
         default:""
     },
+    category:{
+        type:String,
+        default:""
+    },
     age:{
         type:mongoose.Schema.Types.Int32,
         default:0
@@ -38,6 +42,10 @@ const DoctorSchema=new mongoose.Schema({
     profileImage:{
         type:String,
         default:""
+    },
+    price:{
+        type:mongoose.Schema.Types.Double,
+        default:100.0
     }
 
 

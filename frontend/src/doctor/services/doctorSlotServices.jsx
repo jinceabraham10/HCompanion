@@ -93,3 +93,31 @@ export const getSlotsService=async ({slotDate})=>{
         return false
     }
 }
+
+export const doctor_removeSlotService=async ({bookingId})=>{
+    try {
+
+        const response=await axios.post(`${API}/doctor/slot/removeSlot`,{bookingId},{
+            headers:{
+                authorization:`Bearer ${sessionStorage.getItem('token')}`
+            }
+        })
+        console.log(response.data)
+        Swal.fire({
+            icon:"success",
+            text:"Removed the Slot"
+        })
+        return true
+        
+    } catch (error) {
+        console.log(`error ${error}`)
+        // if(error.response.status=="401"){
+        //     Swal.fire({
+        //         html:`<b>${error.response.status.message}</b>`,
+        //         title:"Session Out"
+        //     })
+        // }
+        
+        return false
+    }
+}

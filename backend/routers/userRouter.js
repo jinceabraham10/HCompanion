@@ -1,5 +1,5 @@
 const express=require("express")
-const { loginToPortal, createPatientAccount, createAccountUsingGoogle, loginUsingGoogle, createOTpAndSendMail, forgotPasswordOtpGenerate, resetPassword, createPharmacyAccount, createDoctorAccount } = require("../controllers/userController")
+const { loginToPortal, createPatientAccount, createAccountUsingGoogle, loginUsingGoogle, createOTpAndSendMail, forgotPasswordOtpGenerate, resetPassword, createPharmacyAccount, createDoctorAccount, resetPasswordFromProfile } = require("../controllers/userController")
 const { registerationOtpGenerator } = require("../utils/otpService")
 const { checkOtpRegisteration, checkOtpForgotPassword } = require("../controllers/otpController")
 const sessionMiddleware = require("../middlewares/sessionConfig")
@@ -16,6 +16,8 @@ router.post('/register/otp',sessionMiddleware,createOTpAndSendMail)
 router.post('/forgotPasswordOtp',sessionMiddleware,forgotPasswordOtpGenerate)
 router.post('/checkForgotPasswordOtp',sessionMiddleware,checkOtpForgotPassword)
 router.post('/forgotPassword/reset',sessionMiddleware,resetPassword)
+
+router.post('/password/reset',jwtMiddleware,resetPasswordFromProfile)
 
 router.post('/getBasicDetails',jwtMiddleware,getUserDetails)
 

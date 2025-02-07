@@ -14,7 +14,7 @@ export const doctor_updateProfileDetailsService=async (updateDetails)=>{
             }
         })
 
-        console.log(response.data)
+        // console.log(response.data)
         return true
         
     } catch (error) {
@@ -30,8 +30,44 @@ export const doctor_getProfileDetailsService=async ()=>{
                 Authorization:`bearer ${token}`
             }
         })
-        console.log(response.data)
+        // console.log(response.data)
         return response.data.doctorDetails
+        
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
+export const doctor_getContactDetailsService=async ()=>{
+    try {
+        const response=await axios.get(`${API}/doctor/profile/getContactDetails`,{
+            headers:{
+                Authorization:`bearer ${token}`
+            }
+        })
+        console.log(response.data)
+        return response.data.contactDetails
+        
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
+export const doctor_updateContactDetailsService=async (contactDetails)=>{
+    try {
+        const response=await axios.post(`${API}/doctor/profile/updateContactDetails`,contactDetails,{
+            headers:{
+                Authorization:`bearer ${token}`
+            }
+        })
+        console.log(response.data)
+        Swal.fire({
+            icon:"success",
+            text:"Contact Details Have been Updated"
+        })
+        return response.data.contactDetails
         
     } catch (error) {
         console.log(error)

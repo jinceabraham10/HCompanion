@@ -18,7 +18,7 @@ export const paymentOption = (props,values) => {
   const {order,patient,user,doctor}=props
   return {
     key: RAZOR_PAY_ID, // Enter the Key ID generated from the Dashboard
-    amount: props.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    amount: props.amount*1000, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
     currency: "INR",
     name: "Health Companion",
     description: "Book Patient",

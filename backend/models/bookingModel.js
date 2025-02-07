@@ -34,10 +34,6 @@ const BookingSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"payment"
     },
-    price:{
-        type:mongoose.Schema.Types.Double,
-        default:100.0
-    }
     
 
 

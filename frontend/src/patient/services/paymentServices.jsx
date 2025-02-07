@@ -7,7 +7,7 @@ const token=sessionStorage.getItem('token')
 
 export const paymentCreateOrderService=async ({amount})=>{
     try {
-        const response=await axios.post(`${API}/patient/doctors/slots/payment/createOrder`,{amount},{
+        const response=await axios.post(`${API}/patient/doctors/slots/payment/createOrder`,{amount:amount},{
             headers:{
                 Authorization:`bearer ${token}`
             }

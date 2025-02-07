@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {slotDates} from '../../utils/slotDatesUtils'
 import { slotTimings } from '../../utils/slotTimings'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { addSlot, checkSlotService, getSlotsService } from '../../services/doctorSlotServices';
+import { addSlot, checkSlotService, doctor_removeSlotService, getSlotsService } from '../../services/doctorSlotServices';
 import { useDispatch,useSelector } from 'react-redux';
 import { setDoctor } from '../../../redux/slices/doctorSlice';
-
 dayjs.extend(customParseFormat);
 
 
@@ -23,6 +22,13 @@ function SlotSettingPage() {
 
     // }
 
+    const onLoad=async ()=>{
+            await setSelectedDate(slotDates[0])
+            const tempSlots=await getSlotsService({slotDates:slotDates[0]})
+            console.log(tempSlots)
+            await setSlots(tempSlots)
+    }
+
        const handleClickOnDate=async (slotDate)=>{
 
             await setSelectedDate(slotDate)
@@ -38,6 +44,12 @@ function SlotSettingPage() {
         const ff=dayjs().isBefore(day1)
         console.log(`day ${day.format()}`)
         console.log(`day ${day.isBefore(dayjs('26 Jan, Tuesday 10:00 PM','DD MMM, dddd hh:mm A'))  }`)
+
+        useEffect(()=>{
+            setSelectedDate(slotDates[0])
+            onLoad()
+
+        },[])
     
 
   return (
@@ -71,8 +83,10 @@ function SlotSettingPage() {
                                 {
                                     
                                    (dayjs().isBefore(dayjs(`${selectedDate} ${timing}`,'D MMM, dddd h:mm ')))&&(((slots)&&(slots.length>0)&&(slots.some((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())))?
-                                    (slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString()).bookedStatus==1) ? <BookedSlot time={timing} slot={slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())} />: <AddedSlot time={timing}/>:
-                                    <SlotAvailable time={timing} selectedDate={selectedDate}/>)
+                                    (slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString()).bookedStatus==1) ? 
+                                    <BookedSlot time={timing} onLoad={onLoad} slot={slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())}/>: 
+                                    <AddedSlot time={timing} slot={slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())} onLoad={onLoad}  />:
+                                    <SlotAvailable time={timing} selectedDate={selectedDate} onLoad={onLoad}/>)
 
 
                                 }
@@ -96,6 +110,8 @@ function SlotAvailable(props){
     const handleClickAdd=async ()=>{
         console.log(`slot date ${props.slotDate}`)
         const addedSlot=await addSlot({slotDate:props.selectedDate,startTime:dayjs(props.time,'h:mm A').format('H:mm A').toString()})
+        if(addedSlot)
+            props.onLoad()
     }
 
 
@@ -116,6 +132,7 @@ function SlotAvailable(props){
 }
 
 function BookedSlot(props){
+    console.log(props.slot)
     return(
         <div className='w-full h-[20vh] p-4 bg-red-400 bg-opacity-50 flex flex-row gap-2 border rounded-lg shadow-lg'>
 
@@ -127,7 +144,7 @@ function BookedSlot(props){
                 <button className='w-[30%] h-[60%] bg-red-400 font-medium border '>Reschedule</button>
                 <div className='w-full h-full grid grid-cols-1 justify-items-center pt-2 gap-2 '>
                     <button className='w-[70%] h-full bg-green-400 font-medium '>View Booking Details </button>
-                    <span className='w-[70%] h-full  text-center bg-blue-500 flex justify-center items-center text-white font-medium text-md'>{props.slot.patientId}</span>
+                    <span className='w-[70%] h-full  text-center bg-blue-500 flex justify-center items-center text-white font-medium text-md'>{props.slot.patientId.firstName}</span>
                     
                 </div>
             </div>
@@ -138,6 +155,13 @@ function BookedSlot(props){
 }
 
 function AddedSlot(props){
+
+    const handleRemove=async ()=>{
+        const removedSlot=await doctor_removeSlotService({bookingId:props.slot._id})
+        if(removedSlot)
+            props.onLoad()
+    }
+
     return(
         <div className='w-full h-[15vh] p-4 bg-orange-400 bg-opacity-50 flex flex-row gap-2 border rounded-lg shadow-lg'>
 
@@ -146,7 +170,7 @@ function AddedSlot(props){
             </div>
 
             <div className='flex flex-1 flex-row items-center pl-10 border shadow-md'>
-                <button className='w-[30%] h-[60%] bg-red-400 font-medium border '>Remove</button>
+                <button className='w-[30%] h-[60%] bg-red-400 font-medium border ' onClick={handleRemove}>Remove</button>
             </div>
 
 

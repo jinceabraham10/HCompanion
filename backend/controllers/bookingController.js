@@ -27,7 +27,7 @@ exports.getSlots=async (req,res)=>{
     try {
         const {slotDate}=req.body
         const fetchedDoctor=await Doctor.findOne({userId:req.user.userId})
-        const fetchedSlots=await Booking.find({slotDate:slotDate,doctorId:fetchedDoctor._id})
+        const fetchedSlots=await Booking.find({slotDate:slotDate,doctorId:fetchedDoctor._id}).populate({path:"patientId"})
         return res.status(200).json({message:"fetched Slots",slots:fetchedSlots})
         
     } catch (error) {
@@ -71,7 +71,7 @@ exports.getDoctorSlots=async (req,res)=>{
     try {
         const {slotDate,doctorId}=req.body
         // const fetchedDoctor=await Doctor.findOne({userId:req.user.userId})
-        const fetchedSlots=await Booking.find({slotDate:slotDate,doctorId:doctorId})
+        const fetchedSlots=await Booking.find({slotDate:slotDate,doctorId:doctorId}).populate({path:"patientId"})
         return res.status(200).json({message:"fetched Slots",slots:fetchedSlots})
         
     } catch (error) {
@@ -108,6 +108,25 @@ exports.bookSlot=async (req,res)=>{
         if(bookedSlot.modifiedCount>0)
          return res.status(200).json({message:"fetched Slots",bookedSlot:bookedSlot})
         return res.status(400).json({message:"hasn't been booked",notBooked:true})
+        
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({message:"error at the backend"})
+    }
+}
+
+exports.doctor_removeSlot=async (req,res)=>{
+    try {
+        const {bookingId}=req.body
+        await console.log(`bookingId ${bookingId}`)
+        const fetchedDetails=await Doctor.findOne({userId:req.user.userId})
+        if(!fetchedDetails)
+            return res.status(200).json({message:"No Doctor Found",errorInvalidToken:true})
+        const deletedSlot=await Booking.deleteOne({_id:bookingId})
+        console.log(deletedSlot)
+        if(deletedSlot.deletedCount==0)
+            return res.status(400).json({message:"Some issue has happened while removing the slot",errorDatabaseIssue:true})
+        return res.status(200).json({message:"slot has been removed",slotRemoved:true})
         
     } catch (error) {
         console.log(error)

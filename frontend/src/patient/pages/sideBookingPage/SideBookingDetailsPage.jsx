@@ -77,7 +77,7 @@ function SideBookingDetailsPage() {
                     <h2 className='text-white font-medium '>Dates</h2>
                     <div className='flex flex-1 gap-5 justify-end w-full h-full items-center pr-5'>
                         <span className='text-white text-md font-medium'>{(doctor)&&(doctor.userId.username)}</span>
-                        <img src="/normalUser.png" alt="profile" className='w-[3vw] h-[7vh] rounded-full' />
+                        <img src={(doctor)&&doctor.profileImage} alt="profile" className='w-[3vw] h-[7vh] rounded-full' />
 
                     </div>
 
@@ -157,7 +157,7 @@ function BookingModal(props){
         validationSchema:bookingPaymentValidationSchema,
         onSubmit:async (values,actions)=>{
             // console.log(values)
-            const order=await paymentCreateOrderService({amount:500})
+            const order=await paymentCreateOrderService({amount:doctor.bookingPrice})
             // await console.log(`order ${JSON.stringify(order)}`)
             if(order){
                 const options=paymentOption({
@@ -180,6 +180,7 @@ function BookingModal(props){
     // console.log(formik.values)
     useEffect(()=>{
         formik.setFieldValue('slotId',selectedSlot._id)
+        formik.setFieldValue('amount',doctor.bookingPrice)
 
     },[])
     return(
@@ -195,7 +196,7 @@ function BookingModal(props){
                         <span className='text-sm font-medium opacity-50'>Cardiology</span>
                     </div>
                     
-                    <img src="/normalUser.png" alt="profile" className='h-[9vh] w-[4vw] rounded-full' />
+                    <img src={doctor.profileImage} alt="profile" className='h-[9vh] w-[4vw] rounded-full' />
 
                 </div>
                 

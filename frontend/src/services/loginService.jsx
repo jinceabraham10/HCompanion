@@ -110,6 +110,7 @@ export async function resetPassword({password,email}) {
     
 }
 
+
 export const getPatientDetails=async ()=>{
     try {
         const response=await axios.get(`${API}/patient/profile/viewDetails`,{
@@ -130,5 +131,26 @@ export const getPatientDetails=async ()=>{
             })
         }
     }
+}
+
+export async function resetPasswordFromProfileService({email,password}) {
+    try {
+
+        const response=await axios.post(`${API}/user/password/reset`,{password,email},{
+            headers:{
+                Authorization:`bearer ${sessionStorage.getItem('token')}`
+            }
+        })
+        console.log(response.data)
+        return true
+
+        
+    } catch (error) {
+
+        console.log(error)
+        return false
+        
+    }
+    
 }
 
