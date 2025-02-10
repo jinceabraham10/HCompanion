@@ -1,7 +1,33 @@
-import React from 'react'
+import React, { useEffect }  from 'react'
 import { FloatingLabel } from 'flowbite-react'
+import {useSelector,useDispatch} from 'react-redux'
+import { setUser } from '../../../redux/slices/userSlice'
+import { useNavigate } from 'react-router-dom'
+import { laboratory_getBasicDetailsService } from '../../services/laboratoryProfileDetailsService'
 
 function LaboratryNavbar() {
+  const dispatch=useDispatch()
+  const navigate=useNavigate()
+  const {username}=useSelector((state)=>state.user)
+
+  const onLoad=async ()=>{
+    const tempLaboratory=await laboratory_getBasicDetailsService()
+    if(tempLaboratory){
+      dispatch(setUser({
+        username:tempLaboratory.username,
+        email:tempLaboratory.email  ,
+        phone:tempLaboratory.phone,
+        role:tempLaboratory.role,
+        isLoggedIn:true
+  
+      }))
+    }
+  }
+
+  useEffect(()=>{
+    onLoad() 
+
+  },[])
   return (
      <div className='navbarParent h-full w-full '>
        <div className='navbar w-full h-full flex flex-col rounded-tr-[3%] bg-pink-600 bg-opacity-90 p-4 gap-10 '>
@@ -18,7 +44,7 @@ function LaboratryNavbar() {
            </div>
            <div className='details flex-1 flex flex-col justify-center bg-white bg-opacity-30 p-2 rounded-lg gap-2 '>
              <span>
-               <h2 className='text-white text-lg font-bold'>kuttickal</h2>
+               <h2 className='text-white text-lg font-bold'>{username}</h2>
              </span>
              <span>
              <h2 className='text-white text-sm'>Laboratory</h2>
