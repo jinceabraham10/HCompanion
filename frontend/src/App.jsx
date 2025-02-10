@@ -28,6 +28,8 @@ import DoctorProfileDetails from './doctor/pages/profileDetails/DoctorProfileDet
 import DoctorContactPage from './doctor/pages/doctorProfileContactPage/DoctorContactPage'
 import ResetPassword from './components/resetPassword/ResetPassword'
 import DoctorResetPassword from './doctor/pages/doctorResetPassword/DoctorResetPassword'
+import PharmacyHome from './pharmacy/pages/pharmacyHome/PharmacyHome'
+import LaboratoryPageBasic from './laboratory/pages/laboratoryPageBasic/LaboratoryPageBasic'
 
 
 
@@ -66,7 +68,7 @@ function App() {
           //pharmcacy
 
           <Route path='/pharmacy' element={<PharmacyBasic/>}>
-                <Route path='/pharmacy/home' element={<PharmacyHomePage/>}/>
+                <Route path='/pharmacy/home' element={<PharmacyHome/>}/>
                 <Route path='/pharmacy/stock/addCategory' element={<AddStock/>}/>
                 <Route path='/pharmacy/stock/viewStocks' element={<StockPage/>}/>
                 <Route path='/pharmacy/stock/editStock' element={<EditStock/>}/>
@@ -88,6 +90,13 @@ function App() {
                        <Route path='/doctor/profile/resetPassword' element={<DoctorResetPassword/>}/>
              </Route>
           
+          </Route>
+
+          //Laboratory
+
+          <Route path='/laboratory' element={<LaboratoryPageBasic/>}>
+               
+                
           </Route>
 
 

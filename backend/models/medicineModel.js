@@ -18,6 +18,10 @@ const MedicineSchema = new mongoose.Schema({
    default:""
  }
  ,
+ price:{
+   type:String,
+   default:""
+ },
   status: {
     type: Number,
     default: "0",

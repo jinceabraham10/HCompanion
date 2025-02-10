@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FloatingLabel } from "flowbite-react";
 import { useFormik } from "formik";
 import { registerValidation } from "../validations/registerValidations";
-import { OtpGenerate, registerDoctor, registerPatient, registerPharmacy } from "../services/registerService";
+import { OtpGenerate, registerDoctor, registerLaboratory, registerPatient, registerPharmacy } from "../services/registerService";
 import Swal from "sweetalert2"
 import Modal from "react-modal"
 import { maskedEmail } from "../utils/email";
@@ -88,6 +88,7 @@ function Registeration() {
               <option value="1">Doctor</option>
               <option value="2">Pharmacy</option>
               <option value="3">Laboratory</option>
+              <option value="4">Admin</option>
             </select>
             <span className="text-red-500">
               {formik.touched.role && formik.errors.role && `* ${formik.errors.role}`}
@@ -165,6 +166,8 @@ export function OtpEnter(props){
         registredUser=await registerDoctor(values)
       else if(props.role=="2")
         registredUser=await registerPharmacy(values)
+      else if(props.role=="3")
+        registredUser=await registerLaboratory(values)
 
 
 

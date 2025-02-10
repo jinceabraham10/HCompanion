@@ -51,6 +51,23 @@ export async function registerPharmacy({otp,email}) {
   }
 }
 
+export async function registerLaboratory({otp,email}) {
+  try {
+    console.log("entered Laboratory")
+    const response = await axios.post(
+      `${API}/user/register/createLaboratory`,
+      {otp,email},{withCredentials:true}
+    );
+    await console.log(response.data);
+    return response.data.CreationStatus;
+  } catch (error) {
+    if(error.response.status=="404"){
+      Swal.fire("Otp has been expired")
+    }
+    console.log(error);
+  }
+}
+
 export async function OtpGenerate(userData) {
   try {
     const response = await axios.post(`${API}/user/register/otp`, userData,{withCredentials:true});

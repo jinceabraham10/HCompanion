@@ -21,10 +21,12 @@ console.log(username)
 
 
 const onLoad=async ()=>{
-    if(sessionStorage.getItem('token') && !isLoggedIn){
+    if(sessionStorage.getItem('token') ){
         const tempPatient=await getPatientBasicDetails({token:sessionStorage.getItem('token')})
         if(!tempPatient){
-            return navigate('/')
+            setUser({})
+            setPatient({})
+            // return navigate('/')
 
          }
         const patientDetails=await getPatientProfileDetails()

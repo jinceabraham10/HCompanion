@@ -14,12 +14,14 @@ export const getPatientBasicDetails=async ({token})=>{
         return response.data.userData
         
     } catch (error) {
-        if(error.response.status=="401"){
-            Swal.fire({
-                html:`<b>${error.response.status.message}</b>`,
-                title:"Session Out"
-            })
-        }
         console.log(error)
+        if(error.response.status=="401" || error.response.status=="400"){
+            // Swal.fire({
+            //     html:`<b>Login</b>`,
+            //     title:"Session Out"
+            // })
+        }
+        
+        return false
     }
 }

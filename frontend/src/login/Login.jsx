@@ -42,11 +42,13 @@ function Login() {
           icon:"success",
           text:"you have been successfully logged in"
         })
-        dispatch(setUser({username:userData.username,role:userData.role,email:userData.email}))
+        await dispatch(setUser({username:userData.username,role:userData.role,email:userData.email,isLoggedIn:true}))
         if(userData.role=="2")
           return navigate('/pharmacy/home')
-        if(userData.role=="1")
+        else if(userData.role=="1")
           return navigate('/doctor')
+        else if(userData.role=="3")
+          return navigate('/laboratory')
         navigate('/')
       }
       
@@ -77,6 +79,8 @@ function Login() {
           dispatch(setUser({username:userData.username,role:userData.role,email:userData.email}))
           if(userData.role=="2")
             return navigate('/pharmacy/home')
+          else if(userData.role=="3")
+            return navigate('/laboratory/home')
           navigate('/')
           
         }

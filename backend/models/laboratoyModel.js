@@ -1,12 +1,12 @@
-const mongoose = require("mongoose");
+const mongoose=require('mongoose')
 
-const PharmacySchema = new mongoose.Schema({
- userId:{
+const LaboratorySchema=new mongoose.Schema({
+userId:{
     type:mongoose.Schema.Types.ObjectId,
     ref:"users",
     required:true
  },
- pharmacyName:{
+ laboratoryName:{
     type:String,
     default:""
  },
@@ -26,10 +26,10 @@ addressId:{
     type: Number,
     default: "0",
   },
-},{timestamps:true});
+ 
+},{timestamps:true})
 
 
+const Laboratory=new mongoose.model('laboratory',LaboratorySchema)
 
-const Pharmacy = mongoose.model("pharmacy", PharmacySchema);
-
-module.exports = Pharmacy;
+module.exports=Laboratory
