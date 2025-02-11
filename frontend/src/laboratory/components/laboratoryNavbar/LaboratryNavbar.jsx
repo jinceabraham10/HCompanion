@@ -8,16 +8,16 @@ import { laboratory_getBasicDetailsService } from '../../services/laboratoryProf
 function LaboratryNavbar() {
   const dispatch=useDispatch()
   const navigate=useNavigate()
-  const {username}=useSelector((state)=>state.user)
+  const {username,email}=useSelector((state)=>state.user)
 
   const onLoad=async ()=>{
     const tempLaboratory=await laboratory_getBasicDetailsService()
     if(tempLaboratory){
       dispatch(setUser({
-        username:tempLaboratory.username,
-        email:tempLaboratory.email  ,
-        phone:tempLaboratory.phone,
-        role:tempLaboratory.role,
+        username:tempLaboratory.userId.username,
+        email:tempLaboratory.userId.email,
+        phone:tempLaboratory.userId.phone,
+        role:tempLaboratory.userId.role,
         isLoggedIn:true
   
       }))
@@ -59,7 +59,7 @@ function LaboratryNavbar() {
  
            <div className='option p-2 w-full h-[10%] flex flex-row gap-4 justify-start bg-white bg-opacity-30 '>
              <img src="/icons/laboratory_homeIcon.jpg" alt="home img" className='bg-white h-full rounded-sm' />
-             <button className='h-full' onClick={()=>{
+             <button className='h-full cursor-pointer' onClick={()=>{
                navigate('')
              }}>
                Home
@@ -68,8 +68,8 @@ function LaboratryNavbar() {
  
            <div className='option p-2 w-full h-[10%] flex flex-row gap-4 justify-start bg-white bg-opacity-30 '>
              <img src="/icons/laboratory_serviceIcon.jpg" alt="laboratory services" className='bg-white h-full rounded-sm' />
-             <button className='h-full' onClick={()=>{
-               navigate('')
+             <button className='h-full cursor-pointer' onClick={()=>{
+               navigate('/laboratory/testServices')
              }}>
               Laboratory test Services
              </button>

@@ -20,6 +20,7 @@ const Patient = require("../models/patientModel");
 const Booking = require("../models/bookingModel");
 const Doctor = require("../models/doctorModel");
 const Laboratory = require("../models/laboratoyModel");
+const Labtest = require("../models/labtestModel");
 
 
 exports.laboratory_getBasicDetails=async (req,res)=>{
@@ -39,3 +40,31 @@ exports.laboratory_getBasicDetails=async (req,res)=>{
         return res.status(500).json({message:"Error at the backend",errorServer:true})
     }
 }
+
+exports.laboratory_addTest=async (req,res)=>{
+    try {
+        const {testName,testId,price}=req.body
+        const laboratory=await Laboratory.findOne({userId:req.user.userId})
+        if(!laboratory)
+            return res.status(404).json({message:"No Laboratory Found",errorNoLaboratory:true})
+        var labtest=await Labtest.findOne({testId:testId})
+        if(labtest)
+            return res.status(400).json({message:"test already present under the laboratory",errorTestPresent:true})
+        const newLabtest=new Labtest({
+            testId:testId,
+            labId:laboratory._id,
+            price:price
+
+        })
+        const savedLabtest=await newLabtest.save()
+        if(!savedLabtest)
+            return res.status(400).json({message:"Error at the database while adding lab test",errorDatabase:true})
+        return res.status(200).json({message:"lab test has been added",addedLabtest:savedLabtest})
+        
+    } catch (error) {
+        await console.log(error)
+        return res.status(500).json({message:"Error at the backend",errorServer:true})
+    }
+
+}
+

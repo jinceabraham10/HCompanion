@@ -54,8 +54,17 @@ const storageDoctorProfile=new CloudinaryStorage({
     }
 })
 
-
-
+const storageTestImage=new CloudinaryStorage({
+    cloudinary:cloudinary,
+    params:{
+        folder:'laboratory/testImages',
+        allowed_formats:["jpeg", "png", "jpg"],
+        public_id:(req,file)=>{
+            // await console.log(`file ${file.originalname}`)
+            return `${req.body.testName}_image`
+        }
+    }
+})
 
 
 exports.uploadPatientProfileImage=multer({storage:storagePatientProfile})
@@ -63,3 +72,5 @@ exports.uploadPatientProfileImage=multer({storage:storagePatientProfile})
 exports.uploadMedicineImage=multer({storage:storageMedicine})
 
 exports.uploadDoctorProfileImage=multer({storage:storageDoctorProfile})
+
+exports.uploadTestImage=multer({storage:storageTestImage})

@@ -37,7 +37,7 @@ function Login() {
       // console.log(`submitted ${JSON.stringify(values)}`);
       const userData=await loginUser(values)
       if(userData){
-        Swal.fire({
+        await Swal.fire({
           title:"Successfull",
           icon:"success",
           text:"you have been successfully logged in"
@@ -49,7 +49,10 @@ function Login() {
           return navigate('/doctor')
         else if(userData.role=="3")
           return navigate('/laboratory')
-        navigate('/')
+        else
+           navigate('/')
+
+        
       }
       
     },

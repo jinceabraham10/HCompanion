@@ -18,6 +18,7 @@ const pharmacyRoutes=require('./routers/pharmacyRouter.js')
 const medicineRoutes=require('./routers/medicineRouter.js')
 const doctorRoutes=require('./routers/doctorRouter.js')
 const laboratoryRoutes=require('./routers/laboratoryRouter.js')
+const adminRoutes=require('./routers/adminRouter.js')
 
 
 app.use('/api/user',userRoutes)
@@ -26,6 +27,7 @@ app.use('/api/pharmacy',pharmacyRoutes)
 app.use('/api/medicine',medicineRoutes)
 app.use('/api/doctor',doctorRoutes )
 app.use('/api/laboratory',laboratoryRoutes )
+app.use('/api/admin',adminRoutes)
 
 
 db()

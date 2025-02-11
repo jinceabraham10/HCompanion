@@ -13,7 +13,6 @@ export const laboratory_getBasicDetailsService=async ()=>{
         })
         console.log("lab details",response.data)
         return response.data.laboratoryDetails
-        
     } catch (error) {
         console.log(error)
         if(error.status=="500"&&error.response.status.errorServer){
@@ -25,7 +24,7 @@ export const laboratory_getBasicDetailsService=async ()=>{
         else if(error.status=="400"&&error.response.data.invalidToken){
             Swal.fire({
                 icon:"warning",
-                text:"Log In"
+                text:"Your session is out.....please Log In"
             })
         }else if(error.status=="401"){
             Swal.fire({
@@ -38,3 +37,4 @@ export const laboratory_getBasicDetailsService=async ()=>{
         
     }
 }
+

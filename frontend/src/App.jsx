@@ -30,6 +30,8 @@ import ResetPassword from './components/resetPassword/ResetPassword'
 import DoctorResetPassword from './doctor/pages/doctorResetPassword/DoctorResetPassword'
 import PharmacyHome from './pharmacy/pages/pharmacyHome/PharmacyHome'
 import LaboratoryPageBasic from './laboratory/pages/laboratoryPageBasic/LaboratoryPageBasic'
+import LaboratoryTestServicesBasic from './laboratory/pages/testServicesBasic/LaboratoryTestServicesBasic'
+import LaboratoryAddTest from './laboratory/pages/addTest/LaboratoryAddTest'
 
 
 
@@ -95,7 +97,9 @@ function App() {
           //Laboratory
 
           <Route path='/laboratory' element={<LaboratoryPageBasic/>}>
-               
+              <Route path='/laboratory/testServices' element={<LaboratoryTestServicesBasic/>}>
+                   <Route path='/laboratory/testServices/addTest' element={<LaboratoryAddTest/>}/>
+              </Route>
                 
           </Route>
 

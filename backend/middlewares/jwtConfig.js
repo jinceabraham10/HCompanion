@@ -8,8 +8,10 @@ JWT_SECRET=process.env.JWT_SECRET
 const jwtMiddleware=async (req,res,next)=>{
     try {
         await console.log(req.headers.authorization)
-        const token=req.headers.authorization.split(" ")[1]
+        const token=(req.headers.authorization.split(" ")[1]=="null")?null:req.headers.authorization.split(" ")[1]
+        // console.log('token',token)
         if(!token){
+            // console.log("entereddd")
             return res.status(401).json({ message: "No token provided, authorization denied" });
         }
         await jwt.verify(token,JWT_SECRET,async (err,decoded)=>{
