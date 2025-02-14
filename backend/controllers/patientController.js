@@ -17,6 +17,7 @@ const { addOtp } = require("./otpController");
 const Pharmacy = require("../models/pharmacyModel");
 const PharmacyInventory = require("../models/pharmacyInventory");
 const Patient = require("../models/patientModel");
+const Test = require("../models/testModal");
 
 dayjs.extend(customParseFormat);
 dotenv.config();
@@ -84,6 +85,18 @@ exports.patientViewProfileDetails= async (req,res)=>{
     // const uDetails=await Patient.updateOne({userId:req.user.userId},{profileDetails})
     // await console.log(fetchedDetails)
     res.status(200).json({message:"Details has been fetched",patientDetails:fetchedDetails})
+     
+  } catch (error) {
+      console.log(error)
+      res.status(500).json({message:"Faced issue on the backend",error:error})
+      
+  }
+}
+
+exports.patient_getAllTestsAvailable= async (req,res)=>{
+  try {  
+    const tests=await Test.find()
+    res.status(200).json({message:"tests have been fetched",tests})
      
   } catch (error) {
       console.log(error)

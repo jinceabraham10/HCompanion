@@ -21,6 +21,7 @@ const Booking = require("../models/bookingModel");
 const Doctor = require("../models/doctorModel");
 const Laboratory = require("../models/laboratoyModel");
 const Labtest = require("../models/labtestModel");
+const Test = require("../models/testModal");
 
 
 exports.laboratory_getBasicDetails=async (req,res)=>{
@@ -43,7 +44,7 @@ exports.laboratory_getBasicDetails=async (req,res)=>{
 
 exports.laboratory_addTest=async (req,res)=>{
     try {
-        const {testName,testId,price}=req.body
+        const {testName,testId,priceHome,priceLab,atHome,atLab}=req.body
         const laboratory=await Laboratory.findOne({userId:req.user.userId})
         if(!laboratory)
             return res.status(404).json({message:"No Laboratory Found",errorNoLaboratory:true})
@@ -53,13 +54,96 @@ exports.laboratory_addTest=async (req,res)=>{
         const newLabtest=new Labtest({
             testId:testId,
             labId:laboratory._id,
-            price:price
+            priceHome,
+            priceLab,
+            atHome,
+            atLab   
 
         })
         const savedLabtest=await newLabtest.save()
         if(!savedLabtest)
             return res.status(400).json({message:"Error at the database while adding lab test",errorDatabase:true})
         return res.status(200).json({message:"lab test has been added",addedLabtest:savedLabtest})
+        
+    } catch (error) {
+        await console.log(error)
+        return res.status(500).json({message:"Error at the backend",errorServer:true})
+    }
+
+}
+
+exports.laboratory_getAddedTests=async (req,res)=>{
+    try {
+        // const {testName,testId,price}=req.body
+        const laboratory=await Laboratory.findOne({userId:req.user.userId})
+        if(!laboratory)
+            return res.status(404).json({message:"No Laboratory Found",errorNoLaboratory:true})
+      
+        const tests=await Labtest.find({labId:laboratory._id}).populate({path:"testId"}) 
+        return res.status(200).json({message:"Added tests have been fetched",tests:tests})
+        
+    } catch (error) {
+        await console.log(error)
+        return res.status(500).json({message:"Error at the backend",errorServer:true})
+    }
+
+}
+
+exports.laboratory_getAddedTestDetails=async (req,res)=>{
+    try {
+        const {testName,testId}=req.body
+        const laboratory=await Laboratory.findOne({userId:req.user.userId})
+        if(!laboratory)
+            return res.status(404).json({message:"No Laboratory Found",errorNoLaboratory:true})
+        const test=await Test.findOne({_id:testId})
+        if(!test)
+            return res.status(404).json({message:"No test present in the database",errorTestPresent:true}) 
+        const labTestDetails=await Labtest.findOne({$and:[{testId:test._id},{labId:laboratory._id}]}).populate({path:"testId"})
+        if(!labTestDetails)
+            return res.status(404).json({message:"No test found",errorTestPresent:true})
+        return res.status(200).json({message:"Test details have been fetched",test:labTestDetails})
+        
+    } catch (error) {
+        await console.log(error)
+        return res.status(500).json({message:"Error at the backend",errorServer:true})
+    }
+
+}
+
+exports.laboratory_updateAddedTestDetails=async (req,res)=>{
+    try {
+        const {testId,atHome,atLab,priceHome,priceLab}=req.body
+        const laboratory=await Laboratory.findOne({userId:req.user.userId})
+        if(!laboratory)
+            return res.status(404).json({message:"No Laboratory Found",errorNoLaboratory:true})
+        const test=await Test.findOne({_id:testId})
+        if(!test)
+            return res.status(404).json({message:"No test present in the database",errorNoTest:true}) 
+        const labTestDetails=await Labtest.updateOne({$and:[{testId:test._id},{labId:laboratory._id}]},{priceHome,priceLab,atHome,atLab})
+        if(labTestDetails.modifiedCount<1)
+            return res.status(400).json({message:"issues on updating database",errorDatabase:true})
+        return res.status(200).json({message:"Test details have been updated"})
+        
+    } catch (error) {
+        await console.log(error)
+        return res.status(500).json({message:"Error at the backend",errorServer:true})
+    }
+
+}
+
+exports.laboratory_deleteAddedTest=async (req,res)=>{
+    try {
+        const {testId,testName}=req.body
+        const laboratory=await Laboratory.findOne({userId:req.user.userId})
+        if(!laboratory)
+            return res.status(404).json({message:"No Laboratory Found",errorNoLaboratory:true})
+        const test=await Test.findOne({_id:testId})
+        if(!test)
+            return res.status(404).json({message:"No test present in the database",errorNoTest:true}) 
+        const deletedTest=await Labtest.deleteOne({$and:[{testId:test._id},{labId:laboratory._id}]})
+        if(deletedTest.deletedCount<1)
+            return res.status(400).json({message:"issues on updating database",errorDatabase:true})
+        return res.status(200).json({message:"Test details have been removed"})
         
     } catch (error) {
         await console.log(error)

@@ -3,7 +3,7 @@ const sessionMiddleware = require("../middlewares/sessionConfig")
 const { uploadPatientProfileImage } = require("../middlewares/storageConfig");
 const jwtMiddleware = require("../middlewares/jwtConfig")
 const { getUserDetails } = require("../controllers/jwtController")
-const { getAllMedicinesFromInventory, patientViewMedicineDetails, patientUpdateProfileDetails, patientViewProfileDetails } = require("../controllers/patientController");
+const { getAllMedicinesFromInventory, patientViewMedicineDetails, patientUpdateProfileDetails, patientViewProfileDetails, patient_getAllTestsAvailable } = require("../controllers/patientController");
 const { getAllDoctors, getDoctorDetails } = require("../controllers/doctorController");
 const { getDoctorFreeSlots, bookSlot } = require("../controllers/bookingController");
 const { paymentCreateOrder, paymentBookingVerification } = require("../controllers/paymentController");
@@ -34,6 +34,10 @@ router.post('/doctors/slots/payment/createOrder',jwtMiddleware,paymentCreateOrde
 router.post('/doctors/slots/payment/paymentVerification',jwtMiddleware,paymentBookingVerification,bookSlot)
 // router.post('/doctors/slots/book',jwtMiddleware,bookSlot)
 
+
+//tests
+
+router.get('/tests/getAllTestAvailable',patient_getAllTestsAvailable)
 
 
 

@@ -81,6 +81,10 @@ const navigate=useNavigate()
                         Medicines
                     </button>
 
+                    <button className={`font-medium text-lg p-2 `} onClick={()=>navigate('/patient/tests')}>
+                        tests
+                    </button>
+
                     <button className={`font-medium text-lg p-2 `} onClick={()=>navigate('/patient/treatmentPlan')}>
                         Treatment Plan
                     </button>

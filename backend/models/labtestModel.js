@@ -11,9 +11,21 @@ const LabtestSchema=new mongoose.Schema({
         ref:"test",
         required:true
     },
-    price:{
-        type:mongoose.Schema.Types.Double,
-        default:100
+    atHome:{
+        type:mongoose.Schema.Types.Boolean,
+        default:false
+    },
+    atLab:{
+        type:mongoose.Schema.Types.Boolean,
+        default:false
+    },
+    priceHome:{
+        type:JSON,
+        default:""
+    },
+    priceLab:{
+        type:JSON,
+        default:""
     }
 
 },{timestamps:true})
