@@ -39,3 +39,41 @@ export const patient_getAllTestsAvailableService=async ()=>{
         
     }
 }
+
+export const patient_getTestDetailsAndLabService=async ({testId})=>{
+    try {
+        // await console.log(testId)
+        const response=await axios.post(`${API}/patient/tests/testDetails`,{testId})
+        console.log(response.data)
+        return response.data.testAndLabs
+        
+    } catch (error) {
+        console.log(error)
+        if(error.status=="500"&&error.response.status.errorServer){
+                Swal.fire({
+                    icon:"error",
+                    text:"Server Issue"
+                })
+            }
+            else if(error.status=="400"&&error.response.data.invalidToken){
+                Swal.fire({
+                    icon:"warning",
+                    text:"Log In"
+                })
+            }else if(error.status=="401"){
+                Swal.fire({
+                    icon:"warning",
+                    text:"Log In"
+                })
+            }else if(error.status=="404" && error.response.data.errorTestPresent){
+                Swal.fire({
+                    icon:"warning",
+                    text:"Test can't be found at database"
+                })
+            }
+    
+            return false
+        
+        
+    }
+}

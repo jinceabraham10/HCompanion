@@ -23,29 +23,34 @@ console.log(username)
 const onLoad=async ()=>{
     if(sessionStorage.getItem('token') ){
         const tempPatient=await getPatientBasicDetails({token:sessionStorage.getItem('token')})
-        if(!tempPatient){
+        if(tempPatient){
+            const patientDetails=await getPatientProfileDetails()
+            console.log(`profile ${JSON.stringify(patientDetails)}  `)
+            dispatch(setUser({
+                username:tempPatient.username,
+                email:tempPatient.email,
+                role:tempPatient.role,
+                isLoggedIn:true
+            }))
+
+            dispatch(setPatient({
+                firstName:patientDetails.firstName,
+                lastName:patientDetails.lastName,
+                profileImage:patientDetails.profileImage,
+                weight:patientDetails.weight,
+                height:patientDetails.height,
+                profileImage:patientDetails.profileImage
+            }))
+            
+
+         }
+         else {
             setUser({})
             setPatient({})
             // return navigate('/')
-
          }
-        const patientDetails=await getPatientProfileDetails()
-        console.log(`profile ${JSON.stringify(patientDetails)}  `)
-        dispatch(setUser({
-            username:tempPatient.username,
-            email:tempPatient.email,
-            role:tempPatient.role,
-            isLoggedIn:true
-        }))
-
-        dispatch(setPatient({
-            firstName:patientDetails.firstName,
-            lastName:patientDetails.lastName,
-            profileImage:patientDetails.profileImage,
-            weight:patientDetails.weight,
-            height:patientDetails.height,
-            profileImage:patientDetails.profileImage
-        }))
+         
+        
         // await setIsUserLoggedIn(true)
     }    
 

@@ -35,6 +35,9 @@ import LaboratoryAddTest from './laboratory/pages/addTest/LaboratoryAddTest'
 import LaboratoryViewTests from './laboratory/pages/viewAddedTests/LaboratoryViewTests'
 import LaboratoryEditTestDetailsPage from './laboratory/pages/EditTestDetails/LaboratoryEditTestDetailsPage'
 import PatientLabTestsPage from './patient/pages/labTestPage/PatientLabTestsPage'
+import PatientTestDetailsPage from './patient/pages/testDetailsPage/PatientTestDetailsPage'
+import Patient_BookingsPageBasic from './patient/pages/patientBookingsPageBasic/Patient_BookingsPageBasic'
+import Patient_CurrentBookingPage from './patient/pages/patientCurrentBookedPage/Patient_CurrentBookingPage'
 
 
 
@@ -59,6 +62,9 @@ function App() {
                <Route path='/patient/profile' element={<PatientProfilePage/>}>
                     <Route index path='/patient/profile/details' element={<PatientProfileDetails/>}/>
                     <Route path='/patient/profile/contactDetails' element={<PatientContactDetails/>}/>
+                    <Route path='/patient/profile/bookings' element={<Patient_BookingsPageBasic/>}>
+                        <Route path='/patient/profile/bookings/currentBookings' element={<Patient_CurrentBookingPage/>}/>
+                    </Route>
                </Route>
 
                <Route path='/patient/doctors' element={<PatientDoctorPage/>}>
@@ -68,6 +74,7 @@ function App() {
                //test
 
                <Route path='/patient/tests' element={<PatientLabTestsPage/>}/>
+               <Route path='/patient/tests/testDetails' element={<PatientTestDetailsPage/>}/>
                         
               
 

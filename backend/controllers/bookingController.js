@@ -19,6 +19,7 @@ const PharmacyInventory = require("../models/pharmacyInventory");
 const Patient = require("../models/patientModel");
 const Booking = require("../models/bookingModel");
 const Doctor = require("../models/doctorModel");
+
 dayjs.extend(customParseFormat);
 dotenv.config();
 
@@ -133,3 +134,41 @@ exports.doctor_removeSlot=async (req,res)=>{
         return res.status(500).json({message:"error at the backend"})
     }
 }
+
+exports.patient_getAllCurrentBookings=async (req,res)=>{
+    try {
+      const patient=await Patient.findOne({userId:req.user.userId})
+      if(!patient)
+        return res.status(404).json({message:"No User under patient profile found"})
+      const filteredBookings=await Booking.find({$and:[{patientId:patient._id},{bookedStatus:1}]}).populate({path:"doctorId",populate:{
+        path:"userId"
+      },populate:{
+        path:"addressId"
+      }}).populate({path:"patientId",populate:{
+        path:"userId"
+      }})
+      const bookings=filteredBookings.filter((booking)=>dayjs(booking.slotDate,'D MMM,dddd').isAfter(dayjs()))
+      bookings.sort((a,b)=>dayjs(`${a.slotDate} ${a.startTime}`,'D MMM,dddd H:mm A')-dayjs(`${a.slotDate} ${a.startTime}`,'D MMM,dddd H:mm A'))
+      return res.status(200).json({message:"Bookings have been fetched",bookings})
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({message:"Faced issue on the backend",errorServer:true})
+    }
+  }
+
+exports.patient_cancelBooking=async (req,res)=>{
+    try {
+      const {slotDate,startTime,doctorId}=req.body
+      const patient=await Patient.findOne({userId:req.user.userId})
+      if(!patient)
+        return res.status(404).json({message:"No User under patient profile found"})
+      const updated=await Booking.updateOne({patientId:patient._id,slotDate,startTime,doctorId},{bookedStatus:0})
+      if(updated.modifiedCount<1)
+        return res.status(400).json({message:"Couldn't update the booking",errorDatabaseError:true})
+      return res.status(200).json({message:"Updated the Booking"})
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({message:"Faced issue on the backend",errorServer:true})
+    }
+  }
+  

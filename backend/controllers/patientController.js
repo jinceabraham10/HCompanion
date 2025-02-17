@@ -18,6 +18,8 @@ const Pharmacy = require("../models/pharmacyModel");
 const PharmacyInventory = require("../models/pharmacyInventory");
 const Patient = require("../models/patientModel");
 const Test = require("../models/testModal");
+const Labtest = require("../models/labtestModel");
+const Booking = require("../models/bookingModel");
 
 dayjs.extend(customParseFormat);
 dotenv.config();
@@ -104,4 +106,23 @@ exports.patient_getAllTestsAvailable= async (req,res)=>{
       
   }
 }
+
+exports.patient_getTestDetailsAndLabs=async (req,res)=>{
+  try {
+    const {testId}=req.body
+    const test=await Test.findOne({_id:testId})
+    if(!test)
+      return res.status(404).json({message:"Test is not present",errorTestPresent:true})
+    const testAndLabs=await Labtest.find({testId}).populate({path:'labId',populate:{
+      path:'userId'
+    }}).populate({path:'testId'})
+    return res.status(200).json({message:"Tests and associated labs have been fetched",testAndLabs:testAndLabs})
+    
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message:"Faced issue on the backend",error:error})
+  }
+
+}
+
 
