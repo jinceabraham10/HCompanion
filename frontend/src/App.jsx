@@ -38,6 +38,9 @@ import PatientLabTestsPage from './patient/pages/labTestPage/PatientLabTestsPage
 import PatientTestDetailsPage from './patient/pages/testDetailsPage/PatientTestDetailsPage'
 import Patient_BookingsPageBasic from './patient/pages/patientBookingsPageBasic/Patient_BookingsPageBasic'
 import Patient_CurrentBookingPage from './patient/pages/patientCurrentBookedPage/Patient_CurrentBookingPage'
+import Doctor_BookingsBasic from './doctor/pages/doctorBookingsBasic/Doctor_BookingsBasic'
+import Doctor_CurrentBookings from './doctor/pages/doctor_CurrentBookings/Doctor_CurrentBookings'
+import Patient_VideoConsult from './patient/pages/patientOnlineVideoConsult/Patient_VideoConsult'
 
 
 
@@ -75,12 +78,13 @@ function App() {
 
                <Route path='/patient/tests' element={<PatientLabTestsPage/>}/>
                <Route path='/patient/tests/testDetails' element={<PatientTestDetailsPage/>}/>
-                        
               
-
                <Route path='/patient/treatmentPlan' element={<TreatmentPlan/>}/>
 
           </Route>
+          
+          //video
+          <Route path='/patient/bookings/videoConsult' element={<Patient_VideoConsult/>}/>
 
 
           //pharmcacy
@@ -107,6 +111,10 @@ function App() {
                        <Route path='/doctor/profile/contact' element={<DoctorContactPage/>}/>
                        <Route path='/doctor/profile/resetPassword' element={<DoctorResetPassword/>}/>
              </Route>
+             <Route path='/doctor/bookings' element={<Doctor_BookingsBasic/>}>
+                 <Route path='/doctor/bookings/currentBookings' element={<Doctor_CurrentBookings/>}/>
+             </Route>
+
           
           </Route>
 

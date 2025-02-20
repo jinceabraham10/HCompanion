@@ -14,6 +14,7 @@ function SlotSettingPage() {
     const [selectedDate,setSelectedDate]=useState(undefined)
     const [slots,setSlots]=useState([])
     const doctor=useSelector((state)=>state.doctor)
+    
 
     // const handleCheckSlot=async (slotDate,startTime)=>{
     //     const slot=await checkSlotService({slotDate,startTime})

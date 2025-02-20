@@ -12,9 +12,10 @@ export const profileDetailsValidationSchema=yup.object().shape({
 export const profileContactValidationSchema=yup.object().shape({
     place:yup.string(),
     state:yup.string(),
-    country:yup.string().matches(/^(A|B|AB|O)[+-]$/,"Not a valid Blood Group"),
-    pincode:yup.string().matches(/^[1-9][0-9]{5}$/,'Valid weight'),
-    height:yup.string().matches(/^[0-9]$/,'Valid weight')
+    country:yup.string(),
+    pincode:yup.string().matches(/[1-9][0-9]{5}$/,'Valid Number'),
+    district:yup.string(),
+    phone:yup.array().of(yup.string().matches(/^[1-9][0-9]{9}$/,"not valid number"))
 })
 
 
@@ -23,3 +24,4 @@ export const profileResetPasswordValidationSchema=yup.object().shape({
     confirmPassword:yup.string(),
     
 })
+

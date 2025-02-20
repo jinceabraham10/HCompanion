@@ -127,7 +127,7 @@ const navigate=useNavigate()
                   }} />   
                 </div>
                 :  
-               <button type='button' className='h-[80%] ml-4 border rounded-[5%] bg-orange-500 p-2 font-bold ' onClick={()=>{
+               <button type='button' className='h-[80%] ml-4 border rounded-[5%] bg-orange-500 p-2 font-bold ' id="id_loginNav" onClick={()=>{
                     navigate('/login')
                 }}>
                     login / sign up

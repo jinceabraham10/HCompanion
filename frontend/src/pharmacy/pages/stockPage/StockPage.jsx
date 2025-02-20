@@ -5,7 +5,7 @@ import { Table } from 'flowbite-react'
 import { deleteStock, viewStocks } from '../../services/pharmacyStockService'
 import { useNavigate } from 'react-router-dom'
 
-function StockPage() {
+function  StockPage() {
   const [stockedMedicines,setstockedMedicines]=useState([])
 
   const onLoad=async ()=>{
@@ -52,7 +52,7 @@ function TableMedicines(props){
   const {medicines}=props
   return(
     <div className='w-full h-full mb-10 flex flex-1 justify-center '>
-        <Table hoverable  className='w-full gap-x-10 '>
+        <Table hoverable  className='w-full gap-x-10 ' >
           <Table.Head className='gap-x-72'>
             <Table.HeadCell>Medicine Name</Table.HeadCell>
             <Table.HeadCell>Description</Table.HeadCell>
@@ -69,7 +69,7 @@ function TableMedicines(props){
 
           <Table.Body className='font-bold'>
               {medicines.map((stock,index)=>(
-                <Table.Row key={stock._id} className='border-b-4'>
+                <Table.Row key={stock._id} className='border-b-4' id={`id_${index}`}>
 
                   <Table.Cell>
                     {stock.medicineId.medicineName}
@@ -100,13 +100,13 @@ function TableMedicines(props){
                   </Table.Cell>
 
                   <Table.Cell>
-                    <img className='h-8 cursor-pointer' src="/icons/editIcon.png" alt="editIcon" onClick={()=>{
+                    <img className='h-8 cursor-pointer' src="/icons/editIcon.png" alt="editIcon" id={`id_navEdit_${index}`} onClick={()=>{
                       navigate('/pharmacy/stock/editStock',{state:{inventoryId:stock._id}})
                     }}/>
                   </Table.Cell>
 
                   <Table.Cell>
-                      <img className='h-8 cursor-pointer opacity-70' src="/icons/deleteIcon.png" alt="editIcon" onClick={()=>{handleDelete(e,stock._id)}}/>
+                      <img className='h-8 cursor-pointer opacity-70' src="/icons/deleteIcon.png" alt="editIcon" id={`id_btnDelete_${index}`} onClick={(e)=>{handleDelete(e,stock._id)}}/>
                   </Table.Cell>
 
                   

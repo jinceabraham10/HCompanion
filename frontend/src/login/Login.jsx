@@ -167,6 +167,7 @@ function Login() {
             <input
               type="text"
               name="username"
+              id="id_username"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className="border p-2 rounded-lg text-center"
@@ -180,6 +181,7 @@ function Login() {
             <input
               type="password"
               name="password"
+              id="id_password"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className="border p-2 rounded-lg text-center"
@@ -195,6 +197,7 @@ function Login() {
 
           <div className="flex flex-col gap-4">
             <button
+              id="id_loginButton"
               className="w-[full] h-[50%] border rounded-[5%] bg-orange-500 p-2"
               type="submit"
             >

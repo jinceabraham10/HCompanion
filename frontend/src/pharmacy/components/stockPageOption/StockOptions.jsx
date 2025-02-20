@@ -14,7 +14,7 @@ function StockOptions() {
             </button>
         </div>
         <div className='w-[15%] h-full'>
-            <button className='w-full h-full p-4 font-bold rounded-sm flex items-center  bg-orange-500  drop-shadow-xl' onClick={()=>{
+            <button className='w-full h-full p-4 font-bold rounded-sm flex items-center  bg-orange-500  drop-shadow-xl' id='id_btnViewStock' onClick={()=>{
                 navigate('/pharmacy/stock/viewStocks')
             }}>
                 View Stock

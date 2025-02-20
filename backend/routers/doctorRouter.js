@@ -5,7 +5,7 @@ const sessionMiddleware = require("../middlewares/sessionConfig")
 const jwtMiddleware = require("../middlewares/jwtConfig")
 const { getUserDetails } = require("../controllers/jwtController")
 const { doctorViewProfileDetails, doctor_updateDoctorDetails } = require("../controllers/doctorController")
-const { getSlots, checkSlot, addSlot, doctor_removeSlot } = require("../controllers/bookingController")
+const { getSlots, checkSlot, addSlot, doctor_removeSlot, doctor_getAllCurrentBookings, doctor_getPastBookings } = require("../controllers/bookingController")
 const { uploadDoctorProfileImage } = require("../middlewares/storageConfig")
 const { addAddress, doctor_getAddressAndPhone, doctor_updateAddressAndPhone } = require("../controllers/addressController")
 const router=express.Router()
@@ -27,6 +27,11 @@ router.post('/profile/updateDetails',jwtMiddleware,uploadDoctorProfileImage.sing
 router.post('/profile/addAddress',jwtMiddleware,addAddress)
 router.post('/profile/updateContactDetails',jwtMiddleware,doctor_updateAddressAndPhone)
 router.get('/profile/getContactDetails',jwtMiddleware,doctor_getAddressAndPhone)
+
+
+
+router.get('/bookings/getAllCurrentBookings',jwtMiddleware,doctor_getAllCurrentBookings)
+router.get('/bookings/getPastBookings',jwtMiddleware,doctor_getPastBookings)
 
 
 

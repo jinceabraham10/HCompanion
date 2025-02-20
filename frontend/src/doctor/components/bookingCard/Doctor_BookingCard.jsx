@@ -3,13 +3,10 @@ import React from 'react'
 import { IoLocation } from 'react-icons/io5'
 import { MdLocationCity } from "react-icons/md";
 import { SlCalender } from "react-icons/sl";
-import { patient_cancelBookingService } from '../../services/patientBookingsService'
 import Swal from 'sweetalert2'
-import { useNavigate } from 'react-router-dom';
 
-function Patient_BookingCard(props) {
+function Doctor_BookingCard(props) {
     const {booking}=props
-    const navigate=useNavigate()
     const handleCancel=async (e,startTime,slotDate,doctorId)=>{
         e.preventDefault()
         await Swal.fire({
@@ -36,7 +33,7 @@ function Patient_BookingCard(props) {
         <div className='w-full h-full flex gap-2 border shadow-lg p-4 bg-white rounded-lg hover:bg-black hover:bg-opacity-10 cursor-pointer'>
 
             <div className='image w-auto h-full flex items-center px-5'>
-                <img src={booking?.doctorId?.profileImage} className='h-[15vh] w-[7vw] rounded-full' />
+                <img src={booking?.patientId?.profileImage} className='h-[15vh] w-[7vw] rounded-full' />
 
             </div>
 
@@ -44,15 +41,15 @@ function Patient_BookingCard(props) {
                 <h4 className='text-sm font-medium opacity-40'>Cardiology</h4>
 
                 <div className='w-full h-auto'>
-                    <h4>{booking?.doctorId?.userId?.username}</h4>
+                    <h4>{booking?.patientId?.firstName}</h4>
                 </div>
 
                 <div className='location w-full h-auto'>
                     <div className='flex gap-4 items-start'>
                             <IoLocation/> 
                             <div className='flex flex-col gap-2 w-auto h-full items-start justify-start'>
-                              <span className='flex items-center'>{booking?.doctorId?.addressId?.place}</span>
-                              <span className='flex items-center'>{booking?.doctorId?.addressId?.district}</span>
+                              <span className='flex items-center'>{booking?.patientId?.addressId?.place}</span>
+                              <span className='flex items-center'>{booking?.patientId?.addressId?.district}</span>
 
                             </div>
                             
@@ -68,19 +65,10 @@ function Patient_BookingCard(props) {
                     <span>{`${booking?.slotDate} ${dayjs(booking?.startTime,'H:mm A').format('h:mm A').toString()}`}</span>
 
                 </div>
-
-                <div className='w-full h-auto flex gap-4'>
-                    <button className='cancel w-full h-auto p-2 bg-red-500 font-medium flex items-center justify-center' onClick={(e)=>handleCancel(e,booking?.startTime,booking?.slotDate,booking?.doctorId?._id)} >
-                        Cancel
-                    </button>
-
-                    <button className='cancel w-full h-auto p-2 bg-blue-500 font-medium flex items-center justify-center' onClick={(e)=>window.open(`/patient/bookings/videoConsult?`,'_blank')} >
-                       Join Meeting
-                    </button>
-
-                </div>
                 
-                
+                <button className='cancel w-full h-auto p-2 bg-red-500 font-medium flex items-center justify-center' onClick={(e)=>handleCancel(e,booking?.startTime,booking?.slotDate,booking?.doctorId?._id)} >
+                    Reschedule
+                </button>
 
             </div>
 
@@ -90,4 +78,4 @@ function Patient_BookingCard(props) {
   )
 }
 
-export default Patient_BookingCard
+export default Doctor_BookingCard

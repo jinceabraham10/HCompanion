@@ -6,7 +6,7 @@ function Patient_CurrentBookingPage() {
     const [bookings,setBookings]=useState([])
     const onLoad=async ()=>{
         const tempBookings=await patient_getAllBookedService()
-        setBookings(tempBookings)
+        await   setBookings(tempBookings)
     }
 
     useEffect(()=>{

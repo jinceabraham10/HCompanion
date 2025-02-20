@@ -156,6 +156,27 @@ exports.patient_getAllCurrentBookings=async (req,res)=>{
     }
   }
 
+exports.patient_getPastBookings=async (req,res)=>{
+    try {
+      const patient=await Patient.findOne({userId:req.user.userId})
+      if(!patient)
+        return res.status(404).json({message:"No User under patient profile found"})
+      const filteredBookings=await Booking.find({$and:[{patientId:patient._id},{bookedStatus:{$ne:0}}]}).populate({path:"doctorId",populate:{
+        path:"userId"
+      },populate:{
+        path:"addressId"
+      }}).populate({path:"patientId",populate:{
+        path:"userId"
+      }})
+      const bookings=filteredBookings.filter((booking)=>dayjs(booking.slotDate,'D MMM,dddd').isAfter(dayjs()))
+      bookings.sort((a,b)=>dayjs(`${a.slotDate} ${a.startTime}`,'D MMM,dddd H:mm A')-dayjs(`${a.slotDate} ${a.startTime}`,'D MMM,dddd H:mm A'))
+      return res.status(200).json({message:"Bookings have been fetched",bookings})
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({message:"Faced issue on the backend",errorServer:true})
+    }
+  }
+
 exports.patient_cancelBooking=async (req,res)=>{
     try {
       const {slotDate,startTime,doctorId}=req.body
@@ -171,4 +192,48 @@ exports.patient_cancelBooking=async (req,res)=>{
       res.status(500).json({message:"Faced issue on the backend",errorServer:true})
     }
   }
+
+exports.doctor_getAllCurrentBookings=async (req,res)=>{
+    try {
+      const doctor=await Doctor.findOne({userId:req.user.userId})
+      if(!doctor)
+        return res.status(404).json({message:"No User under patient profile found",errorNoDoctor:true})
+      const filteredBookings=await Booking.find({$and:[{doctorId:doctor._id},{bookedStatus:1}]}).populate({path:"doctorId",populate:{
+        path:"userId"
+      },populate:{
+        path:"addressId"
+      }}).populate({path:"patientId",populate:{
+        path:"userId"
+      },populate:{path:"addressId"}})
+      const bookings=filteredBookings.filter((booking)=>dayjs(booking.slotDate,'D MMM,dddd').isAfter(dayjs().subtract(1,'day')))
+      bookings.sort((a,b)=>dayjs(`${a.slotDate} ${a.startTime}`,'D MMM,dddd H:mm A')-dayjs(`${a.slotDate} ${a.startTime}`,'D MMM,dddd H:mm A'))
+      return res.status(200).json({message:"Bookings have been fetched",bookings})
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({message:"Faced issue on the backend",errorServer:true})
+    }
+  }
+
+exports.doctor_getPastBookings=async (req,res)=>{
+    try {
+      const doctor=await Doctor.findOne({userId:req.user.userId})
+      if(!doctor)
+        return res.status(404).json({message:"No User under patient profile found",errorNoDoctor:true})
+      const filteredBookings=await Booking.find({$and:[{doctorId:doctor._id},{bookedStatus:{$ne:0}}]}).populate({path:"doctorId",populate:{
+        path:"userId"
+      },populate:{
+        path:"addressId"
+      }}).populate({path:"patientId",populate:{
+        path:"userId"
+      },populate:{path:"addressId"}})
+      const bookings=filteredBookings.filter((booking)=>dayjs(booking.slotDate,'D MMM,dddd').isBefore(dayjs()))
+      bookings.sort((a,b)=>dayjs(`${a.slotDate} ${a.startTime}`,'D MMM,dddd H:mm A')-dayjs(`${a.slotDate} ${a.startTime}`,'D MMM,dddd H:mm A'))
+      return res.status(200).json({message:"Bookings have been fetched",bookings})
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({message:"Faced issue on the backend",errorServer:true})
+    }
+  }
+
+
   

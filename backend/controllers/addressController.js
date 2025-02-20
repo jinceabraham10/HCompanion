@@ -114,4 +114,61 @@ exports.doctor_getAddressAndPhone=async (req,res)=>{
     }
 }
 
+exports.patient_getAddressAndPhone=async (req,res)=>{
+    try {
+        // const addressDetails=req.body
+        var updated;
+        const user=await User.findOne({_id:req.user.userId})
+        // await console.log("user",user)
+        const patient=await Patient.findOne({userId:user._id})
+        if(!patient.addressId){
+            return res.status(404).json({message:"Address doesn't present in the database",errorNoPatient:true})
+        }
+        const address=await Address.findOne({_id:patient.addressId})   
+        await console.log(`address`,address)
+        if(!address)
+            return res.status(404).json({message:"Address not found ",errorDatabaseIssue:true})
+        return res.status(200).json({message:"Address has been fetched",contactDetails:{...address,phone:user.phone}})
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({message:"Server Error",errorServer:true})
+    }
+}
+
+exports.doctor_updateAddressAndPhone=async (req,res)=>{
+    try {
+        const {phone,...addressDetails}=req.body
+        var updated;
+        // await console.log('recieved address',addressDetails)
+        // const phone=(addressDetails.phone)?addressDetails.phone:false
+        // addressDetails.phone=undefined
+        // await console.log('after modifying address',addressDetails)
+        const user=await User.findOne({_id:req.user.userId})
+        // await console.log("user",user)
+        const patient=await Patient.findOne({userId:user._id})
+        if(!patient.addressId){
+            return res.status(404).json({message:"Address doesn't present in the database",errorNoPatient:true})
+        }
+        const address=await Address.findOne({_id:patient.addressId})
+        if(!address)
+            return res.status(404).json({message:"Address doesn't present in the database",errorDatabaseIssue:true})
+        const updatedAddress=await Address.updateOne({_id:doctor.addressId},addressDetails)
+        console.log('updated Address',updatedAddress)
+        if(phone){
+            const updatedPhone=await User.updateOne({_id:req.user.userId},{phone:phone})
+            if(updatedPhone.modifiedCount<1)
+                return res.status(400).json({message:"Error on updating the phone",errorDatabaseIssue:true})
+        }
+            
+        if(updatedAddress.modifiedCount<1)
+            return res.status(400).json({message:"Error on updating the Address",errorDatabaseIssue:true})
+        
+
+        return res.status(200).json({message:"Address has been updated"})
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({message:"Server Error",errorServer})
+    }
+}
+
 //(JSON.parse(JSON.stringify(addressDetails)))

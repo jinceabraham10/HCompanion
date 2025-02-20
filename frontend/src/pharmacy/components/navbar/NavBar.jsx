@@ -73,7 +73,7 @@ function NavBar() {
 
           <div className='option p-2 w-full h-[10%] flex flex-row gap-4 justify-start bg-white bg-opacity-10 '>
             <img src="/icons/stock.jpg" alt="home img" className='bg-white h-full rounded-sm' />
-            <button className='h-full' onClick={()=>{
+            <button className='h-full' id='id_navMedicineStock' onClick={()=>{
               navigate('/pharmacy/stock/viewStocks')
             }}>
               Medicine Stock
