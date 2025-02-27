@@ -40,7 +40,7 @@ import Patient_BookingsPageBasic from './patient/pages/patientBookingsPageBasic/
 import Patient_CurrentBookingPage from './patient/pages/patientCurrentBookedPage/Patient_CurrentBookingPage'
 import Doctor_BookingsBasic from './doctor/pages/doctorBookingsBasic/Doctor_BookingsBasic'
 import Doctor_CurrentBookings from './doctor/pages/doctor_CurrentBookings/Doctor_CurrentBookings'
-import Patient_VideoConsult from './patient/pages/patientOnlineVideoConsult/Patient_VideoConsult'
+import AgoraVideoConsult from './onlineVideoConsult/AgoraVideoConsult'
 
 
 
@@ -84,7 +84,7 @@ function App() {
           </Route>
           
           //video
-          <Route path='/patient/bookings/videoConsult' element={<Patient_VideoConsult/>}/>
+          <Route path='/patient/bookings/videoConsult' element={<AgoraVideoConsult/>}/>
 
 
           //pharmcacy

@@ -74,7 +74,7 @@ function Patient_BookingCard(props) {
                         Cancel
                     </button>
 
-                    <button className='cancel w-full h-auto p-2 bg-blue-500 font-medium flex items-center justify-center' onClick={(e)=>window.open(`/patient/bookings/videoConsult?`,'_blank')} >
+                    <button className='cancel w-full h-auto p-2 bg-blue-500 font-medium flex items-center justify-center' onClick={(e)=>window.open(`/patient/bookings/videoConsult?patientId=${booking.patientId._id}&doctorId=${booking.doctorId._id}`,'_blank')} >
                        Join Meeting
                     </button>
 

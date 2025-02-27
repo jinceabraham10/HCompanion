@@ -64,7 +64,7 @@ export const checkSlotService=async ({startTime,slotDate})=>{
     }
 }
 
-export const getSlotsService=async ({slotDate})=>{
+export const getSlotsService=async ({slotDates})=>{
     try {
 
         const response=await axios.post(`${API}/doctor/slot/viewSlots`,{slotDate},{

@@ -22,7 +22,7 @@ const RAZOR_PAY_ID = import.meta.env.RAZOR_PAY_ID;
 
 
 function SideBookingDetailsPage() {
-    const [slotDate,setSlotDate]=useState(dayjs().format('D MMM, dddd').toString())
+    const [slotDate,setSlotDate]=useState(dayjs().format('D MMM, dddd YYYY').toString())
     const [slotTime,setSlotTime]=useState(undefined)
     const [selectedSlot,setSelectedSlot]=useState(undefined)
     const [freeSlots,setFreeSlots]=useState([])
@@ -37,7 +37,7 @@ function SideBookingDetailsPage() {
     const onLoad=async ()=>{
         const tempDoctor=await getDoctorDetailsService({doctorId})
         await setDoctor(tempDoctor)
-        const tempDate=dayjs().format('D MMM, dddd').toString()
+        const tempDate=dayjs().format('D MMM, dddd YYYY').toString()
         setSlotDate(tempDate)
         const tempFreeSlots=await getAllDoctorFreeSlotService({slotDate:tempDate,doctorId})
         setFreeSlots(tempFreeSlots)
@@ -60,7 +60,7 @@ function SideBookingDetailsPage() {
     }
 
     const handleClickOnDate=async (slotDate)=>{
-        slotDate=dayjs(slotDate,'D ,ddd').format('D MMM, dddd').toString()
+        slotDate=dayjs(slotDate,'D ,ddd').format('D MMM, dddd YYYY').toString()
         setSlotDate(slotDate)
         const tempFreeSlots=await getAllDoctorFreeSlotService({slotDate,doctorId})
         setFreeSlots(tempFreeSlots)
@@ -89,7 +89,7 @@ function SideBookingDetailsPage() {
                         {
                             slotDates.map((date,index)=>(
                                 <button className='w-[10vw] h-[8vh] font-medium text-white bg-slate-700 bg-opacity-70 border shadow-md rounded-lg p-6' key={index} onClick={()=>handleClickOnDate(date)}>
-                                    {dayjs(date,'D MMM, dddd').format('DD ,ddd').toString()}
+                                    {dayjs(date,'D MMM, dddd YYYY').format('DD ,ddd').toString()}
                                 </button>
                             ))
                         }

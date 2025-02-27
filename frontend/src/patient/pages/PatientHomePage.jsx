@@ -7,6 +7,8 @@ function PatientHomePage() {
 
   const [isChatBot,setIsChatBot]=useState(false)
 
+  
+
   return (
     <div className='homePage w-full h-full'>
         <div className='header bg-white w-full h-[12vh] shadow-lg '>

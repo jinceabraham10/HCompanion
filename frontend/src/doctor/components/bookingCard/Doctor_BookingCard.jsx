@@ -1,18 +1,22 @@
 import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import React from 'react'
 import { IoLocation } from 'react-icons/io5'
 import { MdLocationCity } from "react-icons/md";
 import { SlCalender } from "react-icons/sl";
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
+dayjs.extend(customParseFormat)
 
 function Doctor_BookingCard(props) {
     const {booking}=props
+    const navigate=useNavigate()
     const handleCancel=async (e,startTime,slotDate,doctorId)=>{
         e.preventDefault()
         await Swal.fire({
             showCancelButton:true,
-            confirmButtonText:"Proceed Canceling",
-            text:"Do you want to cancel the booking",
+            confirmButtonText:"Proceed Rescheduling",
+            text:"Do you want to Reschedule the booking",
             icon:"question"
         }).then(async (value)=>{
             if(value.isConfirmed){
@@ -65,10 +69,22 @@ function Doctor_BookingCard(props) {
                     <span>{`${booking?.slotDate} ${dayjs(booking?.startTime,'H:mm A').format('h:mm A').toString()}`}</span>
 
                 </div>
+
+                <div className='w-full h-auto flex flex-between gap-4'>
+                        <button className='cancel w-full h-auto p-2 bg-red-500 font-medium flex items-center justify-center' onClick={(e)=>handleCancel(e,booking?.startTime,booking?.slotDate,booking?.doctorId?._id)} >
+                            Reschedule
+                        </button>
+                        {
+                            (dayjs(`${booking.slotDate} ${booking.startTime}`,'D MMM, dddd YYYY H:mm A').isAfter(dayjs()) && dayjs(`${booking.slotDate} ${booking.startTime}`,'D MMM, dddd YYYY H:mm A').add(2,'hour').isAfter(dayjs())) &&
+                            <button className='cancel w-full h-auto p-2 bg-blue-500 font-medium flex items-center justify-center' onClick={(e)=>window.open(`/patient/bookings/videoConsult?patientId=${booking.patientId._id}&doctorId=${booking.doctorId._id}`,'_blank')} >
+                              Join Meeting
+                            </button>
+                        }
+                       
+
+                </div>
                 
-                <button className='cancel w-full h-auto p-2 bg-red-500 font-medium flex items-center justify-center' onClick={(e)=>handleCancel(e,booking?.startTime,booking?.slotDate,booking?.doctorId?._id)} >
-                    Reschedule
-                </button>
+                
 
             </div>
 

@@ -5,6 +5,12 @@ import { setUser } from '../../../redux/slices/userSlice'
 import { setPatient } from '../../../redux/slices/patientSlice'
 import { getPatientBasicDetails } from '../../services/patientLoginService'
 import { getPatientProfileDetails } from '../../services/patientProfileService'
+import { createWebSocketConnection } from '../../utils/webSocket'
+// import io from 'socket.io-client'
+
+// console.log(SOCKET)
+
+// const socket=io(`${SOCKET}`)
 
 
 function NavBar() {
@@ -25,7 +31,9 @@ const onLoad=async ()=>{
         const tempPatient=await getPatientBasicDetails({token:sessionStorage.getItem('token')})
         if(tempPatient){
             const patientDetails=await getPatientProfileDetails()
-            console.log(`profile ${JSON.stringify(patientDetails)}  `)
+            createWebSocketConnection( )
+            // socket.emit("register","jjjj")
+            // console.log(`profile ${JSON.stringify(patientDetails)}  `)
             dispatch(setUser({
                 username:tempPatient.username,
                 email:tempPatient.email,
@@ -55,10 +63,11 @@ const onLoad=async ()=>{
     }    
 
 } 
+
 useEffect(()=>{
     onLoad()
     
-})
+},[])
 
 
 const navigate=useNavigate()

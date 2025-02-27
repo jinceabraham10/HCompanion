@@ -8,6 +8,6 @@ const today=dayjs()
 export const slotDates=[]
 
 for(var i=0;i<=5;i++){
-    slotDates.push(today.add(i,'day').format(`D MMM, dddd`).toString())
+    slotDates.push(today.add(i,'day').format(`D MMM, dddd YYYY`).toString())
 }
 

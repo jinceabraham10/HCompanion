@@ -4,6 +4,11 @@ const bodyParser=require('body-parser')
 const dotenv=require('dotenv')
 const db=require('./db')
 const app=express()
+const websocket=require('ws')
+// const socketio=require('socket.io')
+const server=require('http').createServer(app)
+const wss=new websocket.Server({server})
+
 
 app.use(cors({
     origin:true,
@@ -19,6 +24,7 @@ const medicineRoutes=require('./routers/medicineRouter.js')
 const doctorRoutes=require('./routers/doctorRouter.js')
 const laboratoryRoutes=require('./routers/laboratoryRouter.js')
 const adminRoutes=require('./routers/adminRouter.js')
+const { checkConsultation_today } = require('./utils/reminderService.js')
 
 
 app.use('/api/user',userRoutes)
@@ -31,6 +37,27 @@ app.use('/api/admin',adminRoutes)
 
 
 db()
-app.listen(5000,()=>{
+
+
+
+wss.on("connection",(socket)=>{
+    console.log("connected websocket")
+    socket.on("message",(message)=>{
+        const {type}=JSON.parse(message)
+        console.log()
+
+    })
+})
+
+
+
+// setInterval(checkConsultation_today,1*60*1000)
+
+
+server.listen(5000,()=>{
     console.log("server running on 5000")
 })
+
+
+
+

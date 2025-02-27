@@ -40,11 +40,11 @@ function SlotSettingPage() {
     
         }
 
-        const day=dayjs('27 Jan, Tuesday 10:00 PM','DD MMM, dddd hh:mm A')
-        const day1=dayjs('3:30 PM','h:mm A')
-        const ff=dayjs().isBefore(day1)
-        console.log(`day ${day.format()}`)
-        console.log(`day ${day.isBefore(dayjs('26 Jan, Tuesday 10:00 PM','DD MMM, dddd hh:mm A'))  }`)
+        // const day=dayjs('27 Jan, Tuesday 10:00 PM','DD MMM, dddd YYYY hh:mm A')
+        // const day1=dayjs('3:30 PM','h:mm A')
+        // const ff=dayjs().isBefore(day1)
+        // console.log(`day ${day.format()}`)
+        // console.log(`day ${day.isBefore(dayjs('26 Jan, Tuesday 10:00 PM','DD MMM, dddd hh:mm A'))  }`)
 
         useEffect(()=>{
             setSelectedDate(slotDates[0])
@@ -83,7 +83,7 @@ function SlotSettingPage() {
                                 
                                 {
                                     
-                                   (dayjs().isBefore(dayjs(`${selectedDate} ${timing}`,'D MMM, dddd h:mm ')))&&(((slots)&&(slots.length>0)&&(slots.some((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())))?
+                                   (dayjs().isBefore(dayjs(`${selectedDate} ${timing}`,'D MMM, dddd YYYY h:mm ')))&&(((slots)&&(slots.length>0)&&(slots.some((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())))?
                                     (slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString()).bookedStatus==1) ? 
                                     <BookedSlot time={timing} onLoad={onLoad} slot={slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())}/>: 
                                     <AddedSlot time={timing} slot={slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())} onLoad={onLoad}  />:
