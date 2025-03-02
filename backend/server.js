@@ -39,19 +39,28 @@ app.use('/api/admin',adminRoutes)
 db()
 
 
+exports.clientsConnected={}
 
 wss.on("connection",(socket)=>{
     console.log("connected websocket")
     socket.on("message",(message)=>{
-        const {type}=JSON.parse(message)
-        console.log()
+        const data=JSON.parse(message)
+        console.log(data)
+        if(data?.type=="register"){
+            if(!Object.keys(exports.clientsConnected).includes(data?.clientId))
+                exports.clientsConnected[data?.clientId]=socket
 
+        }
     })
+
+    
 })
 
 
 
-// setInterval(checkConsultation_today,1*60*1000)
+
+
+setInterval(checkConsultation_today,1*60*1000)
 
 
 server.listen(5000,()=>{

@@ -31,9 +31,7 @@ const onLoad=async ()=>{
         const tempPatient=await getPatientBasicDetails({token:sessionStorage.getItem('token')})
         if(tempPatient){
             const patientDetails=await getPatientProfileDetails()
-            createWebSocketConnection( )
-            // socket.emit("register","jjjj")
-            // console.log(`profile ${JSON.stringify(patientDetails)}  `)
+            await createWebSocketConnection({userId:tempPatient._id})
             dispatch(setUser({
                 username:tempPatient.username,
                 email:tempPatient.email,

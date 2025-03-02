@@ -1,7 +1,7 @@
 const SOCKET=import.meta.env.VITE_SOCKET
 
 
-export const createWebSocketConnection=async ({userId})=>{ 
+export const doctor_createWebSocketConnection=async ({userId})=>{ 
     const wss=new WebSocket(SOCKET)
     wss.onopen=()=>{
         console.log("connected to websocket")

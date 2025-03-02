@@ -5,6 +5,7 @@ import { useDispatch,useSelector } from 'react-redux'
 import { setDoctor } from '../../../redux/slices/doctorSlice'
 import { setUser } from '../../../redux/slices/userSlice'
 import { getDoctorBasicDetails, getDoctorProfileDetails } from '../../services/doctorLoginService'
+import { doctor_createWebSocketConnection } from '../../utils/doctor_webSocket'
 // import { setPatient } from '../../../redux/slices/patientSlice'
 
 
@@ -18,28 +19,36 @@ function DoctorNavBar() {
     const onLoad=async ()=>{
         if(sessionStorage.getItem('token') && !isLoggedIn){
             const tempPatient=await getDoctorBasicDetails({token:sessionStorage.getItem('token')})
+            if(tempPatient){
+                const tempDoctor=await getDoctorProfileDetails({token:sessionStorage.getItem('token')})
+                await doctor_createWebSocketConnection({userId:tempPatient._id})
+                console.log(tempDoctor)
+                dispatch(setUser({
+                    username:tempPatient.username,
+                    email:tempPatient.email,
+                    role:tempPatient.role,
+                    isLoggedIn:true
+                }))
+    
+                dispatch(setDoctor({
+                            firstName:tempDoctor.firstName,
+                            lastName:tempDoctor.lastName,
+                            profileImage:tempDoctor.profileImage,
+                            weight:tempDoctor.weight,
+                            height:tempDoctor.height,
+                            profileImage:tempDoctor.profileImage
+                        }))
+                // await setIsUserLoggedIn(true)
+
+            }
+            else{
+                setUser({})
+                setDoctor({})
+            }
             // if(!tempPatient){
             // //    return navigate('/')
 
-            // }
-            const tempDoctor=await getDoctorProfileDetails({token:sessionStorage.getItem('token')})
-            console.log(tempDoctor)
-            dispatch(setUser({
-                username:tempPatient.username,
-                email:tempPatient.email,
-                role:tempPatient.role,
-                isLoggedIn:true
-            }))
-
-            dispatch(setDoctor({
-                        firstName:tempDoctor.firstName,
-                        lastName:tempDoctor.lastName,
-                        profileImage:tempDoctor.profileImage,
-                        weight:tempDoctor.weight,
-                        height:tempDoctor.height,
-                        profileImage:tempDoctor.profileImage
-                    }))
-            // await setIsUserLoggedIn(true)
+           
         }
         // else{
         //     return navigate('/')

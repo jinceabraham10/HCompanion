@@ -76,16 +76,15 @@ function ConsultationLiveVideo(props) {
               {remoteUsers.map((user, index) => (
                   <div className="w-full h-full " key={index}>
                     <RemoteUser user={user} key={index} className="rounded-lg  ">
-
-                      <div className="h-full w-full px-5 py-2 flex flex-col justify-end">
-                          {/* <samp className="bg-red-600">llll</samp> */}
-                          <Controls setCameraOn={setCameraOn} setMicOn={setMicOn} cameraOn={cameraOn} micOn={micOn} setCalling={setCalling}/>
-
-                      </div>
                       
                     </RemoteUser>
                   </div>
                 ))}
+                <div className="h-full w-full px-5 py-2 flex flex-col justify-end">
+                          {/* <samp className="bg-red-600">llll</samp> */}
+                          <Controls setCameraOn={setCameraOn} setMicOn={setMicOn} cameraOn={cameraOn} micOn={micOn} setCalling={setCalling}/>
+
+                </div>
             
           </div>
 
