@@ -71,7 +71,7 @@ function ConsultationLiveVideo(props) {
   return (
     <div className="w-full h-[88vh]  flex ">
       {isConnected && (
-        <div className="w-full h-full flex gap-2 ">
+        <div className="w-screen h-full flex gap-2 ">
           <div className="w-[80%] h-full grid grid-cols-1 ">
               {remoteUsers.map((user, index) => (
                   <div className="w-full h-full " key={index}>

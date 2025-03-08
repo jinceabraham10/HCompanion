@@ -4,18 +4,16 @@ const API=import.meta.env.VITE_API
 
 const token=sessionStorage.getItem('token')
 
-export const getSuggestedDoctor=async ()=>{
+export const getSuggestedDoctor=async ({disease})=>{
     try {
 
         const response=await axios.post('http://localhost:8000/predict',{
-            Age:"25",
-            Gender:"Male",
-            "Blood Type":"A+",
-            // "Medical Condition":"Obesity",
-            "Medication":"Aspirin",
-            "Test Results":"Abnormal"
+           "Medical Condition":disease,
+           "Blood Type":"O+",
+           "Gender":"Male"
         })
         console.log(response.data)
+        return response.data.doctor
         
     } catch (error) {
         console.log(error)

@@ -7,5 +7,8 @@ export const doctor_createWebSocketConnection=async ({userId})=>{
         console.log("connected to websocket")
         wss.send(JSON.stringify({type:"register",clientId:userId}))
     }
+    wss.onmessage=(event)=>{
+        console.log(event.data)
+    }
 
 }

@@ -8,7 +8,7 @@ const websocket=require('ws')
 // const socketio=require('socket.io')
 const server=require('http').createServer(app)
 const wss=new websocket.Server({server})
-
+exports.clientsConnected={}
 
 app.use(cors({
     origin:true,
@@ -39,7 +39,7 @@ app.use('/api/admin',adminRoutes)
 db()
 
 
-exports.clientsConnected={}
+
 
 wss.on("connection",(socket)=>{
     console.log("connected websocket")
@@ -47,9 +47,13 @@ wss.on("connection",(socket)=>{
         const data=JSON.parse(message)
         console.log(data)
         if(data?.type=="register"){
-            if(!Object.keys(exports.clientsConnected).includes(data?.clientId))
+            if(!Object.keys(exports.clientsConnected).includes(data?.clientId)){
                 exports.clientsConnected[data?.clientId]=socket
-
+                exports.clientsConnected[data?.clientId].send(`hi ${data?.clientId}`)
+                console.log(this.clientsConnected)
+                
+            }
+                
         }
     })
 

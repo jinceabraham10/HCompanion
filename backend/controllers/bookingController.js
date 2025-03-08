@@ -147,7 +147,7 @@ exports.patient_getAllCurrentBookings=async (req,res)=>{
       }}).populate({path:"patientId",populate:{
         path:"userId"
       }})
-      const bookings=filteredBookings.filter((booking)=>dayjs(booking.slotDate,'D MMM,dddd').isAfter(dayjs()))
+      const bookings=filteredBookings.filter((booking)=>dayjs(booking.slotDate,'D MMM,dddd').isAfter(dayjs().subtract(1,'day')))
       bookings.sort((a,b)=>dayjs(`${a.slotDate} ${a.startTime}`,'D MMM,dddd H:mm A')-dayjs(`${a.slotDate} ${a.startTime}`,'D MMM,dddd H:mm A'))
       return res.status(200).json({message:"Bookings have been fetched",bookings})
     } catch (error) {
