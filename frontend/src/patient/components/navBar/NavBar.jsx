@@ -18,6 +18,7 @@ function NavBar() {
 const dispatch=useDispatch()
 const {username,email,role,isLoggedIn}=useSelector((state)=>state.user)
 const patient =useSelector((state)=>state.patient)
+const { patient_meetingAlert }=useSelector((state)=>state.patient_alert)
 
 
 // const [patient,setPatient]=useState(undefined)
@@ -100,6 +101,14 @@ const navigate=useNavigate()
                     <button className={`font-medium text-lg p-2 `} onClick={()=>navigate('/patient/treatmentPlan')}>
                         Treatment Plan
                     </button>
+
+                    {
+                        ( false ) && 
+                        <button className={`font-medium text-lg p-2 `} onClick={()=>navigate('/patient/alerts')}>
+                             Alerts
+                        </button>
+                    }
+                    
                 </div>
 
             </div>

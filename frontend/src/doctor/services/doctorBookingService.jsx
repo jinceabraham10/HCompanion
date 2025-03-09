@@ -22,3 +22,22 @@ export const doctor_getAllCurrentBookingService=async ()=>{
         return false
     }
 }
+
+export const doctor_getAllPastCompletedBookingService=async ()=>{
+    try {
+        const response=await axios.get(`${API}/doctor/bookings/getPastCompletedBookings`,{
+            headers:{
+                Authorization:`bearer ${token}`
+            }
+        })
+        console.log(response.data)
+        return response.data.bookings
+        
+    } catch (error) {
+        console.log(error)
+        if(error?.response?.status=="500" && error?.response?.data?.errorServer){
+            Swal.fire("Server Error","","error")
+        }
+        return false
+    }
+}

@@ -41,6 +41,8 @@ import Patient_CurrentBookingPage from './patient/pages/patientCurrentBookedPage
 import Doctor_BookingsBasic from './doctor/pages/doctorBookingsBasic/Doctor_BookingsBasic'
 import Doctor_CurrentBookings from './doctor/pages/doctor_CurrentBookings/Doctor_CurrentBookings'
 import AgoraVideoConsult from './onlineVideoConsult/AgoraVideoConsult'
+import Patient_MeetingAlert from './patient/pages/meetingReminder/Patient_MeetingAlert'
+import Doctor_PastBookings from './doctor/pages/doctor_pastBookings/Doctor_PastBookings'
 
 
 
@@ -80,6 +82,7 @@ function App() {
                <Route path='/patient/tests/testDetails' element={<PatientTestDetailsPage/>}/>
               
                <Route path='/patient/treatmentPlan' element={<TreatmentPlan/>}/>
+               <Route path='/patient/alerts' element={<Patient_MeetingAlert/>}/>
 
           </Route>
           
@@ -113,6 +116,7 @@ function App() {
              </Route>
              <Route path='/doctor/bookings' element={<Doctor_BookingsBasic/>}>
                  <Route path='/doctor/bookings/currentBookings' element={<Doctor_CurrentBookings/>}/>
+                 <Route path='/doctor/bookings/pastCompletedBookings' element={<Doctor_PastBookings/>}/>
              </Route>
 
           

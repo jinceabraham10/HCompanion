@@ -64,7 +64,7 @@ export const checkSlotService=async ({startTime,slotDate})=>{
     }
 }
 
-export const getSlotsService=async ({slotDates})=>{
+export const getSlotsService=async ({slotDate})=>{
     try {
 
         const response=await axios.post(`${API}/doctor/slot/viewSlots`,{slotDate},{
@@ -77,7 +77,7 @@ export const getSlotsService=async ({slotDates})=>{
         
     } catch (error) {
         console.log(error)
-        if(error.response.status=="401"){
+        if(error.response?.status=="401"){
             Swal.fire({
                 html:`<b>${error.response.status.message}</b>`,
                 title:"Session Out"

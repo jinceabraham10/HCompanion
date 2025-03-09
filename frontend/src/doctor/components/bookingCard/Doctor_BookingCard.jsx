@@ -11,6 +11,7 @@ dayjs.extend(customParseFormat)
 function Doctor_BookingCard(props) {
     const {booking}=props
     const navigate=useNavigate()
+    console.log('test date',dayjs().add(2,'hour').isBefore(dayjs(`${booking.slotDate} ${booking.startTime}`,'D MMM, dddd YYYY H:mm A').add(2,'hour')))
     const handleCancel=async (e,startTime,slotDate,doctorId)=>{
         e.preventDefault()
         await Swal.fire({
@@ -75,7 +76,7 @@ function Doctor_BookingCard(props) {
                             Reschedule
                         </button>
                         {
-                            (dayjs(`${booking.slotDate} ${booking.startTime}`,'D MMM, dddd YYYY H:mm A').isAfter(dayjs()) && dayjs(`${booking.slotDate} ${booking.startTime}`,'D MMM, dddd YYYY H:mm A').add(2,'hour').isAfter(dayjs())) &&
+                            (dayjs().isAfter(dayjs(`${booking.slotDate} ${booking.startTime}`,'D MMM, dddd YYYY H:mm A')) && dayjs().isBefore(dayjs(`${booking.slotDate} ${booking.startTime}`,'D MMM, dddd YYYY H:mm A').add(2,'hour'))) &&
                             <button className='cancel w-full h-auto p-2 bg-blue-500 font-medium flex items-center justify-center' onClick={(e)=>window.open(`/patient/bookings/videoConsult?patientId=${booking.patientId._id}&doctorId=${booking.doctorId._id}`,'_blank')} >
                               Join Meeting
                             </button>

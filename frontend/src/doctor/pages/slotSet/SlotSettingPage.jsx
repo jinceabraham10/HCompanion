@@ -14,7 +14,6 @@ function SlotSettingPage() {
     const [selectedDate,setSelectedDate]=useState(undefined)
     const [slots,setSlots]=useState([])
     const doctor=useSelector((state)=>state.doctor)
-    
 
     // const handleCheckSlot=async (slotDate,startTime)=>{
     //     const slot=await checkSlotService({slotDate,startTime})
@@ -25,7 +24,7 @@ function SlotSettingPage() {
 
     const onLoad=async ()=>{
             await setSelectedDate(slotDates[0])
-            const tempSlots=await getSlotsService({slotDates:slotDates[0]})
+            const tempSlots=await getSlotsService({slotDate:slotDates[0]})
             console.log(tempSlots)
             await setSlots(tempSlots)
     }
@@ -83,7 +82,8 @@ function SlotSettingPage() {
                                 
                                 {
                                     
-                                   (dayjs().isBefore(dayjs(`${selectedDate} ${timing}`,'D MMM, dddd YYYY h:mm ')))&&(((slots)&&(slots.length>0)&&(slots.some((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())))?
+                                   (dayjs().isBefore(dayjs(dayjs(`${selectedDate} ${dayjs(timing,'h:mm A').format('H:mm A')}`,'D MMM, dddd YYYY H:mm A').format('D MMM, dddd YYYY H:mm A'),'D MMM, dddd YYYY H:mm A')))   &&
+                                     (((slots)&&(slots.length>0)&&(slots.some((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())))?
                                     (slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString()).bookedStatus==1) ? 
                                     <BookedSlot time={timing} onLoad={onLoad} slot={slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())}/>: 
                                     <AddedSlot time={timing} slot={slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())} onLoad={onLoad}  />:
@@ -133,7 +133,7 @@ function SlotAvailable(props){
 }
 
 function BookedSlot(props){
-    console.log(props.slot)
+    // console.log(props.slot)
     return(
         <div className='w-full h-[20vh] p-4 bg-red-400 bg-opacity-50 flex flex-row gap-2 border rounded-lg shadow-lg'>
 

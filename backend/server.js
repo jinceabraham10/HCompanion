@@ -47,12 +47,14 @@ wss.on("connection",(socket)=>{
         const data=JSON.parse(message)
         console.log(data)
         if(data?.type=="register"){
-            if(!Object.keys(exports.clientsConnected).includes(data?.clientId)){
-                exports.clientsConnected[data?.clientId]=socket
-                exports.clientsConnected[data?.clientId].send(`hi ${data?.clientId}`)
-                console.log(this.clientsConnected)
+            // if(!Object.keys(exports.clientsConnected).includes(data?.clientId)){
+            //     exports.clientsConnected[data?.clientId]=socket
+            //     // exports.clientsConnected[data?.clientId].send(`hi ${data?.clientId}`)
+            //     console.log(this.clientsConnected)
                 
-            }
+            // }
+            exports.clientsConnected[data?.clientId]=socket
+            console.log(this.clientsConnected)
                 
         }
     })
@@ -64,7 +66,7 @@ wss.on("connection",(socket)=>{
 
 
 
-setInterval(checkConsultation_today,1*60*1000)
+setInterval(()=>checkConsultation_today({clientsConnected:this.clientsConnected}),1*60*1000)
 
 
 server.listen(5000,()=>{

@@ -9,7 +9,8 @@ dotenv.config();
 
 exports.slots=[]
 
-exports.checkConsultation_today=async ()=>{
+exports.checkConsultation_today=async ({clientsConnected})=>{
+    await console.log('clients',clientsConnected)
     try {
         const tempBookings=await Booking.find({slotDate:dayjs().format('D MMM, dddd YYYY')}).populate({path:'patientId',populate:{
             path:"userId"
@@ -25,9 +26,15 @@ exports.checkConsultation_today=async ()=>{
         bookings.forEach(async (booking) => {
             // await console.log("id",booking.patientId.userId._id.toString())
             // await console.log("clients",clientsConnected)
-            await console.log("checking",Object.keys(clientsConnected).includes(booking.patientId.userId._id.toString()))
+            // await console.log("checking",Object.keys(clientsConnected).includes(booking.patientId.userId._id.toString()))
             if(Object.keys(clientsConnected).includes(booking.patientId.userId._id.toString())){
-                await clientsConnected[booking.patientId.userId._id].send('you have a meeting')
+                await clientsConnected[booking.patientId.userId._id].send(JSON.stringify({type:"meetingReminder",booking:booking}))
+                await console.log("message Sent")
+
+            }
+
+           if(Object.keys(clientsConnected).includes(booking.doctorId.userId._id.toString())){
+                await clientsConnected[booking.doctorId.userId._id].send(JSON.stringify({type:"meetingReminder",booking:booking}))
                 await console.log("message Sent")
 
             }

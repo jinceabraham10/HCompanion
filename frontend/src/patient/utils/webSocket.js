@@ -1,4 +1,15 @@
+// import { setPatientAlert } from '../../redux/slices/patient_alertSlice';
+// import { useDispatch ,useSelector} from 'react-redux';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import Swal from 'sweetalert2';
+dayjs.extend(customParseFormat)
+
+
+
 const SOCKET=import.meta.env.VITE_SOCKET
+
+
 
 var wss;
 
@@ -9,18 +20,31 @@ export const createWebSocketConnection=async ({userId})=>{
         wss.send(JSON.stringify({type:"register",clientId:userId}))
     }
     wss.onmessage=(event)=>{
-        console.log("message from backed",event.data)
-    }
-
-}
-
-export const patient_alertMeeting=async ()=>{
-    try {
-        wss.onmessage=(event)=>{
-            console.log(event.data)
+        // console.log("message from backed",event?.data)
+        const data=JSON.parse(event?.data)
+        // console.log("booking time",data.booking.startTime)
+        if(data.type=="meetingReminder"){
+            const timeDiff=dayjs().diff(dayjs(`${data.booking.startTime}`,'H:mm A'),'minutes')
+            // console.log('diff',timeDiff)
+            if(Math.abs(timeDiff)<=60){
+                // console.log("i'm here")
+                Swal.fire(`Meeting in ${Math.abs(timeDiff)} minutes`,"","warning")
+            }
         }
         
-    } catch (error) {
-        console.log(error)
     }
+
 }
+
+
+// const createAlert=async ({booking})=>{
+//     const dispatch=useDispatch()
+//     console.log("at create alert")
+
+//     try {
+//         await dispatch(setPatientAlert({patient_meetingAlert:true}))
+        
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }

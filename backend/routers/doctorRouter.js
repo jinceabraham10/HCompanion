@@ -31,7 +31,7 @@ router.get('/profile/getContactDetails',jwtMiddleware,doctor_getAddressAndPhone)
 
 
 router.get('/bookings/getAllCurrentBookings',jwtMiddleware,doctor_getAllCurrentBookings)
-router.get('/bookings/getPastBookings',jwtMiddleware,doctor_getPastBookings)
+router.get('/bookings/getPastCompletedBookings',jwtMiddleware,doctor_getPastBookings)
 
 
 
