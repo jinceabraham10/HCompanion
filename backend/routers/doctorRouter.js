@@ -8,6 +8,9 @@ const { doctorViewProfileDetails, doctor_updateDoctorDetails } = require("../con
 const { getSlots, checkSlot, addSlot, doctor_removeSlot, doctor_getAllCurrentBookings, doctor_getPastBookings } = require("../controllers/bookingController")
 const { uploadDoctorProfileImage } = require("../middlewares/storageConfig")
 const { addAddress, doctor_getAddressAndPhone, doctor_updateAddressAndPhone } = require("../controllers/addressController")
+const { doctor_patientViewProfileDetails } = require("../controllers/patientController")
+const { doctor_addPrescription, doctor_onLoadPrescription } = require("../controllers/prescriptionController")
+const { doctor_requestMedicineForPatient } = require("../controllers/medicineController")
 const router=express.Router()
 
 router.get('/getBasicDetails',jwtMiddleware,getUserDetails)
@@ -32,6 +35,14 @@ router.get('/profile/getContactDetails',jwtMiddleware,doctor_getAddressAndPhone)
 
 router.get('/bookings/getAllCurrentBookings',jwtMiddleware,doctor_getAllCurrentBookings)
 router.get('/bookings/getPastCompletedBookings',jwtMiddleware,doctor_getPastBookings)
+
+
+router.post('/patient/getDetails',jwtMiddleware,doctor_patientViewProfileDetails)
+
+router.post('/patient/prescription/add',jwtMiddleware,doctor_addPrescription)
+router.post('/patient/prescription/onLoad/view',jwtMiddleware,doctor_onLoadPrescription)
+
+router.post('/patient/medicine/request',jwtMiddleware,doctor_requestMedicineForPatient)
 
 
 

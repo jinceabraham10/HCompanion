@@ -1,6 +1,5 @@
 const dotenv = require("dotenv");
 const User = require("../models/userModel");
-const { default: mongoose } = require("mongoose");
 const dayjs = require("dayjs");
 const bcryptjs = require("bcryptjs");
 const jwtDecode = require("jwt-decode");
@@ -20,6 +19,7 @@ const Patient = require("../models/patientModel");
 const Test = require("../models/testModal");
 const Labtest = require("../models/labtestModel");
 const Booking = require("../models/bookingModel");
+const mongoose=require('mongoose')
 
 dayjs.extend(customParseFormat);
 dotenv.config();
@@ -123,6 +123,23 @@ exports.patient_getTestDetailsAndLabs=async (req,res)=>{
     res.status(500).json({message:"Faced issue on the backend",error:error})
   }
 
+}
+
+exports.doctor_patientViewProfileDetails= async (req,res)=>{
+  try {  
+    const {patientId}=req.body
+    const fetchedDetails=await Patient.findOne({userId:new mongoose.Types.ObjectId(patientId)}).populate({path:'userId'})
+    if(!fetchedDetails)
+      return res.status(404).json({message:"patient Not found under the database",errorNoPatient:true})
+    // const uDetails=await Patient.updateOne({userId:req.user.userId},{profileDetails})
+    // await console.log(fetchedDetails)
+    res.status(200).json({message:"Details has been fetched",patientDetails:fetchedDetails})
+     
+  } catch (error) {
+      console.log(error)
+      res.status(500).json({message:"Faced issue on the backend",error:error})
+      
+  }
 }
 
 

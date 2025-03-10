@@ -43,6 +43,11 @@ import Doctor_CurrentBookings from './doctor/pages/doctor_CurrentBookings/Doctor
 import AgoraVideoConsult from './onlineVideoConsult/AgoraVideoConsult'
 import Patient_MeetingAlert from './patient/pages/meetingReminder/Patient_MeetingAlert'
 import Doctor_PastBookings from './doctor/pages/doctor_pastBookings/Doctor_PastBookings'
+import Doctor_PrescriptionPage from './doctor/pages/prescriptionPage/Doctor_PrescriptionPage'
+import Doctor_MedicinePage from './doctor/pages/doctor_medicinePage/Doctor_MedicinePage'
+import Patient_MedicineRequestPage from './patient/pages/medicineRequestsPage/Patient_MedicineRequestPage'
+import Patient_MedicinePageBasic from './patient/pages/patientMedicinePageBasic/Patient_BookingsPageBasic'
+import Patient_MedicineOrderedPage from './patient/pages/medicineOrderedPage/Patient_MedicineOrderedPage'
 
 
 
@@ -70,6 +75,13 @@ function App() {
                     <Route path='/patient/profile/bookings' element={<Patient_BookingsPageBasic/>}>
                         <Route path='/patient/profile/bookings/currentBookings' element={<Patient_CurrentBookingPage/>}/>
                     </Route>
+
+                    <Route path='/patient/profile/medicine' element={<Patient_MedicinePageBasic/>}>
+                        <Route path='/patient/profile/medicine/requests' element={<Patient_MedicineRequestPage/>}/>
+                        <Route path='/patient/profile/medicine/ordered' element={<Patient_MedicineOrderedPage/>}/>
+                    </Route>
+
+                    
                </Route>
 
                <Route path='/patient/doctors' element={<PatientDoctorPage/>}>
@@ -117,6 +129,8 @@ function App() {
              <Route path='/doctor/bookings' element={<Doctor_BookingsBasic/>}>
                  <Route path='/doctor/bookings/currentBookings' element={<Doctor_CurrentBookings/>}/>
                  <Route path='/doctor/bookings/pastCompletedBookings' element={<Doctor_PastBookings/>}/>
+                 <Route path='/doctor/bookings/prescription/:patientId/:bookingId' element={<Doctor_PrescriptionPage/>}/>
+                 <Route path='/doctor/bookings/medicine/:patientId/:bookingId' element={<Doctor_MedicinePage/>}/>
              </Route>
 
           

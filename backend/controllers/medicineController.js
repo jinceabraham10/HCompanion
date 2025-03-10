@@ -9,7 +9,10 @@ const customParseFormat = require("dayjs/plugin/customParseFormat");
 const { addOtp } = require("./otpController");
 const Pharmacy = require("../models/pharmacyModel");
 const PharmacyInventory=require("../models/pharmacyInventory")
-const Medicine=require('../models/medicineModel')
+const Medicine=require('../models/medicineModel');
+const MedicineOrder = require("../models/medicineOrderModel");
+const Doctor = require("../models/doctorModel");
+const Patient = require("../models/patientModel");
 dayjs.extend(customParseFormat);
 dotenv.config();
 
@@ -22,6 +25,111 @@ exports.addNewMedicine= async (req,res)=>{
         if(savedMedicine){
             return res.status(200).json({message:"added new medicine to the category",medicineDetails:savedMedicine})
         }     
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Faced issue on the backend",error:error})
+        
+    }
+}
+
+exports.doctor_requestMedicineForPatient= async (req,res)=>{
+    try {
+        const {pharmacyInventoryId,patientId,bookingId}=req.body;
+        const fetchedDetails=await Doctor.findOne({userId:req.user.userId}).populate({path:'userId'})
+        if(!fetchedDetails)
+            return res.status(404).json({message:"doctor Not found under the database",errorNoDoctor:true})
+        const newMedicineOrder=new MedicineOrder({pharmacyInventoryId,patientId,doctorId:fetchedDetails._id,bookingId}) 
+        const savedMedicineOrder=await newMedicineOrder.save()  
+        res.status(200).json({message:"requested Medicine for the patient"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Faced issue on the backend",error:error})
+        
+    }
+}
+
+exports.patient_getRequestedMedicineFromDoctor= async (req,res)=>{
+    try {
+        // const {pharmacyInventoryId,patientId,bookingId}=req.body;
+        const fetchedDetails=await Patient.findOne({userId:req.user.userId}).populate({path:'userId'})
+        if(!fetchedDetails)
+            return res.status(404).json({message:"patient Not found under the database",errorNoPatient:true})
+        const medicineRequests=await MedicineOrder.find({$and:[{patientId:fetchedDetails._id},{orderStatus:"0"}]}).populate({path:"pharmacyInventoryId",
+            populate:[
+                {
+                    path:"medicineId"
+                },
+                {
+                    path:"pharmacyId",
+                    populate:{
+                        path:"userId"
+                    }
+                }
+            ]
+        }).populate({
+            path:"patientId",
+            populate:{
+                path:"userId"
+            }
+        }).populate({
+            path:"doctorId",
+            populate:{
+                path:"userId"
+            }
+        })
+        res.status(200).json({message:"requested Medicine for the patient",medicines:medicineRequests})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Faced issue on the backend",error:error})
+        
+    }
+}
+
+exports.patient_orderRequestedMedicine= async (req,res)=>{
+    try {
+        const {pharmacyInventoryId}=req.body;
+        const fetchedDetails=await Patient.findOne({userId:req.user.userId}).populate({path:'userId'})
+        if(!fetchedDetails)
+            return res.status(404).json({message:"patient Not found under the database",errorNoPatient:true})
+        const updatedOrder=await MedicineOrder.updateOne({$and:[{patientId:fetchedDetails._id},{pharmacyInventoryId}]},{orderStatus:"1",orderedDate:new Date()})
+        res.status(200).json({message:"ordered medicine"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Faced issue on the backend",error:error})
+        
+    }
+}
+
+exports.patient_orderedRequestedMedicine= async (req,res)=>{
+    try {
+        // const {pharmacyInventoryId}=req.body;
+        const fetchedDetails=await Patient.findOne({userId:req.user.userId}).populate({path:'userId'})
+        if(!fetchedDetails)
+            return res.status(404).json({message:"patient Not found under the database",errorNoPatient:true})
+        const orderedMedicines=await MedicineOrder.find({$and:[{patientId:fetchedDetails._id},{orderStatus:"1"}]}).populate({path:"pharmacyInventoryId",
+            populate:[
+                {
+                    path:"medicineId"
+                },
+                {
+                    path:"pharmacyId",
+                    populate:{
+                        path:"userId"
+                    }
+                }
+            ]
+        }).populate({
+            path:"patientId",
+            populate:{
+                path:"userId"
+            }
+        }).populate({
+            path:"doctorId",
+            populate:{
+                path:"userId"
+            }
+        })  
+        res.status(200).json({message:"ordered medicine",medicines:orderedMedicines})
     } catch (error) {
         console.log(error)
         res.status(500).json({message:"Faced issue on the backend",error:error})

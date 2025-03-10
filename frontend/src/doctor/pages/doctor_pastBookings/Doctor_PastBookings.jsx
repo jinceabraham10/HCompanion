@@ -21,7 +21,7 @@ function Doctor_PastBookings() {
             {
                 (pastBookings.length>0)&&(
                     pastBookings.map((booking,index)=>(
-                        <div className='w-[70%] h-[25vh]' key={index}>
+                        <div className='w-[90%] h-[25vh]' key={index}>
                             <Doctor_PastBookingCard booking={booking}/>
                        </div>
                     ))

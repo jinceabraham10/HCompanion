@@ -10,7 +10,7 @@ dotenv.config();
 exports.slots=[]
 
 exports.checkConsultation_today=async ({clientsConnected})=>{
-    await console.log('clients',clientsConnected)
+    // await console.log('clients',clientsConnected)
     try {
         const tempBookings=await Booking.find({slotDate:dayjs().format('D MMM, dddd YYYY')}).populate({path:'patientId',populate:{
             path:"userId"

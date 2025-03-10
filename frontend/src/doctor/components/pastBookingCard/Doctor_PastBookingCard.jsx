@@ -43,7 +43,6 @@ function Doctor_PastBookingCard(props) {
               </div>
   
               <div className='details w-auto h-full px-2 py-2 flex flex-col gap-4 flex-1 items-start border bg-black bg-opacity-5 '>
-                  <h4 className='text-sm font-medium opacity-40'>Cardiology</h4>
   
                   <div className='w-full h-auto'>
                       <h4>{booking?.patientId?.firstName}</h4>
@@ -69,15 +68,19 @@ function Doctor_PastBookingCard(props) {
                       <SlCalender/>
                       <span>{`Completed On ${booking?.slotDate} ${dayjs(booking?.startTime,'H:mm A').format('h:mm A').toString()}`}</span>
   
-                  </div>
+                  </div>    
   
                   <div className='w-full h-auto flex flex-between gap-4'>
-                          <button className='cancel w-full h-auto p-2 bg-blue-500 font-medium flex items-center justify-center' onClick={(e)=>handleCancel(e,booking?.startTime,booking?.slotDate,booking?.doctorId?._id)} >
+                          <button className='cancel w-full h-auto p-2 bg-blue-500 font-medium flex items-center justify-center' onClick={(e)=>navigate(`/doctor/bookings/prescription/${booking.patientId.userId}/${booking._id}`)} >
                               Add Prescription
                           </button>
 
                           <button className='cancel w-full h-auto p-2 bg-orange-500 font-medium flex items-center justify-center' onClick={(e)=>handleCancel(e,booking?.startTime,booking?.slotDate,booking?.doctorId?._id)} >
                               Request Lab Tests
+                          </button>
+
+                          <button className='cancel w-full h-auto p-2 bg-orange-500 font-medium flex items-center justify-center' onClick={(e)=>navigate(`/doctor/bookings/medicine/${booking.patientId._id}/${booking._id}`)} >
+                              Request Medicines 
                           </button>
                          
                          
