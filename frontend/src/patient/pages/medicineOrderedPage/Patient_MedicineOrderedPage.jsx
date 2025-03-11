@@ -20,7 +20,7 @@ function Patient_MedicineOrderedPage() {
     <div className='w-full h-full flex'>
         <div className='w-full h-full flex flex-col gap-2'>
             {/* <h1 className='w-full h-[6vh] bg-blue-500 flex items-center pl-10'>Ordered Medicines</h1> */}
-            <div className='w-full h-full flex flex-col gap-4'>
+            <div className='w-full h-full grid grid-cols-3 gap-4'>
                     {
                         (medicineOrdered?.length>0) && (medicineOrdered.map((order,index)=>(
                             <div className='w-auto h-auto flex' key={index} >

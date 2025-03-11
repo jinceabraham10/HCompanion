@@ -21,6 +21,7 @@ const Booking = require("../models/bookingModel");
 const Doctor = require("../models/doctorModel");
 const Laboratory = require("../models/laboratoyModel");
 const Test = require("../models/testModal");
+const Labtest = require("../models/labtestModel");
 
 
 exports.admin_addTestToDatabase=async (req,res)=>{  
@@ -53,4 +54,34 @@ exports.getTestsPresent=async (req,res)=>{
         console.log(error)
         return res.status(500).json({message:"Server error",errorServer:true})
     }
+}
+
+exports.doctor_getAllTestsAvailable= async (req,res)=>{
+  try {  
+    const tests=await Test.find()
+    res.status(200).json({message:"tests have been fetched",tests})
+     
+  } catch (error) {
+      console.log(error)
+      res.status(500).json({message:"Faced issue on the backend",error:error})
+      
+  }
+}
+
+exports.doctor_getTestDetailsAndLabs=async (req,res)=>{
+  try {
+    const {testId}=req.body
+    const test=await Test.findOne({_id:testId})
+    if(!test)
+      return res.status(404).json({message:"Test is not present",errorTestPresent:true})
+    const testAndLabs=await Labtest.find({testId}).populate({path:'labId',populate:{
+      path:'userId'
+    }}).populate({path:'testId'})
+    return res.status(200).json({message:"Tests and associated labs have been fetched",testAndLabs:testAndLabs})
+    
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message:"Faced issue on the backend",error:error})
+  }
+
 }

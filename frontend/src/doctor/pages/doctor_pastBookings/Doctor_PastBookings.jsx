@@ -17,7 +17,7 @@ function Doctor_PastBookings() {
 
   return (
     <div className='w-full h-full flex'>
-        <div className='w-full h-full flex flex-col p-5'>
+        <div className='w-full h-full flex flex-col gap-4 p-5'>
             {
                 (pastBookings.length>0)&&(
                     pastBookings.map((booking,index)=>(

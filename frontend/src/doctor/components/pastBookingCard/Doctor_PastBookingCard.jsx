@@ -75,7 +75,7 @@ function Doctor_PastBookingCard(props) {
                               Add Prescription
                           </button>
 
-                          <button className='cancel w-full h-auto p-2 bg-orange-500 font-medium flex items-center justify-center' onClick={(e)=>handleCancel(e,booking?.startTime,booking?.slotDate,booking?.doctorId?._id)} >
+                          <button className='cancel w-full h-auto p-2 bg-orange-500 font-medium flex items-center justify-center' onClick={(e)=>navigate(`/doctor/bookings/labtest/${booking.patientId.userId}/${booking._id}`)} >
                               Request Lab Tests
                           </button>
 

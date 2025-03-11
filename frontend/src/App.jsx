@@ -48,6 +48,11 @@ import Doctor_MedicinePage from './doctor/pages/doctor_medicinePage/Doctor_Medic
 import Patient_MedicineRequestPage from './patient/pages/medicineRequestsPage/Patient_MedicineRequestPage'
 import Patient_MedicinePageBasic from './patient/pages/patientMedicinePageBasic/Patient_BookingsPageBasic'
 import Patient_MedicineOrderedPage from './patient/pages/medicineOrderedPage/Patient_MedicineOrderedPage'
+import Pharmacy_OrderBasic from './pharmacy/pages/pharmacyOrderBasic/Pharmacy_OrderBasic'
+import Pharmacy_RecievedOrders from './pharmacy/pages/pharmacy_RecievedOrders/Pharmacy_RecievedOrders'
+import Pharmacy_DeliveredOrders from './pharmacy/pages/pharmacy_deliveredOrders/Pharmacy_DeliveredOrders'
+import Doctor_LaboratoryPage from './doctor/pages/doctor_laboratoryPage/Doctor_LaboratoryPage'
+import DoctorLabTestsPage from './doctor/pages/labTestPage/DoctorLabTestsPage'
 
 
 
@@ -114,6 +119,10 @@ function App() {
                        <Route path='/pharmacy/profile/contactDetails' element={<PharmacyContactDetails/>}/>
                        <Route path='/pharmacy/profile/passwordReset' element={<PasswordReset/>}/>
                 </Route>
+                <Route path='/pharmacy/order' element={<Pharmacy_OrderBasic/>}>
+                          <Route path='/pharmacy/order/requested' element={<Pharmacy_RecievedOrders/>}/>
+                          <Route path='/pharmacy/order/delivered' element={<Pharmacy_DeliveredOrders/>}/>
+                </Route>
           </Route>  
 
 
@@ -131,6 +140,8 @@ function App() {
                  <Route path='/doctor/bookings/pastCompletedBookings' element={<Doctor_PastBookings/>}/>
                  <Route path='/doctor/bookings/prescription/:patientId/:bookingId' element={<Doctor_PrescriptionPage/>}/>
                  <Route path='/doctor/bookings/medicine/:patientId/:bookingId' element={<Doctor_MedicinePage/>}/>
+                 <Route path='/doctor/bookings/labtest/:patientId/:bookingId' element={<DoctorLabTestsPage/>}/>
+                 <Route path='/doctor/bookings/labtest/testDetails/:patientId/:bookingId/:testId' element={<Doctor_LaboratoryPage/>}/>
              </Route>
 
           

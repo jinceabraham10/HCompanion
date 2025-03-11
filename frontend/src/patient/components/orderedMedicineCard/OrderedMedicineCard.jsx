@@ -53,9 +53,9 @@ function OrderedMedicineCard(props) {
 
                 </div>
                 
-                {/* <div className='w-full h-[10vh] flex  px-2 py-1 mb-2 '>
-                  <button className='w-full h-full  font-medium bg-orange-500  border' onClick={(e)=>handleOrderMedicine(e,order.pharmacyInventoryId._id)}>Order Medicine</button>
-                </div> */}
+                <div className='w-full h-[8vh] flex  px-2 py-1 mb-2 '>
+                  <h2 className='text-md font-bold text-emerald-500 w-full p-5 bg-blue-100'>{(order?.orderStatus=='1')?"Pending Delivery":"Delivered"}</h2>
+                </div>
                 
             </div>
             
