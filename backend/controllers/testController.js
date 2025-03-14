@@ -22,6 +22,8 @@ const Doctor = require("../models/doctorModel");
 const Laboratory = require("../models/laboratoyModel");
 const Test = require("../models/testModal");
 const Labtest = require("../models/labtestModel");
+const TestOrder = require("../models/testOrderModel");
+const MedicineOrder = require("../models/medicineOrderModel");
 
 
 exports.admin_addTestToDatabase=async (req,res)=>{  
@@ -78,6 +80,187 @@ exports.doctor_getTestDetailsAndLabs=async (req,res)=>{
       path:'userId'
     }}).populate({path:'testId'})
     return res.status(200).json({message:"Tests and associated labs have been fetched",testAndLabs:testAndLabs})
+    
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message:"Faced issue on the backend",error:error})
+  }
+
+}
+
+
+exports.doctor_requestTestForPatient= async (req,res)=>{
+    try {
+        const {labTestId,patientId,bookingId}=req.body;
+        const fetchedDetails=await Doctor.findOne({userId:req.user.userId}).populate({path:'userId'})
+        if(!fetchedDetails)
+            return res.status(404).json({message:"doctor Not found under the database",errorNoDoctor:true})
+        const fetchedPatientDetails=await Patient.findOne({userId:patientId}).populate({path:'userId'})
+        if(!fetchedPatientDetails)
+            return res.status(404).json({message:"patient Not found under the database",errorNoPatient:true})
+        const fetchedOrderDetails=await TestOrder.findOne({$and:[{bookingId},{labTestId}]})
+        if(fetchedOrderDetails){
+           return res.status(404).json({message:"Ordered the test already",errorTestOrdered:true})
+        }
+        const newTestOrder=new TestOrder({labTestId,patientId:fetchedPatientDetails._id,doctorId:fetchedDetails._id,bookingId}) 
+        const savedTestOrder=await newTestOrder.save()  
+        res.status(200).json({message:"requested Test for the patient"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Faced issue on the backend",error:error})
+        
+    }
+}
+
+
+exports.patient_getRequestedTestsFromDoctor=async (req,res)=>{
+  try {
+    // const {}=req.body
+    const fetchedDetails=await Patient.findOne({userId:req.user.userId}).populate({path:'userId'})
+        if(!fetchedDetails)
+            return res.status(404).json({message:"Patient Not found under the database",errorNoPatient:true})
+    const requestedMedicineOrders=await TestOrder.find({$and:[{patientId:fetchedDetails._id},{orderStatus:"0"}]}).populate({path:"patientId",populate:{
+        path:"userId"
+      }}).populate({path:"doctorId",populate:{
+            path:"userId"
+          }}).populate({path:"labTestId",populate:[
+                {
+                  path:"testId"
+                },
+                {
+                  path:"labId",
+                  populate:{
+                      path:"userId"
+                    
+                  }
+                }
+              ]
+              }).populate({path:"bookingId",populate:{
+                    path:"paymentId"
+                  }})
+    
+    return res.status(200).json({message:"Requested Tests have been fetched",tests:requestedMedicineOrders})
+    
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message:"Faced issue on the backend",error:error})
+  }
+
+}
+
+exports.patient_orderRequestedTestsFromDoctor=async (req,res)=>{
+  try {
+    const {testOrderId}=req.body
+    const fetchedDetails=await Patient.findOne({userId:req.user.userId}).populate({path:'userId'})
+        if(!fetchedDetails)
+            return res.status(404).json({message:"Patient Not found under the database",errorNoPatient:true})
+    const orderedTestOrder=await TestOrder.updateOne({_id:testOrderId},{orderStatus:"1",testDoneDate:new Date()})
+    if(orderedTestOrder.modifiedCount>0)
+      return res.status(200).json({message:"Requested Tests have been fetched"})
+    return res.status(400).json({message:"Can't be updated",errorDatabaseIssue:true})
+    
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message:"Faced issue on the backend",error:error})
+  }
+
+}
+
+exports.laboratory_getOrderedTests=async (req,res)=>{
+  try {
+    const fetchedDetails=await Laboratory.findOne({userId:req.user.userId}).populate({path:'userId'})
+    if(!fetchedDetails)
+        return res.status(404).json({message:"Laboratory Not found under the database",errorNoLaboratory:true})
+    const requestedTestOrders=await TestOrder.find({orderStatus:"1"}).populate({path:"patientId",populate:[
+      {
+        path:"userId"
+      },
+      {
+        path:"addressId"
+      }
+
+    ]}).populate({path:"doctorId",populate:{
+            path:"userId"
+          }}).populate({path:"labTestId",populate:[
+                {
+                  path:"testId"
+                },
+                {
+                  path:"labId",
+                  populate:{
+                      path:"userId"
+                    
+                  }
+                }
+              ]
+              }).populate({path:"bookingId",populate:{
+                    path:"paymentId"
+                  }})
+    const filteredRequestedTestOrders=await requestedTestOrders.filter((order)=>(order.labTestId.labId._id=fetchedDetails._id))
+
+    return res.status(200).json({message:"Requested Tests have been fetched",orders:filteredRequestedTestOrders})
+    
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message:"Faced issue on the backend",error:error})
+  }
+
+}
+
+exports.laboratory_completedOrderedTests=async (req,res)=>{
+  try {
+    const {testOrderId}=req.body
+    const fetchedDetails=await Laboratory.findOne({userId:req.user.userId}).populate({path:'userId'})
+    if(!fetchedDetails)
+        return res.status(404).json({message:"Laboratory Not found under the database",errorNoLaboratory:true})
+    const completedOrderTest=await TestOrder.updateOne({_id:testOrderId},{orderStatus:"2",testDone:(new Date()).toISOString()})
+    if(completedOrderTest.modifiedCount>0){
+       return res.status(200).json({message:"Requested Tests have been fetched"})
+
+    }
+    return res.status(404).json({message:"Database Issue,Couldn't update as completed the order",errorDatabaseIssue:true})
+    
+    
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message:"Faced issue on the backend",error:error})
+  }
+
+}
+
+exports.laboratory_getCompletedOrderedTests=async (req,res)=>{
+  try {
+    const fetchedDetails=await Laboratory.findOne({userId:req.user.userId}).populate({path:'userId'})
+    if(!fetchedDetails)
+        return res.status(404).json({message:"Laboratory Not found under the database",errorNoLaboratory:true})
+    const requestedTestOrders=await TestOrder.find({orderStatus:"2"}).populate({path:"patientId",populate:[
+      {
+        path:"userId"
+      },
+      {
+        path:"addressId"
+      }
+
+    ]}).populate({path:"doctorId",populate:{
+            path:"userId"
+          }}).populate({path:"labTestId",populate:[
+                {
+                  path:"testId"
+                },
+                {
+                  path:"labId",
+                  populate:{
+                      path:"userId"
+                    
+                  }
+                }
+              ]
+              }).populate({path:"bookingId",populate:{
+                    path:"paymentId"
+                  }})
+    const filteredRequestedTestOrders=await requestedTestOrders.filter((order)=>(order.labTestId.labId._id=fetchedDetails._id))
+
+    return res.status(200).json({message:"Completed Requested Tests have been fetched",orders:filteredRequestedTestOrders})
     
   } catch (error) {
     console.log(error)

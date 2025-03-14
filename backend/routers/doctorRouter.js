@@ -11,7 +11,7 @@ const { addAddress, doctor_getAddressAndPhone, doctor_updateAddressAndPhone } = 
 const { doctor_patientViewProfileDetails } = require("../controllers/patientController")
 const { doctor_addPrescription, doctor_onLoadPrescription } = require("../controllers/prescriptionController")
 const { doctor_requestMedicineForPatient } = require("../controllers/medicineController")
-const { doctor_getAllTestsAvailable, doctor_getTestDetailsAndLabs } = require("../controllers/testController")
+const { doctor_getAllTestsAvailable, doctor_getTestDetailsAndLabs, doctor_requestTestForPatient } = require("../controllers/testController")
 const router=express.Router()
 
 router.get('/getBasicDetails',jwtMiddleware,getUserDetails)
@@ -47,6 +47,9 @@ router.post('/patient/medicine/request',jwtMiddleware,doctor_requestMedicineForP
 
 router.get('/patient/test/allTests',jwtMiddleware,doctor_getAllTestsAvailable)
 router.post('/patient/test/testDetails',jwtMiddleware,doctor_getTestDetailsAndLabs)
+router.post('/patient/test/request',jwtMiddleware,doctor_requestTestForPatient)
+
+
 
 
 

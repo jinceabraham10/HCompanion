@@ -53,6 +53,11 @@ import Pharmacy_RecievedOrders from './pharmacy/pages/pharmacy_RecievedOrders/Ph
 import Pharmacy_DeliveredOrders from './pharmacy/pages/pharmacy_deliveredOrders/Pharmacy_DeliveredOrders'
 import Doctor_LaboratoryPage from './doctor/pages/doctor_laboratoryPage/Doctor_LaboratoryPage'
 import DoctorLabTestsPage from './doctor/pages/labTestPage/DoctorLabTestsPage'
+import Patient_TestPageBasic from './patient/pages/patientTestPageBasic/Patient_TestPageBasic'
+import Patient_RequestedTestPage from './patient/pages/patient_requestedTestPage/Patient_RequestedTestPage'
+import Laboratory_OrderBasic from './laboratory/pages/laboratoryOrderBasic/Laboratory_OrderBasic'
+import Laboratory_TestOrdered from './laboratory/pages/laboratoryTestOrdered/Laboratory_TestOrdered'
+import Laboratory_CompletedTestOrdered from './laboratory/pages/laboratoryCompletedTestOrdered/Laboratory_CompletedTestOrdered'
 
 
 
@@ -84,6 +89,11 @@ function App() {
                     <Route path='/patient/profile/medicine' element={<Patient_MedicinePageBasic/>}>
                         <Route path='/patient/profile/medicine/requests' element={<Patient_MedicineRequestPage/>}/>
                         <Route path='/patient/profile/medicine/ordered' element={<Patient_MedicineOrderedPage/>}/>
+                    </Route>
+
+                    <Route path='/patient/profile/test' element={<Patient_TestPageBasic/>}>
+                        <Route path='/patient/profile/test/requests' element={<Patient_RequestedTestPage/>}/>
+                        
                     </Route>
 
                     
@@ -155,6 +165,12 @@ function App() {
                    <Route path='/laboratory/testServices/viewTests' element={<LaboratoryViewTests/>}/>
                    <Route path='/laboratory/testServices/editTestDetails' element={<LaboratoryEditTestDetailsPage/>}/>
                    
+              </Route>
+
+              <Route path='/laboratory/order' element={<Laboratory_OrderBasic/>}>
+                  <Route path='/laboratory/order/test/ordered' element={<Laboratory_TestOrdered/>}/>
+                  <Route path='/laboratory/order/test/completed' element={<Laboratory_CompletedTestOrdered/>}/>
+                          
               </Route>
                 
           </Route>

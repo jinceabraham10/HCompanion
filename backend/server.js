@@ -42,7 +42,7 @@ db()
 
 
 wss.on("connection",(socket)=>{
-    console.log("connected websocket")
+    // console.log("connected websocket")
     socket.on("message",(message)=>{
         const data=JSON.parse(message)
         console.log(data)
@@ -54,7 +54,7 @@ wss.on("connection",(socket)=>{
                 
             // }
             exports.clientsConnected[data?.clientId]=socket
-            console.log(this.clientsConnected)
+            // console.log(this.clientsConnected)
                 
         }
     })

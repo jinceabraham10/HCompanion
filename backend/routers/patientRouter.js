@@ -9,6 +9,7 @@ const { getDoctorFreeSlots, bookSlot, patient_getAllCurrentBookings, patient_can
 const { paymentCreateOrder, paymentBookingVerification } = require("../controllers/paymentController");
 const { addAddress, patient_getAddressAndPhone } = require("../controllers/addressController");
 const { patient_getRequestedMedicineFromDoctor, patient_orderRequestedMedicine, patient_orderedRequestedMedicine } = require("../controllers/medicineController");
+const { patient_getRequestedTestsFromDoctor, patient_orderRequestedTestsFromDoctor } = require("../controllers/testController");
 
 
 const router=express.Router()
@@ -59,6 +60,12 @@ router.get('/doctor/medicine/requests',jwtMiddleware,patient_getRequestedMedicin
 router.post('/doctors/medicine/requests/createOrder',jwtMiddleware,paymentCreateOrder)
 router.post('/doctors/medicine/requests/order',jwtMiddleware,patient_orderRequestedMedicine)
 router.get('/doctors/medicine/requests/ordered',jwtMiddleware,patient_orderedRequestedMedicine)
+
+//testRequests
+
+router.get('/doctor/test/requests',jwtMiddleware,patient_getRequestedTestsFromDoctor)
+router.post('/doctor/test/requests/order',jwtMiddleware,patient_orderRequestedTestsFromDoctor)
+
 
 
 

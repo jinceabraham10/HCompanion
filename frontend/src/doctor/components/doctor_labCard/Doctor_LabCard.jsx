@@ -1,9 +1,18 @@
 import React from 'react'
 import { IoLocation } from "react-icons/io5";
 import { FaIndianRupeeSign } from "react-icons/fa6";
+import { doctor_requestTestAndLabService } from '../../services/doctorTestServices';
+import Swal from 'sweetalert2';
 
 function Doctor_LabCard(props) {
-    const {test}=props
+    const {test,patientId,bookingId}=props
+
+    const handleRequestTest=async (e)=>{
+        const requestedTest=await doctor_requestTestAndLabService({labTestId:test._id,patientId,bookingId})
+        if(requestedTest){
+            Swal.fire("Requested Test for the patient","","success")
+        }
+    }
     // console.log(test)
   return (
     <div className='flex w-full h-full '>
@@ -57,8 +66,9 @@ function Doctor_LabCard(props) {
                     )
                    }
 
-                    
-
+                   <button className='w-[30%] text-white text-md font-medium bg-emerald-400 p-3 rounded-md flex gap-4 items-center' onClick={(e)=>handleRequestTest(e)}>
+                            Request Test
+                   </button>
                 </div>
 
             </div>

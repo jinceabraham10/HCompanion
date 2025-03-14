@@ -226,7 +226,7 @@ exports.doctor_getPastBookings=async (req,res)=>{
       }}).populate({path:"patientId",populate:{
         path:"userId"
       },populate:{path:"addressId"}})
-      const bookings=filteredBookings.filter((booking)=>dayjs(booking.slotDate,'D MMM,dddd').isBefore(dayjs()))
+      const bookings=filteredBookings.filter((booking)=>dayjs(`${booking.slotDate} ${booking.startTime}}`,'D MMM, dddd YYYY H:mm A').isBefore(dayjs()))
       bookings.sort((a,b)=>dayjs(`${a.slotDate} ${a.startTime}`,'D MMM,dddd H:mm A')-dayjs(`${a.slotDate} ${a.startTime}`,'D MMM,dddd H:mm A'))
       return res.status(200).json({message:"Bookings have been fetched",bookings})
     } catch (error) {

@@ -27,7 +27,7 @@ exports.checkConsultation_today=async ({clientsConnected})=>{
             // await console.log("id",booking.patientId.userId._id.toString())
             // await console.log("clients",clientsConnected)
             // await console.log("checking",Object.keys(clientsConnected).includes(booking.patientId.userId._id.toString()))
-            if(Object.keys(clientsConnected).includes(booking.patientId.userId._id.toString())){
+            if(Object.keys(clientsConnected).includes(booking?.patientId?.userId._id.toString())){
                 await clientsConnected[booking.patientId.userId._id].send(JSON.stringify({type:"meetingReminder",booking:booking}))
                 await console.log("message Sent")
 

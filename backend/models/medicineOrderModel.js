@@ -26,6 +26,11 @@ bookingId:{
 orderStatus:{
     type:String,
     default:"0"
+},
+deliveredDate:{
+    type:String,
+    default:""
+
 }
 },{timestamps:true});
 

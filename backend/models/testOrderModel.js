@@ -23,6 +23,11 @@ bookingId:{
     type:mongoose.Schema.Types.ObjectId,
     ref:"booking"
 },
+testDoneDate:{
+    type:String,
+    default:""
+
+},
 orderStatus:{
     type:String,
     default:"0"
