@@ -5,6 +5,7 @@ const dotenv=require('dotenv')
 const db=require('./db')
 const app=express()
 const websocket=require('ws')
+const path = require("path");
 // const socketio=require('socket.io')
 const server=require('http').createServer(app)
 const wss=new websocket.Server({server})
@@ -69,11 +70,6 @@ wss.on("connection",(socket)=>{
 setInterval(()=>checkConsultation_today({clientsConnected:this.clientsConnected}),1*60*1000)
 
 
-server.listen(5000,()=>{
-    console.log("server running on 5000")
-})
-
-
 const distPath = path.join(__dirname, '../frontend/dist/', 'index.html');
 console.log('Serving static files from:', distPath);
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
@@ -81,8 +77,11 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/dist/', 'index.html'));
 });
 
-server.listen(port, () => {
-  console.log("server is running at ", port);
-});
+server.listen(5000,()=>{
+    console.log("server running on 5000")
+})
+
+
+
 
 
