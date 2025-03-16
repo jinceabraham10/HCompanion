@@ -9,7 +9,7 @@ export async function loginUser (loginData) {
     try {
         const response=await axios.post(`${API}/user/login`,loginData)
         console.log(response.data)
-        sessionStorage.setItem('token',response.data.jwtToken)
+        await sessionStorage.setItem('token',response.data.jwtToken)
         return response.data.userData
     } catch (error) {
         console.log(`error ${JSON.stringify(error)}`)

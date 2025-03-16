@@ -60,7 +60,7 @@ function SlotSettingPage() {
              <div className='dates w-full h-[10%] grid grid-cols-1 justify-items-start gap-4 '>
                 {
                     slotDates.map((date,index)=>(
-                        <button key={index} className='p-2 w-full h-full font-medium bg-emerald-400 bg-opacity-50 border flex justify-start pl-5 ' onClick={()=>handleClickOnDate(date)}>
+                        <button key={index} className='p-2 w-full h-full font-medium bg-emerald-400 bg-opacity-50 border flex justify-start pl-5 ' id={`id_slotDate_${index}`} onClick={()=>handleClickOnDate(date)}>
                             {date}
                         </button>
                     ))
@@ -85,9 +85,9 @@ function SlotSettingPage() {
                                    (dayjs().isBefore(dayjs(dayjs(`${selectedDate} ${dayjs(timing,'h:mm A').format('H:mm A')}`,'D MMM, dddd YYYY H:mm A').format('D MMM, dddd YYYY H:mm A'),'D MMM, dddd YYYY H:mm A')))   &&
                                      (((slots)&&(slots.length>0)&&(slots.some((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())))?
                                     (slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString()).bookedStatus==1) ? 
-                                    <BookedSlot time={timing} onLoad={onLoad} slot={slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())}/>: 
-                                    <AddedSlot time={timing} slot={slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())} onLoad={onLoad}  />:
-                                    <SlotAvailable time={timing} selectedDate={selectedDate} onLoad={onLoad}/>)
+                                    <BookedSlot time={timing} onLoad={onLoad} timeIndex={index} slot={slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())}/>: 
+                                    <AddedSlot  timeIndex={index} time={timing} slot={slots.find((slot)=>slot.startTime==dayjs(timing,'h:mm A').format('H:mm A').toString())} onLoad={onLoad}  />:
+                                    <SlotAvailable timeIndex={index} time={timing} selectedDate={selectedDate} onLoad={onLoad}/>)
 
 
                                 }
@@ -108,6 +108,7 @@ function SlotSettingPage() {
 
 function SlotAvailable(props){
 
+    const {timeIndex}=props
     const handleClickAdd=async ()=>{
         console.log(`slot date ${props.slotDate}`)
         const addedSlot=await addSlot({slotDate:props.selectedDate,startTime:dayjs(props.time,'h:mm A').format('H:mm A').toString()})
@@ -123,7 +124,7 @@ function SlotAvailable(props){
             </div>
 
             <div className='flex flex-1 flex-row gap-10 items-center pl-10 border shadow-md'>
-                <button className='w-[30%] h-[60%] bg-green-400 font-medium border ' onClick={handleClickAdd}>Add</button>
+                <button className='w-[30%] h-[60%] bg-green-400 font-medium border ' id={`id_btnaddslot_${timeIndex}`} onClick={handleClickAdd}>Add</button>
                 
             </div>
 
@@ -134,6 +135,7 @@ function SlotAvailable(props){
 
 function BookedSlot(props){
     // console.log(props.slot)
+    const {timeIndex}=props
     return(
         <div className='w-full h-[20vh] p-4 bg-red-400 bg-opacity-50 flex flex-row gap-2 border rounded-lg shadow-lg'>
 
@@ -157,6 +159,7 @@ function BookedSlot(props){
 
 function AddedSlot(props){
 
+    const {timeIndex}=props
     const handleRemove=async ()=>{
         const removedSlot=await doctor_removeSlotService({bookingId:props.slot._id})
         if(removedSlot)
@@ -171,7 +174,7 @@ function AddedSlot(props){
             </div>
 
             <div className='flex flex-1 flex-row items-center pl-10 border shadow-md'>
-                <button className='w-[30%] h-[60%] bg-red-400 font-medium border ' onClick={handleRemove}>Remove</button>
+                <button className='w-[30%] h-[60%] bg-red-400 font-medium border ' id={`id_btnRemoveSlot_${timeIndex}`} onClick={handleRemove}>Remove</button>
             </div>
 
 

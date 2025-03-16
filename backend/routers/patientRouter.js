@@ -40,6 +40,7 @@ router.post('/doctors/doctorDetails',getDoctorDetails)
 //slots
 router.post('/doctors/slots/payment/createOrder',jwtMiddleware,paymentCreateOrder)
 router.post('/doctors/slots/payment/paymentVerification',jwtMiddleware,paymentBookingVerification,bookSlot)
+// router.post('/doctors/slots/payment/paymentVerification',jwtMiddleware,bookSlot)
 // router.post('/doctors/slots/book',jwtMiddleware,bookSlot)
 
 

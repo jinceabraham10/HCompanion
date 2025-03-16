@@ -98,7 +98,7 @@ exports.getDoctorFreeSlots=async (req,res)=>{
 
 exports.bookSlot=async (req,res)=>{
     try {
-        await console.log(req)
+        await console.log("payment data",req.body)
         const {slotId,patientDescription}=req.body.slotDetails
         // const fetchedDoctor=await Doctor.findOne({userId:req.user.userId})
         const patient=await Patient.findOne({userId:req.user.userId})

@@ -66,10 +66,10 @@ export const checkSlotService=async ({startTime,slotDate})=>{
 
 export const getSlotsService=async ({slotDate})=>{
     try {
-
+        console.log('token in slot',token)
         const response=await axios.post(`${API}/doctor/slot/viewSlots`,{slotDate},{
             headers:{
-                authorization:`Bearer ${token}`
+                authorization:`Bearer ${sessionStorage.getItem('token')}`
             }
         })
         console.log(response.data)
@@ -79,7 +79,7 @@ export const getSlotsService=async ({slotDate})=>{
         console.log(error)
         if(error.response?.status=="401"){
             Swal.fire({
-                html:`<b>${error.response.status.message}</b>`,
+                html:`<b>${error.response.data.message}</b>`,
                 title:"Session Out"
             })
         }

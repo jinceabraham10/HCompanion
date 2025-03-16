@@ -47,7 +47,7 @@ exports.paymentBookingVerification=async (req,res,next)=>{
     try {
 
         const { razorpay_order_id,razorpay_payment_id,razorpay_signature,doctorId,order}=req.body
-        // await console.log(req.body)
+        await console.log("payment verification",req.body)
         // await console.log(`recieved order ${JSON.stringify(order)}`)
         // const paymentVerificationStatus=validatePaymentVerification({"order_id": razorpay_order_id, "payment_id": razorpay_payment_id }, razorpay_signature,RAZOR_PAY_SECRET);
         const generatedSignature=await crypto.createHmac('sha256',RAZOR_PAY_SECRET).update(`${razorpay_order_id}|${razorpay_payment_id}`).digest('hex')

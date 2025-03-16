@@ -17,7 +17,7 @@ function DoctorNavBar() {
     
 
     const onLoad=async ()=>{
-        if(sessionStorage.getItem('token') && !isLoggedIn){
+        if(sessionStorage.getItem('token') ){
             const tempPatient=await getDoctorBasicDetails({token:sessionStorage.getItem('token')})
             if(tempPatient){
                 const tempDoctor=await getDoctorProfileDetails({token:sessionStorage.getItem('token')})
@@ -97,7 +97,7 @@ function DoctorNavBar() {
 
                 <div className='option p-2 w-full h-[8%] flex flex-row gap-4 justify-start bg-white bg-opacity-40 shadow-lg '>
                     <img src="/icons/doctorSlotSetting.jpg" alt="home img" className='bg-white h-full rounded-sm' />
-                    <button className='h-full' onClick={()=>{
+                    <button className='h-full' id='id_navSlot' onClick={()=>{
                     navigate('/doctor/slot')
                     }}>
                     Slot

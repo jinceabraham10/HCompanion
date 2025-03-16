@@ -10,7 +10,7 @@ function PatientHomePage() {
   
 
   return (
-    <div className='homePage w-full h-full'>
+    <div className='homePage w-full h-full' id='id_patientDashboard'>
         <div className='header bg-white w-full h-[12vh] shadow-lg '>
             <NavBar/>
         </div>

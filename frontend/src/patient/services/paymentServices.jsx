@@ -9,7 +9,7 @@ export const paymentCreateOrderService=async ({amount})=>{
     try {
         const response=await axios.post(`${API}/patient/doctors/slots/payment/createOrder`,{amount:amount},{
             headers:{
-                Authorization:`bearer ${token}`
+                Authorization:`bearer ${sessionStorage.getItem('token')}`
             }
         })
         // await console.log(response.data)
@@ -40,6 +40,7 @@ export const paymentCreateOrderService=async ({amount})=>{
 
 export const paymentVerificationService=async ({razorpay_payment_id,razorpay_order_id,razorpay_signature,order,doctorId,slotDetails})=>{
     try {
+        const token=sessionStorage.getItem('token')
         const response=await axios.post(`${API}/patient/doctors/slots/payment/paymentVerification`,{razorpay_payment_id,razorpay_order_id,razorpay_signature,order,doctorId,slotDetails},{
             headers:{
                 Authorization:`bearer ${token}`

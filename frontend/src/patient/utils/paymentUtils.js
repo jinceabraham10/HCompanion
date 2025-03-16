@@ -33,6 +33,7 @@ export const paymentOption = (props,values) => {
       // // await console.log(order)
       // await alert(JSON.stringify(response))
       // alert(JSON.stringify(values));
+      console.log("enterd payment handler")
       
       const bookedSlot=await paymentVerificationService({razorpay_order_id:response.razorpay_order_id,
                                                                 razorpay_payment_id:response.razorpay_payment_id,
@@ -40,12 +41,19 @@ export const paymentOption = (props,values) => {
                                                                 doctorId:doctor._id,
                                                                 order:order,
                                                                 slotDetails:values  
-                                                              })
+                                                         })
       if(bookedSlot){
         Swal.fire({
           icon:"success",
           text:"The slot has been booked"
         })
+      }
+      else{
+        Swal.fire({
+          icon:"error",
+          text:"The slot has been booked"
+        })
+
       }
                                                             
 
@@ -55,7 +63,10 @@ export const paymentOption = (props,values) => {
     prefill: {
       name: props.patient.firstName,
       email: props.user.email,
-      contact: props.user.phone,
+      contact: props.user.phone || "7902249173",
+      "card[number]":"4111 1111 1111 1111",
+      "card[expiry]":"12/30",
+      "card[cvv]":"123"
     },
     notes: {
       address: "Health Companion Office",

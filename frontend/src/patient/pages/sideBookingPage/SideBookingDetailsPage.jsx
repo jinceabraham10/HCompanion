@@ -32,7 +32,7 @@ function SideBookingDetailsPage() {
     const patient=useSelector((state)=>state.patient)
     const dispatch=useDispatch()
     // const [doctor,setDoctor]=useState(doctorId)
-    console.log(doctorId)
+    // console.log(doctorId)
 
     const onLoad=async ()=>{
         const tempDoctor=await getDoctorDetailsService({doctorId})
@@ -88,7 +88,7 @@ function SideBookingDetailsPage() {
 
                         {
                             slotDates.map((date,index)=>(
-                                <button className='w-[10vw] h-[8vh] font-medium text-white bg-slate-700 bg-opacity-70 border shadow-md rounded-lg p-6' key={index} onClick={()=>handleClickOnDate(date)}>
+                                <button className='w-[10vw] h-[8vh] font-medium text-white bg-slate-700 bg-opacity-70 border shadow-md rounded-lg p-6' key={index} id={`id_slotDate_${index}`} onClick={()=>handleClickOnDate(date)}>
                                     {dayjs(date,'D MMM, dddd YYYY').format('DD ,ddd').toString()}
                                 </button>
                             ))
@@ -119,7 +119,7 @@ function SideBookingDetailsPage() {
                     {
                        (freeSlots)&&(freeSlots.length>0)&&freeSlots.map((slot,index)=>(                                  
 
-                            <button value={JSON.stringify(slot)} className='w-auto h-auto border p-6 rounded-lg bg-green-400 font-medium shadow-lg' key={index} onClick={handleClickOnTime}>
+                            <button value={JSON.stringify(slot)} className='w-auto h-auto border p-6 rounded-lg bg-green-400 font-medium shadow-lg' key={index} id={`id_slotTime_${index}`} onClick={handleClickOnTime}>
                                 {dayjs(slot.startTime,'H:mm A').format('h:mm A').toString()}
                             </button>
 
@@ -158,19 +158,37 @@ function BookingModal(props){
         onSubmit:async (values,actions)=>{
             // console.log(values)
             const order=await paymentCreateOrderService({amount:doctor.bookingPrice})
-            // await console.log(`order ${JSON.stringify(order)}`)
+            await console.log(`order`,order)
             if(order){
-                const options=paymentOption({
+                const options=await paymentOption({
                     order:order,
                     patient:patient,
                     user:user,
                     doctor:doctor
                 },values)
                 // await console.log(`options ${JSON.stringify(options)}`)
-                const paymentObject=new Razorpay(options)
-                await paymentObject.open()
+                try {
+
+                    const paymentObject=new Razorpay(options)
+                    console.log("reached before razor pay")
+                    await paymentObject.open()
+                    
+                } catch (error) {
+                    console.log("error during payment",error)
+                    
+                }
+                
                 
             }
+
+            // const bookedSlot=await paymentVerificationService({ slotDetails:values  
+            //                                                               })
+            // if(bookedSlot){
+            //     Swal.fire({
+            //     icon:"success",
+            //     text:"The slot has been booked"
+            //     })
+            // }
 
             setOpenModal(false)
             
@@ -225,7 +243,7 @@ function BookingModal(props){
         </Modal.Body>
         <Modal.Footer className='gap-x-5 w-full flex flex-row'>
             
-            <button type='submit' onClick={formik.handleSubmit}  className='w-[40%] border rounded-[5%] bg-orange-500 p-2'>Book</button>
+            <button type='submit' onClick={formik.handleSubmit}  className='w-[40%] border rounded-[5%] bg-orange-500 p-2' id={`id_btnBookSlot`}>Book</button>
             <button type='button' className='w-[40%] border rounded-[5%] bg-red-500 p-2' onClick={()=>setOpenModal(false)}>cancel</button>
 
         </Modal.Footer>
