@@ -48,10 +48,22 @@ export const patient_getRequestedMedicineFromDoctorService=async ()=>{
     }
 }
 
-export const patient_orderRequestedMedicineFromDoctorService=async ({pharmacyInventoryId})=>{
+export const patient_orderRequestedMedicineFromDoctorService=async ({razorpay_order_id,
+    razorpay_payment_id,
+    razorpay_signature,
+    doctorId,
+    order,
+    pharmacyId,
+    pharmacyInventoryId})=>{
     try {
 
-        const response=await axios.post(`${API}/patient/doctors/medicine/requests/order`,{pharmacyInventoryId},{
+        const response=await axios.post(`${API}/patient/doctors/medicine/requests/order`,{razorpay_order_id,
+            razorpay_payment_id,
+            razorpay_signature,
+            doctorId,
+            order,
+            pharmacyId,
+            pharmacyInventoryId},{
             headers:{
                 Authorization:`bearer ${token}`
             }

@@ -6,7 +6,7 @@ const { getUserDetails } = require("../controllers/jwtController")
 const { getAllMedicinesFromInventory, patientViewMedicineDetails, patientUpdateProfileDetails, patientViewProfileDetails, patient_getAllTestsAvailable, patient_getTestDetailsAndLabs } = require("../controllers/patientController");
 const { getAllDoctors, getDoctorDetails } = require("../controllers/doctorController");
 const { getDoctorFreeSlots, bookSlot, patient_getAllCurrentBookings, patient_cancelBooking, patient_getPastBookings } = require("../controllers/bookingController");
-const { paymentCreateOrder, paymentBookingVerification } = require("../controllers/paymentController");
+const { paymentCreateOrder, paymentBookingVerification, paymentMedicineRequestVerification } = require("../controllers/paymentController");
 const { addAddress, patient_getAddressAndPhone } = require("../controllers/addressController");
 const { patient_getRequestedMedicineFromDoctor, patient_orderRequestedMedicine, patient_orderedRequestedMedicine } = require("../controllers/medicineController");
 const { patient_getRequestedTestsFromDoctor, patient_orderRequestedTestsFromDoctor } = require("../controllers/testController");
@@ -58,7 +58,7 @@ router.get('/bookings/getPastBooking',jwtMiddleware,patient_getPastBookings)
 
 router.get('/doctor/medicine/requests',jwtMiddleware,patient_getRequestedMedicineFromDoctor)
 router.post('/doctors/medicine/requests/createOrder',jwtMiddleware,paymentCreateOrder)
-router.post('/doctors/medicine/requests/order',jwtMiddleware,patient_orderRequestedMedicine)
+router.post('/doctors/medicine/requests/order',jwtMiddleware,paymentMedicineRequestVerification,patient_orderRequestedMedicine)
 router.get('/doctors/medicine/requests/ordered',jwtMiddleware,patient_orderedRequestedMedicine)
 
 //testRequests

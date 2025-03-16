@@ -1,19 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaLocationDot } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
 import Swal from 'sweetalert2';
-import { laboratory_completeOrderedTestService } from '../../services/laboratoryTestServices';
+import { laboratory_completeOrderedTestService, laboratory_getTestResultDetailsService } from '../../services/laboratoryTestServices';
+import { useNavigate } from 'react-router-dom';
+
 
 function Laboratory_CompletedOrderedTestCard(props) {
+    const [isResultAvailable,setIsResultAvailable]=useState(false)
     const {testOrder}=props
     console.log(testOrder)
+    const navigate=useNavigate()
 
-    const handleCompleteOrderTest=async (e,testOrderId)=>{
-        const orderedTest=await laboratory_completeOrderedTestService({testOrderId})
-        if(orderedTest){
-            Swal.fire("Successfully Updated as completed","","success")
-        }
+  
+
+    const onLoad=async ()=>{
+        const testResult=await laboratory_getTestResultDetailsService({testOrderId:testOrder._id})
+        if(testResult)
+            setIsResultAvailable(true)
+
     }
+
+    useEffect(()=>{
+        onLoad()
+
+    },[])
+
   return (
     <div className='w-full h-full flex '>
         <div className='w-full h-full flex flex-col gap-2 p-1 border border-black rounded-lg p-2 shadow-lg'>
@@ -126,8 +138,10 @@ function Laboratory_CompletedOrderedTestCard(props) {
                     Completed
 
                 </button> */}
-                <button className='w-full h-full p-4 bg-blue-500 flex justify-center items-center' >
-                    Upload test Result
+                <button className='w-full h-full p-4 bg-blue-500 flex justify-center items-center' onClick={(e)=>navigate(`uploadResult?patientId=${testOrder.patientId._id}&testOrderId=${testOrder._id}&bookingId=${testOrder?.bookingId?._id}&doctorId=${testOrder.doctorId._id}`)} >
+                    {
+                        (isResultAvailable) ? "View Uploaded result":"Upload test Result"
+                    }
 
                 </button>
 

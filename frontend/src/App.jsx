@@ -58,6 +58,7 @@ import Patient_RequestedTestPage from './patient/pages/patient_requestedTestPage
 import Laboratory_OrderBasic from './laboratory/pages/laboratoryOrderBasic/Laboratory_OrderBasic'
 import Laboratory_TestOrdered from './laboratory/pages/laboratoryTestOrdered/Laboratory_TestOrdered'
 import Laboratory_CompletedTestOrdered from './laboratory/pages/laboratoryCompletedTestOrdered/Laboratory_CompletedTestOrdered'
+import Laboratory_TestResultPage from './laboratory/pages/laboratory_uploadTestResult.jsx/Laboratory_TestResultPage'
 
 
 
@@ -170,6 +171,7 @@ function App() {
               <Route path='/laboratory/order' element={<Laboratory_OrderBasic/>}>
                   <Route path='/laboratory/order/test/ordered' element={<Laboratory_TestOrdered/>}/>
                   <Route path='/laboratory/order/test/completed' element={<Laboratory_CompletedTestOrdered/>}/>
+                  <Route path='/laboratory/order/test/completed/uploadResult' element={<Laboratory_TestResultPage/>}/>
                           
               </Route>
                 

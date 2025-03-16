@@ -1,8 +1,10 @@
 import React from 'react'
 import { FaRupeeSign } from 'react-icons/fa'
 import { paymentCreateOrderService } from '../../services/paymentServices'
-import { patient_orderRequestedMedicineFromDoctorService } from '../../services/medicineService'
 import Swal from 'sweetalert2'
+import { medicine_paymentOption } from '../../utils/paymentUtils'
+
+const RAZOR_PAY_ID = import.meta.env.RAZOR_PAY_ID;
 
 
 function RequestedMedicineCard(props) {
@@ -10,25 +12,23 @@ function RequestedMedicineCard(props) {
     const {order}=props
     // console.log(`medicine ${JSON.stringify(medicine)}`)
     const handleOrderMedicine=async (e,pharmacyInventoryId)=>{
-        // const order=await paymentCreateOrderService({amount:doctor.bookingPrice})
+        const paymentOrder=await paymentCreateOrderService({amount:order.doctorId.bookingPrice})
         //             // await console.log(`order ${JSON.stringify(order)}`)
-        // // if(order){
-        // //     const options=paymentOption({
-        // //         order:order,
-        // //         patient:patient,
-        // //         user:user,
-        // //         doctor:doctor
-        // //     },values)
-        // //     // await console.log(`options ${JSON.stringify(options)}`)
-        // //     const paymentObject=new Razorpay(options)
-        // //     await paymentObject.open()
+        if(paymentOrder){
+            const options=medicine_paymentOption({
+                order:paymentOrder,
+                medicineOrder:order
+            })
+            // await console.log(`options ${JSON.stringify(options)}`)
+            const paymentObject=new Razorpay(options)
+            await paymentObject.open()
             
-        // // }
-
-        const orderedMedicine=await patient_orderRequestedMedicineFromDoctorService({pharmacyInventoryId})
-        if(orderedMedicine){
-            Swal.fire("Medicine has been ordere","","success")
         }
+
+        // const orderedMedicine=await patient_orderRequestedMedicineFromDoctorService({pharmacyInventoryId})
+        // if(orderedMedicine){
+        //     Swal.fire("Medicine has been ordere","","success")
+        // }
         
     }
   return (

@@ -353,3 +353,123 @@ export const laboratory_getCompletedOrderedTestsService=async ()=>{
                 return false
     }
 }
+
+export const laboratory_getCompletedOrderTestDetailsService=async ({testOrderId})=>{
+    try {
+
+        const response=await axios.post(`${API}/laboratory/order/test/completed/testDetails`,{testOrderId},{
+            headers:{
+                Authorization:`bearer ${token}`
+            }
+        })
+        // console.log(response.data)
+        return response.data.order
+        
+    } catch (error) {
+        console.log(error)
+         if(error.status=="500"&&error.response.status.errorServer){
+                    Swal.fire({
+                        icon:"error",
+                        text:"Server Issue"
+                    })
+                }
+                else if(error.status=="400"&&error.response.data.invalidToken){
+                    Swal.fire({
+                        icon:"warning",
+                        text:"Log In"
+                    })
+                }else if(error.status=="401"){
+                    Swal.fire({
+                        icon:"warning",
+                        text:"Log In"
+                    })
+                }else if(error.status=="400" && error.response.data.errorDatabase){
+                    Swal.fire({
+                        icon:"error",
+                        text:"Issue at the Database"
+                    })
+                }
+        
+                return false
+    }
+}
+
+export const laboratory_uploadTestResultService=async ({testOrderId,testResultDescription,patientId,doctorId})=>{
+    try {
+
+        const response=await axios.post(`${API}/laboratory/order/test/uploadResult`,{testOrderId,testResultDescription,patientId,doctorId},{
+            headers:{
+                Authorization:`bearer ${token}`
+            }
+        })
+        // console.log(response.data)
+        return true
+        
+    } catch (error) {
+        console.log(error)
+         if(error.status=="500"&&error.response.status.errorServer){
+                    Swal.fire({
+                        icon:"error",
+                        text:"Server Issue"
+                    })
+                }
+                else if(error.status=="400"&&error.response.data.invalidToken){
+                    Swal.fire({
+                        icon:"warning",
+                        text:"Log In"
+                    })
+                }else if(error.status=="401"){
+                    Swal.fire({
+                        icon:"warning",
+                        text:"Log In"
+                    })
+                }else if(error.status=="400" && error.response.data.errorDatabase){
+                    Swal.fire({
+                        icon:"error",
+                        text:"Issue at the Database"
+                    })
+                }
+        
+                return false
+    }
+}
+
+export const laboratory_getTestResultDetailsService=async ({testOrderId})=>{
+    try {
+
+        const response=await axios.post(`${API}/laboratory/order/test/result/getDetails`,{testOrderId},{
+            headers:{
+                Authorization:`bearer ${token}`
+            }
+        })
+        // console.log(response.data)
+        return response.data.result
+        
+    } catch (error) {
+        console.log(error)
+         if(error.status=="500"&&error.response.status.errorServer){
+                    Swal.fire({
+                        icon:"error",
+                        text:"Server Issue"
+                    })
+                }
+                else if(error.status=="400"&&error.response.data.invalidToken){
+                    Swal.fire({
+                        icon:"warning",
+                        text:"Log In"
+                    })
+                }else if(error.status=="401"){
+                    Swal.fire({
+                        icon:"warning",
+                        text:"Log In"
+                    })
+                }else if(error.status=="400" && error.response.data.errorDatabase){
+                    Swal.fire({
+                        icon:"error",
+                        text:"Issue at the Database"
+                    })
+                }
+        
+                return false
+    }
+}

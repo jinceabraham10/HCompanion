@@ -25,3 +25,7 @@ export const testAddValidationSchema=yup.object().shape({
         return false
     return values.atHome || values.atLab
 })
+
+export const testResultAddValidationSchema=yup.object().shape({
+    testResultDescription:yup.string().required("Shouldn't be left empty")
+})
