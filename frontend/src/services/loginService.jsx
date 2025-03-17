@@ -8,7 +8,7 @@ const API=import.meta.env.VITE_API
 export async function loginUser (loginData) {
     try {
         const response=await axios.post(`${API}/user/login`,loginData)
-        console.log(response.data)
+        // console.log(response.data)
         await sessionStorage.setItem('token',response.data.jwtToken)
         return response.data.userData
     } catch (error) {
