@@ -53,7 +53,7 @@ router.post('/tests/testDetails',patient_getTestDetailsAndLabs)
 
 router.get('/bookings/getAllCurrentBookings',jwtMiddleware,patient_getAllCurrentBookings)
 router.post('/bookings/cancelBooking',jwtMiddleware,patient_cancelBooking)
-router.get('/bookings/getPastBooking',jwtMiddleware,patient_getPastBookings)
+router.get('/bookings/getPastBookings',jwtMiddleware,patient_getPastBookings)
 
 //medicineRequests
 
