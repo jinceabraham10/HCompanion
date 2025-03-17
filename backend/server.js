@@ -10,7 +10,7 @@ const path = require("path");
 const server=require('http').createServer(app)
 const wss=new websocket.Server({server})
 exports.clientsConnected={}
-
+// const dd=require('../frontend/dist/assets')
 app.use(cors({
     origin:true,
     credentials:true
@@ -72,10 +72,10 @@ setInterval(()=>checkConsultation_today({clientsConnected:this.clientsConnected}
 
 const distPath = path.join(__dirname, '../frontend/dist/', 'index.html');
 console.log('Serving static files from:', distPath);
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/dist/', 'index.html'));
-});
+// app.use(express.static(path.join(__dirname, '../frontend/dist')));
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../frontend/dist/', 'index.html'));
+// });
 
 server.listen(5000,()=>{
     console.log("server running on 5000")
