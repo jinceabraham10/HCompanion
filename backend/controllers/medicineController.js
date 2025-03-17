@@ -128,7 +128,8 @@ exports.patient_orderedRequestedMedicine= async (req,res)=>{
             populate:{
                 path:"userId"
             }
-        })  
+        }) 
+        // console.log("orderedMediciness",orderedMedicines) 
         res.status(200).json({message:"ordered medicine",medicines:orderedMedicines})
     } catch (error) {
         console.log(error)

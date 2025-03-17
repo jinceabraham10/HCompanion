@@ -5,7 +5,7 @@ import { patient_orderRequestedMedicineFromDoctorService } from '../../services/
 import Swal from 'sweetalert2'
 
 
-function OrderedMedicineCard(props) {
+function  OrderedMedicineCard(props) {
 
     const {order}=props
     // console.log(`medicine ${JSON.stringify(medicine)}`)
