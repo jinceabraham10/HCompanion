@@ -6,7 +6,7 @@ const token=sessionStorage.getItem('token')
 
 export const doctor_updateProfileDetailsService=async (updateDetails)=>{
     try {
-        console.log('updateDetails',updateDetails)
+        // console.log('updateDetails',updateDetails)
         const response=await axios.post(`${API}/doctor/profile/updateDetails`,{updateDetails:updateDetails},{
             headers:{
                 Authorization:`bearer ${token}`,

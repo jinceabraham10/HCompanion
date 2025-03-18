@@ -47,7 +47,7 @@ export const pharmacy_getDeliveredMedicineService=async ()=>{
                 Authorization:`bearer ${token}`
             }
         })
-        console.log(response)
+        console.log("delivered Medicines",response)
         return response.data.medicines
 
         

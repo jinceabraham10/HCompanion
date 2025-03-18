@@ -4,11 +4,13 @@ import {useSelector,useDispatch} from 'react-redux'
 import { setUser } from '../../../redux/slices/userSlice'
 import { useNavigate } from 'react-router-dom'
 import { laboratory_getBasicDetailsService } from '../../services/laboratoryProfileDetailsService'
+import { setLaboratory } from '../../../redux/slices/laboratorySlice'
 
 function LaboratryNavbar() {
   const dispatch=useDispatch()
   const navigate=useNavigate()
   const {username,email}=useSelector((state)=>state.user)
+  const {laboratoryName,ownerName,profileImage}=useSelector((state)=>state.laboratory)
 
   const onLoad=async ()=>{
     const tempLaboratory=await laboratory_getBasicDetailsService()
@@ -19,7 +21,11 @@ function LaboratryNavbar() {
         phone:tempLaboratory.userId.phone,
         role:tempLaboratory.userId.role,
         isLoggedIn:true
-  
+      }))
+      dispatch(setLaboratory({
+        laboratoryName:tempLaboratory.laboratoryName,
+        ownerName:tempLaboratory.ownerName,
+        profileImage:tempLaboratory.profileImage
       }))
     }
   }
@@ -40,11 +46,11 @@ function LaboratryNavbar() {
          </div>
          <div className='profile h-[12%] flex flex-row justify-start gap-4'>
            <div className='profileImage w-auto h-full flex '>
-              <img src='/normalUser.png' alt="image" className='h-full w-[5vw] rounded-full ' />
+              <img src={profileImage} alt="image" className='h-full w-[5vw] rounded-full ' />
            </div>
            <div className='details flex-1 flex flex-col justify-center bg-white bg-opacity-30 p-2 rounded-lg gap-2 '>
              <span>
-               <h2 className='text-white text-lg font-bold'>{username}</h2>
+               <h2 className='text-white text-lg font-bold'>{laboratoryName||username}</h2>
              </span>
              <span>
              <h2 className='text-white text-sm'>Laboratory</h2>
@@ -87,7 +93,7 @@ function LaboratryNavbar() {
            <div className='option p-2 w-full h-[10%] flex flex-row gap-4 justify-start bg-white bg-opacity-30 '>
              <img src="/icons/profileIcon.jpg" alt="home img" className='bg-white h-full rounded-sm' />
              <button className='h-full' onClick={()=>{
-               navigate('/pharmacy/profile')
+               navigate('/laboratory/profile')
                
              }}>
                Profile

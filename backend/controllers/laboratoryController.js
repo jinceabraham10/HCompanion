@@ -31,7 +31,7 @@ exports.laboratory_getBasicDetails=async (req,res)=>{
         if(!user)
             return res.status(404).json({message:"no User found",errorNoLaboratoryFound:true})
         const laboratory=await Laboratory.findOne({userId:req.user.userId}).populate({path:'userId'})
-        await console.log("lab",laboratory)
+        // await console.log("lab",laboratory)
         if(!laboratory)
             return res.status(404).json({message:"No Laboratory found",errorNoLaboratoryFound:true})
         return res.status(200).json({message:"Laboratory Details fetched",laboratoryDetails:laboratory})
@@ -152,3 +152,40 @@ exports.laboratory_deleteAddedTest=async (req,res)=>{
 
 }
 
+exports.laboratory_updateLaboratoryDetails=async (req,res)=>{
+  try {
+
+    const {updateDetails}=req.body
+    await console.log('update Details',JSON.stringify(updateDetails))
+    // await console.log('req',req)
+    const laboratory=await Laboratory.findOne({userId:req.user.userId})
+    if(!laboratory)
+      return res.status(404).json({message:"No laboratory found ",errorNoLaboratory:true})
+    const updatedDetails=await Laboratory.updateOne({_id:laboratory._id},{...(JSON.parse(JSON.stringify(updateDetails))),profileImage:(req.file)?req.file.path:laboratory.profileImage})
+    await console.log(updatedDetails)
+    if(!updatedDetails)
+      return res.status(400).json({message:"Some issue happend at the server",errorDatabaseIssue:true})
+    return res.status(200).json({message:"profile Details has been updated"})
+    
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+exports.laboratory_ViewProfileDetails= async (req,res)=>{
+    try {  
+      // const profileDetails=req.body
+      const fetchedDetails=await Laboratory.findOne({userId:req.user.userId}).populate({path:'userId'})
+      if(!fetchedDetails)
+        return res.status(404).json({message:"doctor Not found under the database",errorNoLaboratory:true})
+      // const uDetails=await Patient.updateOne({userId:req.user.userId},{profileDetails})
+    //   await console.log(fetchedDetails)
+      res.status(200).json({message:"Details has been fetched",details:fetchedDetails})
+       
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Faced issue on the backend",error:error})
+        
+    }
+  }

@@ -11,7 +11,6 @@ import PharmacyBasic from './pharmacy/pages/PharmacyBasic'
 import EditStock from './pharmacy/pages/editStock/EditStock'
 import PharmacyProfileBasic from './pharmacy/pages/pharmacyProfile/PharmacyProfileBasic'
 import PharmacyProfileDetails from './pharmacy/pages/profileDetails/PharmacyProfileDetails'
-import PharmacyContactDetails from './pharmacy/pages/contactDetails/PharmacyContactDetails'
 import PasswordReset from './pharmacy/pages/passwordReset/PasswordReset'
 import MedicinePage from './patient/pages/medicinePage/MedicinePage'
 import MedicineDetails from './patient/pages/medicineDetailPage/MedicineDetails'
@@ -64,6 +63,11 @@ import PatientContactDetails from './patient/pages/contactDetails/PatientContact
 import Patient_TestResultPage from './patient/pages/patient_uploadedTestResult.jsx/Laboratory_TestResultPage'
 import Patient_PrescriptionPage from './patient/pages/patient_prescriptionPage/Patient_PrescriptionPage'
 import Patient_PrescriptionDetailsPage from './patient/pages/patient_prescriptionDetailsPage/Patient_PrescriptionDetailsPage'
+import Pharmacy_ProfileDetails from './pharmacy/pages/pharmacy_profileDetails/Pharmacy_ProfileDetails'
+import Pharmacy_ContactPage from './pharmacy/pages/contactDetails/Pharmacy_ContactPage'
+import LaboratoryProfileBasic from './laboratory/pages/laboratoryProfileBasic/LaboratoryProfileBasic'
+import Laboratory_ProfileDetails from './laboratory/pages/laboratory_profileDetails/Laboratory_ProfileDetails'
+import Laboratory_ContactPage from './laboratory/pages/laboratory_contactDetails/Laboratory_ContactPage'
 
 
 
@@ -138,8 +142,8 @@ function App() {
                 <Route path='/pharmacy/stock/viewStocks' element={<StockPage/>}/>
                 <Route path='/pharmacy/stock/editStock' element={<EditStock/>}/>
                 <Route path='/pharmacy/profile' element={<PharmacyProfileBasic/>}>
-                       <Route path='/pharmacy/profile/profileDetails' element={<PharmacyProfileDetails/>}/>
-                       <Route path='/pharmacy/profile/contactDetails' element={<PharmacyContactDetails/>}/>
+                       <Route path='/pharmacy/profile/profileDetails' element={<Pharmacy_ProfileDetails/>}/>
+                       <Route path='/pharmacy/profile/contactDetails' element={<Pharmacy_ContactPage/>}/>
                        <Route path='/pharmacy/profile/passwordReset' element={<PasswordReset/>}/>
                 </Route>
                 <Route path='/pharmacy/order' element={<Pharmacy_OrderBasic/>}>
@@ -186,6 +190,11 @@ function App() {
                   <Route path='/laboratory/order/test/completed/uploadResult' element={<Laboratory_TestResultPage/>}/>
                           
               </Route>
+              <Route path='/laboratory/profile' element={<LaboratoryProfileBasic/>}>
+                       <Route path='/laboratory/profile/profileDetails' element={<Laboratory_ProfileDetails/>}/>
+                       <Route path='/laboratory/profile/contactDetails' element={<Laboratory_ContactPage/>}/>
+                       <Route path='/laboratory/profile/passwordReset' element={<PasswordReset/>}/>
+                </Route>
                 
           </Route>
 

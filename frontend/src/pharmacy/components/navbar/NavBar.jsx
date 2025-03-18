@@ -4,23 +4,38 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setUser } from '../../../redux/slices/userSlice'
 import { useNavigate } from 'react-router-dom'
 import { getPharmacyBasicDetails } from '../../services/pharmacyLoginService'
+import { pharmacy_getProfileDetailsService } from '../../services/pharmacyProfileService'
+import { setPharmacy } from '../../../redux/slices/pharmacySlice'
 // import * as assets from '../../../assets'
 
 function NavBar() {
 
   const dispatch=useDispatch()
   const {username,email,role,isLoggedIn}=useSelector((state)=>state.user)
+  const {pharmacyName,ownerName,profileImage}=useSelector((state)=>state.pharmacy)
   const navigate=useNavigate()
 
   const onLoad=async ()=>{
       if(sessionStorage.getItem('token') && !isLoggedIn){
-          const tempPatient=await getPharmacyBasicDetails({token:sessionStorage.getItem('token')})
-          dispatch(setUser({
-              username:tempPatient.username,
-              email:tempPatient.email,
-              role:tempPatient.role,
-              isLoggedIn:true
-          }))
+          const tempPharmacy=await getPharmacyBasicDetails({token:sessionStorage.getItem('token')})
+          if(tempPharmacy){
+            const tempProfile=await pharmacy_getProfileDetailsService()
+                dispatch(setUser({
+                  username:tempPharmacy.username,
+                  email:tempPharmacy.email,
+                  role:tempPharmacy.role,
+                  isLoggedIn:true
+                }))
+
+                dispatch(setPharmacy({
+                  pharmacyName:tempProfile.pharmacyName,
+                  ownerName:tempProfile.ownerName,
+                  profileImage:tempProfile.profileImage,
+                  
+              }))
+
+          }
+         
           // await setIsUserLoggedIn(true)
       }
       
@@ -45,11 +60,11 @@ function NavBar() {
         </div>
         <div className='profile h-[12%] flex flex-row justify-start gap-4'>
           <div className='profileImage w-auto h-full flex '>
-             <img src='/normalUser.png' alt="image" className='h-full w-[5vw] rounded-full ' />
+             <img src={profileImage} alt="image" className='h-full w-[5vw] rounded-full ' />
           </div>
           <div className='details flex-1 flex flex-col justify-center bg-white bg-opacity-10 p-2 rounded-lg gap-2 '>
             <span>
-              <h2 className='text-white text-lg font-bold'>{(username)}</h2>
+              <h2 className='text-white text-lg font-bold'>{(pharmacyName || username)}</h2>
             </span>
             <span>
             <h2 className='text-white text-sm'>pharmacy</h2>

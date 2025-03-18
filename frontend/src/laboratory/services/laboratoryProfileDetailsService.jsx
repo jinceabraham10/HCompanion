@@ -8,7 +8,7 @@ export const laboratory_getBasicDetailsService=async ()=>{
     try {
         const response=await axios.get(`${API}/laboratory/profile/getDetails`,{
             headers:{
-                Authorization:`bearer ${token}`
+                Authorization:`bearer ${sessionStorage.getItem('token')}`
             }
         })
         console.log("lab details",response.data)
@@ -35,6 +35,77 @@ export const laboratory_getBasicDetailsService=async ()=>{
 
         return false
         
+    }
+}
+
+export const laboratory_updateProfileDetailsService=async (updateDetails)=>{
+    try {
+        // console.log('updateDetails',updateDetails)
+        const response=await axios.post(`${API}/laboratory/profile/updateDetails`,{updateDetails:updateDetails},{
+            headers:{
+                Authorization:`bearer ${sessionStorage.getItem('token')}`,
+                'Content-Type':'multipart/form-data'
+            }
+        })
+
+        // console.log(response.data)
+        return true
+        
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
+export const laboratory_getProfileDetailsService=async ()=>{
+    try {
+        const response=await axios.get(`${API}/laboratory/profile/getProfileDetails`,{
+            headers:{
+                Authorization:`bearer ${sessionStorage.getItem('token')}`
+            }
+        })
+        console.log("profile details",response.data)
+        return response.data.details
+        
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
+export const laboratory_getContactDetailsService=async ()=>{
+    try {
+        const response=await axios.get(`${API}/laboratory/profile/getContactDetails`,{
+            headers:{
+                Authorization:`bearer ${sessionStorage.getItem('token')}`
+            }
+        })
+        // console.log(response.data)
+        return response.data.contactDetails
+        
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
+export const laboratory_updateContactDetailsService=async (contactDetails)=>{
+    try {
+        const response=await axios.post(`${API}/laboratory/profile/updateContactDetails`,contactDetails,{
+            headers:{
+                Authorization:`bearer ${sessionStorage.getItem('token')}`
+            }
+        })
+        // console.log(response.data)
+        Swal.fire({
+            icon:"success",
+            text:"Contact Details Have been Updated"
+        })
+        return true
+        
+    } catch (error) {
+        console.log(error)
+        return false
     }
 }
 

@@ -129,3 +129,40 @@ exports.viewMedicineDetails= async (req,res)=>{
     }
 }
 
+exports.pharmacy_updatePharmacyDetails=async (req,res)=>{
+  try {
+
+    const {updateDetails}=req.body
+    await console.log('update Details',JSON.stringify(updateDetails))
+    // await console.log('req',req)
+    const pharmacy=await Pharmacy.findOne({userId:req.user.userId})
+    if(!pharmacy)
+      return res.status(404).json({message:"No Pharmacy found ",errorNoPharmacy:true})
+    const updatedDetails=await Pharmacy.updateOne({_id:pharmacy._id},{...(JSON.parse(JSON.stringify(updateDetails))),profileImage:(req.file)?req.file.path:pharmacy.profileImage})
+    await console.log(updatedDetails)
+    if(!updatedDetails)
+      return res.status(400).json({message:"Some issue happend at the server",errorDatabaseIssue:true})
+    return res.status(200).json({message:"profile Details has been updated"})
+    
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+exports.pharmacy_ViewProfileDetails= async (req,res)=>{
+    try {  
+      // const profileDetails=req.body
+      const fetchedDetails=await Pharmacy.findOne({userId:req.user.userId}).populate({path:'userId'})
+      if(!fetchedDetails)
+        return res.status(404).json({message:"doctor Not found under the database",errorNoDoctor:true})
+      // const uDetails=await Patient.updateOne({userId:req.user.userId},{profileDetails})
+      await console.log(fetchedDetails)
+      res.status(200).json({message:"Details has been fetched",details:fetchedDetails})
+       
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Faced issue on the backend",error:error})
+        
+    }
+  }

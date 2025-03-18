@@ -6,13 +6,18 @@ const jwtMiddleware = require("../middlewares/jwtConfig")
 const { getUserDetails } = require("../controllers/jwtController")
 const { doctorViewProfileDetails, doctor_updateDoctorDetails } = require("../controllers/doctorController")
 const { getSlots, checkSlot, addSlot, doctor_removeSlot } = require("../controllers/bookingController")
-const { uploadDoctorProfileImage } = require("../middlewares/storageConfig")
-const { addAddress, doctor_getAddressAndPhone, doctor_updateAddressAndPhone } = require("../controllers/addressController")
-const { laboratory_getBasicDetails, laboratory_addTest, laboratory_getAddedTests, laboratory_getAddedTestDetails, laboratory_updateAddedTestDetails, laboratory_deleteAddedTest } = require("../controllers/laboratoryController")
+const { uploadDoctorProfileImage, uploadLaboratoryProfileImage } = require("../middlewares/storageConfig")
+const { addAddress, doctor_getAddressAndPhone, doctor_updateAddressAndPhone, laboratory_updateAddressAndPhone, laboratory_getAddressAndPhone } = require("../controllers/addressController")
+const { laboratory_getBasicDetails, laboratory_addTest, laboratory_getAddedTests, laboratory_getAddedTestDetails, laboratory_updateAddedTestDetails, laboratory_deleteAddedTest, laboratory_ViewProfileDetails, laboratory_updateLaboratoryDetails } = require("../controllers/laboratoryController")
 const { getTestsPresent, laboratory_getOrderedTests, laboratory_completedOrderedTests, laboratory_getCompletedOrderedTests, laboratory_uploadTestResultForRequested, laboratory_getCompletedTestOrderDetails, laboratory_getuploadedTestResult } = require("../controllers/testController")
 const router=express.Router()
 
 router.get('/profile/getDetails',jwtMiddleware,laboratory_getBasicDetails)
+router.post('/profile/updateDetails',jwtMiddleware,uploadLaboratoryProfileImage.single('updateDetails[profileImage]'),laboratory_updateLaboratoryDetails)
+router.get('/profile/getProfileDetails',jwtMiddleware,laboratory_ViewProfileDetails)
+router.post('/profile/addAddress',jwtMiddleware,addAddress)
+router.post('/profile/updateContactDetails',jwtMiddleware,laboratory_updateAddressAndPhone)
+router.get('/profile/getContactDetails',jwtMiddleware,laboratory_getAddressAndPhone)
 
 
 
