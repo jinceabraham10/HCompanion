@@ -10,6 +10,7 @@ import Swal from 'sweetalert2'
 
 function Doctor_PrescriptionPage() {
     const [patient,setPatient]=useState(undefined)
+    const [patient_id,setPatient_id]=useState(undefined)
     const {patientId,bookingId}=useParams()
     const formik=useFormik({
         initialValues:{
@@ -18,7 +19,7 @@ function Doctor_PrescriptionPage() {
         },
         validationSchema:"",
         onSubmit:async (values,actions)=>{
-            const addedPrescription=await doctor_addPrescriptionService({...values,patientId:patientId,bookingId:bookingId})
+            const addedPrescription=await doctor_addPrescriptionService({...values,patientId:patient_id,bookingId:bookingId})
             if(addedPrescription)
                 Swal.fire("Added Prescription","","success")
 
@@ -26,6 +27,7 @@ function Doctor_PrescriptionPage() {
     })
     const onLoad=async ()=>{
         const tempPatientDetails=await doctor_getPatientDetailsService({patientId})
+        setPatient_id(tempPatientDetails._id)
         const tempPrescriptionDetails=await doctor_onLoadPrescriptionService({bookingId})
         if(tempPrescriptionDetails){
             formik.setFieldValue('disease',tempPrescriptionDetails.disease)

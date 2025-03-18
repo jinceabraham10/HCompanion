@@ -13,6 +13,7 @@ function PatientProfilePage() {
             <Link className='options p-4 font-medium bg-emerald-400 bg-opacity-20 flex items-center gap-2 border' to='/patient/profile/bookings'><FaUserDoctor className='w-[3vw] h-[3vh]'/>Booking Details<span></span></Link>
             <Link className='options p-4 font-medium bg-emerald-400 bg-opacity-20 flex items-center gap-2 border' to='/patient/profile/medicine'><FaUserDoctor className='w-[3vw] h-[3vh]'/>Medicines<span></span></Link>
             <Link className='options p-4 font-medium bg-emerald-400 bg-opacity-20 flex items-center gap-2 border' to='/patient/profile/test'><FaUserDoctor className='w-[3vw] h-[3vh]'/>Lab Tests<span></span></Link>
+            <Link className='options p-4 font-medium bg-emerald-400 bg-opacity-20 flex items-center gap-2 border' to='/patient/profile/prescription'><FaUserDoctor className='w-[3vw] h-[3vh]'/>Prescriptions<span></span></Link>
         </div>
 
         <div className='content w-[60%] flex flex-1 flex-col overflow-y-auto'>

@@ -2,10 +2,10 @@ import React from 'react'
 import { FaLocationDot } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import dayOfYear from 'dayjs/plugin/dayOfYear';
-import { useNavigate } from 'react-router-dom';
 dayjs.extend(customParseFormat);
 dayjs.extend(dayOfYear);
 

@@ -13,6 +13,7 @@ const PharmacyInventory=require("../models/pharmacyInventory");
 const Medicine = require("../models/medicineModel");
 const { patch } = require("../routers/pharmacyRouter");
 const Prescription = require("../models/prescriptionModel");
+const Patient = require("../models/patientModel");
 dayjs.extend(customParseFormat);
 dotenv.config();
 
@@ -51,6 +52,29 @@ exports.doctor_onLoadPrescription=async (req,res)=>{
             return res.status(404).json({message:"doctor Not found under the database",errorNoDoctor:true})
         const fetchedPrescriptionDetails=await Prescription.findOne({bookingId:bookingId})
         res.status(200).json({message:"fetched prescription",prescription:fetchedPrescriptionDetails})
+
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: `error found : ${error}` });
+    }
+
+}
+
+exports.patient_getAllPrescriptions=async (req,res)=>{
+    try {
+        // const {bookingId}=req.body
+        const fetchedDetails=await Patient.findOne({userId:req.user.userId}).populate({path:'userId'})
+        if(!fetchedDetails)
+            return res.status(404).json({message:"doctor Not found under the database",errorNoDoctor:true})
+        const fetchedPrescriptions=await Prescription.find({$and:[{patientId:fetchedDetails._id}]}).populate({path:"patientId",populate:{
+            path:"userId"
+        }}).populate({path:"doctorId",populate:{
+                path:"userId"
+            }}).populate({path:"bookingId",populate:{
+                path:"paymentId"
+            }})
+        res.status(200).json({message:"fetched prescription",prescriptions:fetchedPrescriptions})
 
         
     } catch (error) {
