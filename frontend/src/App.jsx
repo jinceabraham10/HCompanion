@@ -17,7 +17,6 @@ import MedicinePage from './patient/pages/medicinePage/MedicinePage'
 import MedicineDetails from './patient/pages/medicineDetailPage/MedicineDetails'
 import PatientProfilePage from './patient/pages/profilePage/PatientProfilePage'
 import PatientProfileDetails from './patient/pages/patientProfile/PatientProfileDetails'
-import PatientContactDetails from './patient/pages/contactDetails/patientContactDetails'
 import DoctorPageBasic from './doctor/pages/doctorPageBasic/DoctorPageBasic'
 import SlotSettingPage from './doctor/pages/slotSet/SlotSettingPage'
 import PatientDoctorPage from './patient/pages/doctorPage/PatientDoctorPage'
@@ -61,6 +60,7 @@ import Laboratory_CompletedTestOrdered from './laboratory/pages/laboratoryComple
 import Laboratory_TestResultPage from './laboratory/pages/laboratory_uploadTestResult.jsx/Laboratory_TestResultPage'
 import Patient_PastBookingPage from './patient/pages/patientPastBookedPage/Patient_PastBookingPage'
 import Patient_OrderedTestPage from './patient/pages/patient_orderedestPage/Patient_OrderedTestPage'
+import PatientContactDetails from './patient/pages/contactDetails/PatientContactDetails'
 
 
 
