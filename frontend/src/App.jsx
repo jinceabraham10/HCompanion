@@ -63,6 +63,7 @@ import Patient_OrderedTestPage from './patient/pages/patient_orderedestPage/Pati
 import PatientContactDetails from './patient/pages/contactDetails/PatientContactDetails'
 import Patient_TestResultPage from './patient/pages/patient_uploadedTestResult.jsx/Laboratory_TestResultPage'
 import Patient_PrescriptionPage from './patient/pages/patient_prescriptionPage/Patient_PrescriptionPage'
+import Patient_PrescriptionDetailsPage from './patient/pages/patient_prescriptionDetailsPage/Patient_PrescriptionDetailsPage'
 
 
 
@@ -105,6 +106,7 @@ function App() {
                     </Route>
 
                     <Route path='/patient/profile/prescription' element={<Patient_PrescriptionPage/>}/>
+                    <Route path='/patient/profile/prescription/details/:patientId/:bookingId' element={<Patient_PrescriptionDetailsPage/>}/>
                       
 
                     

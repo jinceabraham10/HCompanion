@@ -83,3 +83,26 @@ exports.patient_getAllPrescriptions=async (req,res)=>{
     }
 
 }
+
+exports.patient_prescriptionFromBooking=async (req,res)=>{
+    try {
+        const {bookingId}=req.body
+        const fetchedDetails=await Patient.findOne({userId:req.user.userId}).populate({path:'userId'})
+        if(!fetchedDetails)
+            return res.status(404).json({message:"patient Not found under the database",errorNoDoctor:true})
+        const fetchedPrescriptionDetails=await Prescription.findOne({bookingId:bookingId}).populate({path:"patientId",populate:{
+            path:"userId"
+        }}).populate({path:"doctorId",populate:{
+                path:"userId"
+            }}).populate({path:"bookingId",populate:{
+                path:"paymentId"
+            }})
+        return res.status(200).json({message:"fetched prescription",prescription:fetchedPrescriptionDetails})
+
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: `error found : ${error}` });
+    }
+
+}
