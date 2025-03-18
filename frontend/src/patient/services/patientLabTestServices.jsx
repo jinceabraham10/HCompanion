@@ -156,3 +156,42 @@ export const patient_orderTestFromDoctorServcie=async ({testOrderId})=>{
         
     }
 }
+
+export const patient_getAllOrderedTestsFromDoctorService=async ()=>{
+    try {
+        const response=await axios.get(`${API}/patient/doctor/test/requests/ordered`,{
+            headers:{
+                Authorization:`bearer ${sessionStorage.getItem('token')}`
+            }
+        })
+        console.log("ordered tests",response.data.orders)
+        return response.data.orders
+    } catch (error) {
+        console.log(error)
+        if(error.status=="500"&&error.response.status.errorServer){
+                Swal.fire({
+                    icon:"error",
+                    text:"Server Issue"
+                })
+            }
+            else if(error.status=="400"&&error.response.data.invalidToken){
+                Swal.fire({
+                    icon:"warning",
+                    text:"Log In"
+                })
+            }else if(error.status=="401"){
+                Swal.fire({
+                    icon:"warning",
+                    text:"Log In"
+                })
+            }else if(error.status=="404" && error.response.data.errorNoPatient){
+                Swal.fire({
+                    icon:"warning",
+                    text:"Patient Can't be found"
+                })
+            }
+    
+            return false
+        
+    }
+}

@@ -372,3 +372,44 @@ exports.laboratory_getuploadedTestResult=async (req,res)=>{
 
 }
 
+exports.patient_getOrderedTests=async (req,res)=>{
+  try {
+    const fetchedDetails=await Patient.findOne({userId:req.user.userId}).populate({path:'userId'})
+    if(!fetchedDetails)
+        return res.status(404).json({message:"Laboratory Not found under the database",errorNoLaboratory:true})
+    const requestedTestOrders=await TestOrder.find({orderStatus:{$ne:"0"}}).populate({path:"patientId",populate:[
+      {
+        path:"userId"
+      },
+      {
+        path:"addressId"
+      }
+
+    ]}).populate({path:"doctorId",populate:{
+            path:"userId"
+          }}).populate({path:"labTestId",populate:[
+                {
+                  path:"testId"
+                },
+                {
+                  path:"labId",
+                  populate:{
+                      path:"userId"
+                    
+                  }
+                }
+              ]
+              }).populate({path:"bookingId",populate:{
+                    path:"paymentId"
+                  }})
+    const filteredOrderedTestOrders=await requestedTestOrders.filter((order)=>(order.patientId._id=fetchedDetails._id))
+    // console.log("ordered tests",filteredOrderedTestOrders)
+    return res.status(200).json({message:"Requested Tests have been fetched",orders:filteredOrderedTestOrders})
+    
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message:"Faced issue on the backend",error:error})
+  }
+
+}
+

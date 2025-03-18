@@ -60,6 +60,7 @@ import Laboratory_TestOrdered from './laboratory/pages/laboratoryTestOrdered/Lab
 import Laboratory_CompletedTestOrdered from './laboratory/pages/laboratoryCompletedTestOrdered/Laboratory_CompletedTestOrdered'
 import Laboratory_TestResultPage from './laboratory/pages/laboratory_uploadTestResult.jsx/Laboratory_TestResultPage'
 import Patient_PastBookingPage from './patient/pages/patientPastBookedPage/Patient_PastBookingPage'
+import Patient_OrderedTestPage from './patient/pages/patient_orderedestPage/Patient_OrderedTestPage'
 
 
 
@@ -96,7 +97,7 @@ function App() {
 
                     <Route path='/patient/profile/test' element={<Patient_TestPageBasic/>}>
                         <Route path='/patient/profile/test/requests' element={<Patient_RequestedTestPage/>}/>
-                        <Route path='/patient/profile/test/ordered' element={<Patient_RequestedTestPage/>}/>
+                        <Route path='/patient/profile/test/ordered' element={<Patient_OrderedTestPage/>}/>
                         
                     </Route>
 
