@@ -11,7 +11,7 @@ function DoctorCard(props) {
         <div className='details w-full h-full pl-2 pt-5 flex flex-row  gap-4 '>
             <div className='w-[50%] h-full pl-10 pt-1 flex flex-col  gap-4'>
                 <div className=' w-auto'>
-                    <span className='text-sm font-medium opacity-40'>Cardilogy</span>
+                    <span className='text-sm font-medium opacity-40'>{props?.doctor?.specialization}</span>
                 </div>
                 <span className='text-xl font-medium'>{`Dr. ${props.doctor.userId.username}`}</span>
                 <span className='font-sm opacity-60'>16 years of experience</span>

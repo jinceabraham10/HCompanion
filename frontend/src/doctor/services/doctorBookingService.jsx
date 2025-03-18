@@ -8,7 +8,7 @@ export const doctor_getAllCurrentBookingService=async ()=>{
     try {
         const response=await axios.get(`${API}/doctor/bookings/getAllCurrentBookings`,{
             headers:{
-                Authorization:`bearer ${token}`
+                Authorization:`bearer ${sessionStorage.getItem('token')}`
             }
         })
         console.log(response.data)
@@ -27,7 +27,7 @@ export const doctor_getAllPastCompletedBookingService=async ()=>{
     try {
         const response=await axios.get(`${API}/doctor/bookings/getPastCompletedBookings`,{
             headers:{
-                Authorization:`bearer ${token}`
+                Authorization:`bearer ${sessionStorage.getItem('token')}`
             }
         })
         console.log(response.data)

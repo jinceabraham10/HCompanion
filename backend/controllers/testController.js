@@ -413,3 +413,76 @@ exports.patient_getOrderedTests=async (req,res)=>{
 
 }
 
+exports.patient_getuploadedTestResult=async (req,res)=>{
+  try {
+    const {testOrderId}=req.body
+    const fetchedDetails=await Patient.findOne({userId:req.user.userId}).populate({path:'userId'})
+    if(!fetchedDetails)
+        return res.status(404).json({message:"Patient Not found under the database",errorNoLaboratory:true})
+    const requestedTestResultDetails=await TestResult.findOne({testOrderId}).populate({path:"testOrderId",populate:{
+        path:"bookingId"
+      }
+    }).populate({path:"patientId",populate:[
+        {
+          path:"userId"
+        },
+        {
+          path:"addressId"
+        }
+
+      ]}).populate({path:"doctorId",populate:{
+              path:"userId"
+            }})
+    // const filteredRequestedTestOrders=await requestedTestOrders.filter((order)=>(order.labTestId.labId._id=fetchedDetails._id))
+
+    return res.status(200).json({message:"Completed Requested Tests have been fetched",result:requestedTestResultDetails})
+    
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message:"Faced issue on the backend",error:error})
+  }
+
+}
+
+exports.patient_getCompletedTestOrderDetails=async (req,res)=>{
+  try {
+    const {testOrderId}=req.body
+    const fetchedDetails=await Patient.findOne({userId:req.user.userId}).populate({path:'userId'})
+    if(!fetchedDetails)
+        return res.status(404).json({message:"Patient Not found under the database",errorNoLaboratory:true})
+    const requestedTestOrderDetails=await TestOrder.findOne({$and:[{orderStatus:"2"},{_id:testOrderId}]}).populate({path:"patientId",populate:[
+      {
+        path:"userId"
+      },
+      {
+        path:"addressId"
+      }
+
+    ]}).populate({path:"doctorId",populate:{
+            path:"userId"
+          }}).populate({path:"labTestId",populate:[
+                {
+                  path:"testId"
+                },
+                {
+                  path:"labId",
+                  populate:{
+                      path:"userId"
+                    
+                  }
+                }
+              ]
+              }).populate({path:"bookingId",populate:{
+                    path:"paymentId"
+                  }})
+    // const filteredRequestedTestOrders=await requestedTestOrders.filter((order)=>(order.labTestId.labId._id=fetchedDetails._id))
+
+    return res.status(200).json({message:"Completed Requested Tests have been fetched",order:requestedTestOrderDetails})
+    
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message:"Faced issue on the backend",error:error})
+  }
+
+}
+

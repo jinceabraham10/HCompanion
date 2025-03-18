@@ -122,7 +122,7 @@ function Laboratory_OrderedTestCard(props) {
 
             </div>
             <div className='w-full h-[5vh] flex gap-2'>
-                <button className='w-full h-full p-4 bg-emerald-500 flex justify-center items-center' onClick={(e)=>handleCompleteOrderTest(e,testOrder._id)}>
+                <button className='w-full h-full p-4 bg-emerald-500 flex justify-center items-center' onClick={(e)=>handleCompleteOrderTest (e,testOrder._id)}>
                     Completed
 
                 </button>
