@@ -14,6 +14,9 @@ router.post('/laboratory/test/addTest',uploadTestImage.single("testImage"),admin
 router.get('/laboratory/test/getTestCategory',getTestsPresent)
 
 
+router.get('/getBasicDetails',jwtMiddleware,getUserDetails)
+
+
 
 
 

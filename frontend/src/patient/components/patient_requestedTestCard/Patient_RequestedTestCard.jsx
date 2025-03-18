@@ -2,16 +2,29 @@ import React from 'react'
 import { FaLocationDot } from "react-icons/fa6";
 import { patient_orderTestFromDoctorServcie } from '../../services/patientLabTestServices';
 import Swal from 'sweetalert2';
+import { paymentCreateOrderService } from '../../services/paymentServices';
+import { labtest_paymentOption } from '../../utils/paymentUtils';
 
 function Patient_RequestedTestCard(props) {
     const {testOrder}=props
     console.log(testOrder)
 
     const handleOrderTest=async (e,testOrderId)=>{
-        const orderedTest=await patient_orderTestFromDoctorServcie({testOrderId})
-        if(orderedTest){
-            Swal.fire("Successfully Ordered Test","","success")
+        const paymentOrder=await paymentCreateOrderService({amount:100})
+        if(paymentOrder){
+            const options=labtest_paymentOption({
+                order:paymentOrder,
+                testOrder:testOrder,
+            })
+            // await console.log(`options ${JSON.stringify(options)}`)
+            const paymentObject=new Razorpay(options)
+            await paymentObject.open()
+                    
         }
+        // const orderedTest=await patient_orderTestFromDoctorServcie({testOrderId})
+        // if(orderedTest){
+        //     Swal.fire("Successfully Ordered Test","","success")
+        // }
     }
   return (
     <div className='w-full h-full flex '>

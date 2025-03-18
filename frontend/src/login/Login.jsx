@@ -49,6 +49,8 @@ function Login() {
           return navigate('/doctor')
         else if(userData.role=="3")
           return navigate('/laboratory')
+        else if(userData.role=="4")
+          return navigate('/admin')
         else
            navigate('/')
 

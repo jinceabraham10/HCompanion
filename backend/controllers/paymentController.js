@@ -112,3 +112,38 @@ exports.paymentMedicineRequestVerification=async (req,res,next)=>{
     }
 
 }
+
+exports.paymentLabTestRequestVerification=async (req,res,next)=>{
+    try {
+
+        const { razorpay_order_id,razorpay_payment_id,razorpay_signature,labId,order}=req.body
+        // await console.log(req.body)
+        // await console.log(`recieved order ${JSON.stringify(order)}`)
+        // const paymentVerificationStatus=validatePaymentVerification({"order_id": razorpay_order_id, "payment_id": razorpay_payment_id }, razorpay_signature,RAZOR_PAY_SECRET);
+        const generatedSignature=await crypto.createHmac('sha256',RAZOR_PAY_SECRET).update(`${razorpay_order_id}|${razorpay_payment_id}`).digest('hex')
+        // await console.log(`generated signature ${generatedSignature}`)
+        // await console.log(`razorpay signature ${razorpay_signature}`)
+        const paymentVerificationStatus=(generatedSignature==razorpay_signature)
+        // await console.log(`paymentVerificationStatus ${paymentVerificationStatus}`)
+        if(!paymentVerificationStatus)
+            return res.status(400).json({message:"payment verification failed",paymentNotVerified:true})
+        // const payer=await User({_id:req.user.userId})
+        const reciever=await Laboratory.findOne({_id:labId})
+        // await console.log(`doctor ${JSON.stringify(Doctor)}`)
+        const newPayment=new Payment({payerId:req.user.userId,recieverId:reciever.userId,paymentCategory:"bookingTest",paymentDetails:order})
+        const savedPayment=await newPayment.save()
+        if(savedPayment){
+            req.user.paymentId=savedPayment._id
+            return next()
+        }
+            
+        return res.status(400).json({message:"payment has been done and updation on the process"},paymentNotVerified)
+
+
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Error at the backend"})
+    }
+
+}

@@ -117,11 +117,21 @@ export const patient_getAllRequestedTestsFromDoctorServcie=async ()=>{
     }
 }
 
-export const patient_orderTestFromDoctorServcie=async ({testOrderId})=>{
+export const patient_orderTestFromDoctorServcie=async ({razorpay_order_id,
+    razorpay_payment_id,
+    razorpay_signature,
+    order,
+    labId,
+    testOrderId})=>{
     try {
-        const response=await axios.post(`${API}/patient/doctor/test/requests/order`,{testOrderId},{
+        const response=await axios.post(`${API}/patient/doctor/test/requests/order`,{razorpay_order_id,
+            razorpay_payment_id,
+            razorpay_signature,
+            order,
+            labId,
+            testOrderId},{
             headers:{
-                Authorization:`bearer ${token}`
+                Authorization:`bearer ${sessionStorage.getItem('token')}`
             }
         })
 

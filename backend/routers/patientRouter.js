@@ -6,7 +6,7 @@ const { getUserDetails } = require("../controllers/jwtController")
 const { getAllMedicinesFromInventory, patientViewMedicineDetails, patientUpdateProfileDetails, patientViewProfileDetails, patient_getAllTestsAvailable, patient_getTestDetailsAndLabs } = require("../controllers/patientController");
 const { getAllDoctors, getDoctorDetails } = require("../controllers/doctorController");
 const { getDoctorFreeSlots, bookSlot, patient_getAllCurrentBookings, patient_cancelBooking, patient_getPastBookings } = require("../controllers/bookingController");
-const { paymentCreateOrder, paymentBookingVerification, paymentMedicineRequestVerification } = require("../controllers/paymentController");
+const { paymentCreateOrder, paymentBookingVerification, paymentMedicineRequestVerification, paymentLabTestRequestVerification } = require("../controllers/paymentController");
 const { addAddress, patient_getAddressAndPhone } = require("../controllers/addressController");
 const { patient_getRequestedMedicineFromDoctor, patient_orderRequestedMedicine, patient_orderedRequestedMedicine } = require("../controllers/medicineController");
 const { patient_getRequestedTestsFromDoctor, patient_orderRequestedTestsFromDoctor, patient_getOrderedTests, patient_getuploadedTestResult, patient_getCompletedTestOrderDetails } = require("../controllers/testController");
@@ -66,7 +66,7 @@ router.get('/doctors/medicine/requests/ordered',jwtMiddleware,patient_orderedReq
 //testRequests
 
 router.get('/doctor/test/requests',jwtMiddleware,patient_getRequestedTestsFromDoctor)
-router.post('/doctor/test/requests/order',jwtMiddleware,patient_orderRequestedTestsFromDoctor)
+router.post('/doctor/test/requests/order',jwtMiddleware,paymentLabTestRequestVerification,patient_orderRequestedTestsFromDoctor)
 router.get('/doctor/test/requests/ordered',jwtMiddleware,patient_getOrderedTests)
 router.post('/doctor/test/requests/complete/result',jwtMiddleware,patient_getuploadedTestResult)
 router.post('/doctor/test/requests/completed/orderDetails',jwtMiddleware,patient_getCompletedTestOrderDetails)

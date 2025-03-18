@@ -68,6 +68,7 @@ import Pharmacy_ContactPage from './pharmacy/pages/contactDetails/Pharmacy_Conta
 import LaboratoryProfileBasic from './laboratory/pages/laboratoryProfileBasic/LaboratoryProfileBasic'
 import Laboratory_ProfileDetails from './laboratory/pages/laboratory_profileDetails/Laboratory_ProfileDetails'
 import Laboratory_ContactPage from './laboratory/pages/laboratory_contactDetails/Laboratory_ContactPage'
+import Admin_PageBasic from './admin/pages/admin_PageBasic/admin_PageBasic'
 
 
 
@@ -196,6 +197,29 @@ function App() {
                        <Route path='/laboratory/profile/passwordReset' element={<PasswordReset/>}/>
                 </Route>
                 
+          </Route>
+
+
+
+          //Admin
+
+          <Route path='/admin' element={<Admin_PageBasic/>}>
+            {/* <Route path='/admin/' element={<SlotSettingPage/>}/> */}
+            {/* <Route path='/doctor/profile' element={<DoctorProfilePageBasic/>}>
+                      <Route path='/doctor/profile/details' element={<DoctorProfileDetails/>}/>
+                      <Route path='/doctor/profile/contact' element={<DoctorContactPage/>}/>
+                      <Route path='/doctor/profile/resetPassword' element={<DoctorResetPassword/>}/>
+            </Route>
+            <Route path='/doctor/bookings' element={<Doctor_BookingsBasic/>}>
+                <Route path='/doctor/bookings/currentBookings' element={<Doctor_CurrentBookings/>}/>
+                <Route path='/doctor/bookings/pastCompletedBookings' element={<Doctor_PastBookings/>}/>
+                <Route path='/doctor/bookings/prescription/:patientId/:bookingId' element={<Doctor_PrescriptionPage/>}/>
+                <Route path='/doctor/bookings/medicine/:patientId/:bookingId' element={<Doctor_MedicinePage/>}/>
+                <Route path='/doctor/bookings/labtest/:patientId/:bookingId' element={<DoctorLabTestsPage/>}/>
+                <Route path='/doctor/bookings/labtest/testDetails/:patientId/:bookingId/:testId' element={<Doctor_LaboratoryPage/>}/>
+            </Route> */}
+
+
           </Route>
 
 

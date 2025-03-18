@@ -25,6 +25,7 @@ const Labtest = require("../models/labtestModel");
 const TestOrder = require("../models/testOrderModel");
 const MedicineOrder = require("../models/medicineOrderModel");
 const TestResult = require("../models/testresultModel");
+dayjs.extend(customParseFormat)
 
 
 exports.admin_addTestToDatabase=async (req,res)=>{  
@@ -196,6 +197,8 @@ exports.laboratory_getOrderedTests=async (req,res)=>{
                     path:"paymentId"
                   }})
     const filteredRequestedTestOrders=await requestedTestOrders.filter((order)=>(order.labTestId.labId._id=fetchedDetails._id))
+
+    // filteredRequestedTestOrders.sort((a,b)=>dayjs(`${b.bookingId.bookedDate}`)-dayjs(`${a.bookingId.bookedDate}`))
 
     return res.status(200).json({message:"Requested Tests have been fetched",orders:filteredRequestedTestOrders})
     
@@ -403,7 +406,8 @@ exports.patient_getOrderedTests=async (req,res)=>{
                     path:"paymentId"
                   }})
     const filteredOrderedTestOrders=await requestedTestOrders.filter((order)=>(order.patientId._id=fetchedDetails._id))
-    // console.log("ordered tests",filteredOrderedTestOrders)
+    filteredOrderedTestOrders.sort((a,b)=>dayjs(b.createdAt).valueOf()-dayjs(a.createdAt).valueOf())
+    console.log("ordered tests",filteredOrderedTestOrders)
     return res.status(200).json({message:"Requested Tests have been fetched",orders:filteredOrderedTestOrders})
     
   } catch (error) {

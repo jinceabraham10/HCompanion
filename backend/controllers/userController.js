@@ -338,5 +338,59 @@ exports.resetPasswordFromProfile = async (req, res) => {
 };
 
 
+exports.createAdminAccount = async (req, res) => {
+  try {
+
+    // await console.log(`session ${req.sessionID}`);
+    // await console.log(`user ${JSON.stringify(req.session.user)}`);
+    // var newLaboratory,savedLaboratory;
+    // const userData = req.session.user;
+    const {username,email,password,phone}=req.body
+    // userData.password = await bcryptjs.hash(userData.password, 10);
+    const hashedPassword = await bcryptjs.hash(password, 10);
+    // console.log(userData);
+    const newUser = new User({username,password:hashedPassword,phone,email});
+    const savedUser = await newUser.save();
+    // if (savedUser) {
+    //   try {
+    //     newLaboratory=new L({userId:savedUser._id}) 
+    //     savedLaboratory=await newLaboratory.save()
+    //     if(savedLaboratory){
+    //       await onSuccessfullRegistration(userData.email);
+    //     }   
+    //   } catch (error) {
+    //     const deletedUser=await User.deleteOne({email:userData.email})
+    //     console.log(`deleted user on error ${deletedUser}`)
+    //     res.status(400).json({ message: `error found : ${error}` });
+        
+    //   }
+      
+    // }
+    // req.session.destroy()
+    // res.clearCookie("connect.sid", { path: "/" }).status(200)
+    // .json({
+    //   message: `user has created the account successfully`,
+    //   CreationStatus: true,
+    // });
+    if (savedUser) {
+      return res.status(200)
+      .json({
+        message: `user has created the account successfully`,
+        CreationStatus: true,
+      });
+
+    }
+    res.status(400)
+      .json({
+        message: `user hasn't been created `
+      });
+
+   
+  } catch (error) {
+    res.status(400).json({ message: `error found : ${error}` });
+    console.log(error)
+  }
+};
+
 
 
