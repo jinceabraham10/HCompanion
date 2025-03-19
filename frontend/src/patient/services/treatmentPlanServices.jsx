@@ -8,7 +8,7 @@ export const getSuggestedDoctor=async ({diseaseName})=>{
     try {
 
         const response=await axios.post('http://localhost:8000/predict',{
-           "Medical Condition":diseaseName,
+           "Medical Condition":diseaseName.toLowerCase(),
            "Blood Type":"O+",
            "Gender":"Male"
         })

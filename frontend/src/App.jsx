@@ -69,6 +69,9 @@ import LaboratoryProfileBasic from './laboratory/pages/laboratoryProfileBasic/La
 import Laboratory_ProfileDetails from './laboratory/pages/laboratory_profileDetails/Laboratory_ProfileDetails'
 import Laboratory_ContactPage from './laboratory/pages/laboratory_contactDetails/Laboratory_ContactPage'
 import Admin_PageBasic from './admin/pages/admin_PageBasic/admin_PageBasic'
+import PatientHome from './patient/pages/patientHome/PatientHome'
+import DoctorHome from './doctor/pages/DoctorHome/DoctorHome'
+import LaboratoryHome from './laboratory/pages/LaboratoryHome/LaboratoryHome'
 
 
 
@@ -86,7 +89,7 @@ function App() {
           //Patient
 
           <Route path='/' element={<PatientHomePage/>}>
-               
+               <Route path='patient/home' element={<PatientHome/>}/>
                <Route path='/patient/medicines' element={<MedicinePage/>}/>
                <Route path='/patient/medicines/medicineDetails' element={<MedicineDetails/>}/>
 
@@ -158,6 +161,7 @@ function App() {
 
           <Route path='/doctor' element={<DoctorPageBasic/>}>
              <Route path='/doctor/slot' element={<SlotSettingPage/>}/>
+             <Route path='/doctor/home' element={<DoctorHome/>}/>
              <Route path='/doctor/profile' element={<DoctorProfilePageBasic/>}>
                        <Route path='/doctor/profile/details' element={<DoctorProfileDetails/>}/>
                        <Route path='/doctor/profile/contact' element={<DoctorContactPage/>}/>
@@ -178,6 +182,7 @@ function App() {
           //Laboratory
 
           <Route path='/laboratory' element={<LaboratoryPageBasic/>}>
+              <Route path='/laboratory/home' element={<LaboratoryHome/>}></Route>
               <Route path='/laboratory/testServices' element={<LaboratoryTestServicesBasic/>}>
                    <Route path='/laboratory/testServices/addTest' element={<LaboratoryAddTest/>}/>
                    <Route path='/laboratory/testServices/viewTests' element={<LaboratoryViewTests/>}/>

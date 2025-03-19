@@ -66,7 +66,7 @@ function LaboratryNavbar() {
            <div className='option p-2 w-full h-[10%] flex flex-row gap-4 justify-start bg-white bg-opacity-30 '>
              <img src="/icons/laboratory_homeIcon.jpg" alt="home img" className='bg-white h-full rounded-sm' />
              <button className='h-full cursor-pointer' onClick={()=>{
-               navigate('')
+               navigate('/laboratory/home')
              }}>
                Home
              </button>

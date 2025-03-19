@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import { getSuggestedDoctor } from '../../services/treatmentPlanServices'
-import Patient_SuggestedDoctorCard from '../../components/patient_suggestedDoctorCard/Patient_SuggestedDoctorCard'
 import { getDoctorDetailsService } from '../../services/patientDoctorServices'
 import DoctorCard from '../../components/doctorCard/DoctorCard'
+import { GoogleGenerativeAI } from '@google/generative-ai'
+import ReactMarkdown from "react-markdown";
+
+const GEMINI_API=import.meta.env.VITE_GEMINI_API
+
+const genAI = new GoogleGenerativeAI(GEMINI_API);
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 function TreatmentPlan() {
     const [treatmentPlan,setTreatmentPlan]=useState()
@@ -32,13 +38,21 @@ function TreatmentPlan() {
                 <button className='h-full w-[5vw] bg-orange-500 shadow-lg rounded-md' onClick={(e)=>handleClickOnSearch(e,diseaseName)}>Search</button>
             </div>
 
-            <div className='w-full h-full flex border rounded-lg p-2'>
+            <div className='w-full h-auto border rounded-lg p-2 grid grid-cols-2 gap-4'>
 
-              <div className='flex w-[50%] h-[50vh] bg-black bg-opacity-20'>
+              <div className='flex w-full h-auto bg-black bg-opacity-20'>
                 {
                     (diseaseName)&& <Patient_DoctorSuggestion diseaseName={diseaseName}/>
                 }
 
+
+              </div >
+
+              <div className='flex w-full h-auto bg-black bg-opacity-20 p-2'>
+
+                {
+                    (diseaseName)&& <Patient_SuggestedPrecautions diseaseName={diseaseName}/>
+                }
 
               </div>
                 
@@ -84,6 +98,42 @@ function Patient_DoctorSuggestion(props){
                 
             </div>
 
+
+        </div>
+    )
+}
+
+function Patient_SuggestedPrecautions(props){
+    const {diseaseName}=props
+
+    const [precaution,setPrecaution]=useState("")
+
+    const onLoad=async ()=>{
+        const prompt=`As a doctor explain the precautions to be followed for a patient suffering from disease " ${diseaseName} " and present it in a professional structured way`
+        const result = await model.generateContent(prompt);
+        setPrecaution(result.response.text())
+    }
+
+    useEffect(()=>{
+        onLoad()
+
+    },[])
+
+    useEffect(()=>{
+        onLoad()
+
+    },[diseaseName])
+
+    return(
+        <div className='w-full h-auto flex flex-col gap-4 p-2'>
+            <div className='w-full h-[5vh] bg-red-500 flex items-center justify-center'>
+                {`Precautions for ${diseaseName}`}
+            </div>
+            <div className='w-full h-auto flex flex-col'>
+                    {
+                        <ReactMarkdown>{precaution}</ReactMarkdown>
+                    }
+            </div>
 
         </div>
     )

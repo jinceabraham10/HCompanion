@@ -78,7 +78,7 @@ const navigate=useNavigate()
             </div>
             <div className='items w-[50%] h-full'>
                 <div className='w-full h-full flex flex-row gap-4 items-center p-5 ml-10 '>
-                    <button className={`font-medium text-lg p-2 `} onClick={()=>navigate('/')}>
+                    <button className={`font-medium text-lg p-2 `} onClick={()=>navigate('/patient/home')}>
                         Home
                     </button>
 
