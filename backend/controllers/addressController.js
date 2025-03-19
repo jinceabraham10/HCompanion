@@ -62,6 +62,43 @@ exports.addAddress=async (req,res)=>{
     }
 }
 
+exports.doctor_approval_addAddress=async (req,res)=>{
+    try {
+        const {place,state,district,country,pincode,houseName}=req.body
+        var userRole;
+        var updated;
+        const user=await User.findOne({_id:req.user.userId})
+        await console.log("user",user)
+        const newAddress=await Address({place,state,district,country,pincode,houseName})
+        const addedAddress=await newAddress.save()
+        if(!addedAddress)
+            return res.status(400).json({message:"Address hasn't been added. Some issue at the backend",errorDatabaseIssue:true})
+        if(user.role=="0"){
+            updated=await Patient.updateOne({userId:user._id},{addressId:addedAddress._id})
+        }
+        else if(user.role=="1"){
+            updated=await Doctor.updateOne({userId:user._id},{addressId:addedAddress._id})
+        }
+        else if(user.role=="2"){
+                updated=await Pharmacy.updateOne({userId:user._id},{addressId:addedAddress._id})
+        }
+        else if(user.role=="3"){
+            updated=await Laboratory.updateOne({userId:user._id},{addressId:addedAddress._id})
+        }
+        
+        await console.log(updated)
+        if(updated.modifiedCount<1){
+            const deleted=await Address.deleteOne({_id:addedAddress._id})
+            await console.log("deleted",deleted)
+            return res.status(404).json({message:"User couldn't be found",errorDatabaseIssue:true})
+        }
+        return res.status(200).json({message:"Address has been added",addedAddress:addedAddress})
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({message:"Server Error",errorServer:true})
+    }
+}
+
 exports.doctor_updateAddressAndPhone=async (req,res)=>{
     try {
         const {phone,...addressDetails}=req.body
@@ -140,7 +177,7 @@ exports.patient_getAddressAndPhone=async (req,res)=>{
     }
 }
 
-exports.doctor_updateAddressAndPhone=async (req,res)=>{
+exports.patient_updateAddressAndPhone=async (req,res)=>{
     try {
         const {phone,...addressDetails}=req.body
         var updated;
@@ -157,7 +194,7 @@ exports.doctor_updateAddressAndPhone=async (req,res)=>{
         const address=await Address.findOne({_id:patient.addressId})
         if(!address)
             return res.status(404).json({message:"Address doesn't present in the database",errorDatabaseIssue:true})
-        const updatedAddress=await Address.updateOne({_id:doctor.addressId},addressDetails)
+        const updatedAddress=await Address.updateOne({_id:patient.addressId},addressDetails)
         console.log('updated Address',updatedAddress)
         if(phone){
             const updatedPhone=await User.updateOne({_id:req.user.userId},{phone:phone})

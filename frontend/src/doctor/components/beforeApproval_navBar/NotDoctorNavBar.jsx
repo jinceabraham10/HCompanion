@@ -9,7 +9,7 @@ import { doctor_createWebSocketConnection } from '../../utils/doctor_webSocket'
 // import { setPatient } from '../../../redux/slices/patientSlice'
 
 
-function DoctorNavBar() {
+function NotDoctorNavBar() {
     const navigate=useNavigate()
     const dispatch=useDispatch()
     const {username,email,role,isLoggedIn}=useSelector((state)=>state.user)
@@ -21,13 +21,7 @@ function DoctorNavBar() {
             const tempPatient=await getDoctorBasicDetails({token:sessionStorage.getItem('token')})
             if(tempPatient){
                 const tempDoctor=await getDoctorProfileDetails({token:sessionStorage.getItem('token')})
-                if(tempDoctor?.approvalStatus=="0"){
-                    navigate('/doctor/approval/form')
-                }
-                else if(tempDoctor?.approvalStatus=="1"){
-                    navigate('/doctor/approval/submitted')
-                }
-                await doctor_createWebSocketConnection({userId:tempPatient._id})
+                // await doctor_createWebSocketConnection({userId:tempPatient._id})
                 console.log(tempDoctor)
                 dispatch(setUser({
                     username:tempPatient.username,
@@ -150,4 +144,4 @@ function DoctorNavBar() {
   )
 }
 
-export default DoctorNavBar
+export default NotDoctorNavBar

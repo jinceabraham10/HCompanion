@@ -46,8 +46,23 @@ const DoctorSchema=new mongoose.Schema({
     price:{
         type:mongoose.Schema.Types.Double,
         default:100.0
+    },
+    license:{
+        type:String,
+        default:""
+    },
+    specialization:{
+        type:String,
+        default:""
+    },
+    educationId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"doctoreducation"
+    },
+    approvalStatus:{
+        type:String,
+        default:"0"
     }
-
 
 },{timestamps:true})
 

@@ -6,11 +6,6 @@ import DoctorCard from '../../components/doctorCard/DoctorCard'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import ReactMarkdown from "react-markdown";
 
-const GEMINI_API=import.meta.env.VITE_GEMINI_API
-
-const genAI = new GoogleGenerativeAI(GEMINI_API);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
 function TreatmentPlan() {
     const [treatmentPlan,setTreatmentPlan]=useState()
     const [diseaseName,setDiseaseName]=useState(undefined)
@@ -104,6 +99,9 @@ function Patient_DoctorSuggestion(props){
 }
 
 function Patient_SuggestedPrecautions(props){
+    const GEMINI_API=import.meta.env.VITE_GEMINI_API
+    const genAI = new GoogleGenerativeAI(GEMINI_API);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const {diseaseName}=props
 
     const [precaution,setPrecaution]=useState("")

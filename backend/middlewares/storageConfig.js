@@ -90,6 +90,25 @@ const storageTestImage=new CloudinaryStorage({
     }
 })
 
+const storageDoctorFiles=new CloudinaryStorage({
+    cloudinary:cloudinary,
+    params:{
+        folder:'doctor/files',
+        allowed_formats:["jpeg", "png", "jpg","pdf"],
+        public_id:(req,file)=>{
+            if(file.fieldname=="tenCertificate")
+                return `${req.user.userId}_tenCertificate`
+            if(file.fieldname=="twelfthCertificate")
+                return `${req.user.userId}_twelfthCertificate`
+            if(file.fieldname=="collegeCertificate")
+                return `${req.user.userId}_collegeCertificate`
+            if(file.fieldname=="profileImage")
+                return `${req.user.userId}_profileImage`
+            
+        }
+    }
+})
+
 
 exports.uploadPatientProfileImage=multer({storage:storagePatientProfile})
 
@@ -102,3 +121,5 @@ exports.uploadTestImage=multer({storage:storageTestImage})
 exports.uploadPharmacyProfileImage=multer({storage:storagePharmacyProfile})
 
 exports.uploadLaboratoryProfileImage=multer({storage:storageLaboratoryProfile})
+
+exports.uploadDoctorFile=multer({storage:storageDoctorFiles})

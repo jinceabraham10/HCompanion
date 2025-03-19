@@ -4,14 +4,15 @@ const { checkOtpRegisteration, checkOtpForgotPassword } = require("../controller
 const sessionMiddleware = require("../middlewares/sessionConfig")
 const jwtMiddleware = require("../middlewares/jwtConfig")
 const { getUserDetails } = require("../controllers/jwtController")
-const { doctorViewProfileDetails, doctor_updateDoctorDetails } = require("../controllers/doctorController")
+const { doctorViewProfileDetails, doctor_updateDoctorDetails, doctor_approval_updateDoctorDetails, doctor_approval_getAllDetails } = require("../controllers/doctorController")
 const { getSlots, checkSlot, addSlot, doctor_removeSlot, doctor_getAllCurrentBookings, doctor_getPastBookings } = require("../controllers/bookingController")
-const { uploadDoctorProfileImage } = require("../middlewares/storageConfig")
-const { addAddress, doctor_getAddressAndPhone, doctor_updateAddressAndPhone } = require("../controllers/addressController")
+const { uploadDoctorProfileImage, uploadDoctorFile } = require("../middlewares/storageConfig")
+const { addAddress, doctor_getAddressAndPhone, doctor_updateAddressAndPhone, doctor_approval_addAddress } = require("../controllers/addressController")
 const { doctor_patientViewProfileDetails } = require("../controllers/patientController")
 const { doctor_addPrescription, doctor_onLoadPrescription } = require("../controllers/prescriptionController")
 const { doctor_requestMedicineForPatient } = require("../controllers/medicineController")
 const { doctor_getAllTestsAvailable, doctor_getTestDetailsAndLabs, doctor_requestTestForPatient } = require("../controllers/testController")
+const { doctor_createEducationalDetails } = require("../controllers/educationController")
 const router=express.Router()
 
 router.get('/getBasicDetails',jwtMiddleware,getUserDetails)
@@ -49,6 +50,17 @@ router.get('/patient/test/allTests',jwtMiddleware,doctor_getAllTestsAvailable)
 router.post('/patient/test/testDetails',jwtMiddleware,doctor_getTestDetailsAndLabs)
 router.post('/patient/test/request',jwtMiddleware,doctor_requestTestForPatient)
 
+
+//approval
+
+router.post('/approval/form/submit',jwtMiddleware,uploadDoctorFile.fields([
+    {name:"profileImage",maxCount:1},
+    {name:"license",maxCount:1},
+    {name:"tenCertificate",maxCount:1},
+    {name:"twelfthCertificate",maxCount:1},
+    {name:"collegeCertificate",maxCount:1},
+]),doctor_approval_updateDoctorDetails,doctor_createEducationalDetails,doctor_approval_addAddress)
+router.get('/approval/viewDetails',jwtMiddleware,doctor_approval_getAllDetails)
 
 
 

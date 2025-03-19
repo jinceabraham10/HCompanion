@@ -72,6 +72,9 @@ import Admin_PageBasic from './admin/pages/admin_PageBasic/admin_PageBasic'
 import PatientHome from './patient/pages/patientHome/PatientHome'
 import DoctorHome from './doctor/pages/DoctorHome/DoctorHome'
 import LaboratoryHome from './laboratory/pages/LaboratoryHome/LaboratoryHome'
+import NotDoctorPageBasic from './doctor/pages/notdoctorPageBasic copy/NotDoctorPageBasic'
+import Doctor_ApprovalForm from './doctor/pages/doctor_approvalSubmitForm/Doctor_ApprovalForm'
+import Doctor_ApprovalFormSubmitted from './doctor/pages/doctor_approvalSubmitedForm/Doctor_ApprovalFormSubmitted'
 
 
 
@@ -176,6 +179,12 @@ function App() {
                  <Route path='/doctor/bookings/labtest/testDetails/:patientId/:bookingId/:testId' element={<Doctor_LaboratoryPage/>}/>
              </Route>
 
+          
+          </Route>
+
+          <Route path='/doctor/approval' element={<NotDoctorPageBasic/>}>
+               <Route path='/doctor/approval/form' element={<Doctor_ApprovalForm/>}/>
+               <Route path='/doctor/approval/submitted' element={<Doctor_ApprovalFormSubmitted/>}/>
           
           </Route>
 

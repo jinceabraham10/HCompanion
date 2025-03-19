@@ -7,7 +7,7 @@ const { getAllMedicinesFromInventory, patientViewMedicineDetails, patientUpdateP
 const { getAllDoctors, getDoctorDetails } = require("../controllers/doctorController");
 const { getDoctorFreeSlots, bookSlot, patient_getAllCurrentBookings, patient_cancelBooking, patient_getPastBookings } = require("../controllers/bookingController");
 const { paymentCreateOrder, paymentBookingVerification, paymentMedicineRequestVerification, paymentLabTestRequestVerification } = require("../controllers/paymentController");
-const { addAddress, patient_getAddressAndPhone } = require("../controllers/addressController");
+const { addAddress, patient_getAddressAndPhone, patient_updateAddressAndPhone } = require("../controllers/addressController");
 const { patient_getRequestedMedicineFromDoctor, patient_orderRequestedMedicine, patient_orderedRequestedMedicine } = require("../controllers/medicineController");
 const { patient_getRequestedTestsFromDoctor, patient_orderRequestedTestsFromDoctor, patient_getOrderedTests, patient_getuploadedTestResult, patient_getCompletedTestOrderDetails } = require("../controllers/testController");
 const { patient_getAllPrescriptions, patient_prescriptionFromBooking} = require("../controllers/prescriptionController");
@@ -28,7 +28,7 @@ router.post('/profile/updateDetails',jwtMiddleware,uploadPatientProfileImage.sin
 router.get('/profile/viewDetails',jwtMiddleware,patientViewProfileDetails)
 router.post('/profile/addAddress',jwtMiddleware,addAddress)
 router.get('/profile/getAddessAndPhone',jwtMiddleware,patient_getAddressAndPhone)
-router.post('/profile/updateAddessAndPhone',jwtMiddleware,patient_getAddressAndPhone)
+router.post('/profile/updateAddessAndPhone',jwtMiddleware,patient_updateAddressAndPhone)
 
 
 

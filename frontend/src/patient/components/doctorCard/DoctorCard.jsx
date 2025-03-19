@@ -1,7 +1,13 @@
 import React from 'react'
 import { FaRupeeSign } from "react-icons/fa";
+import {useNavigate} from 'react-router-dom'
 
 function DoctorCard(props) {
+    const navigate=useNavigate()
+    const handleBook=(doctorId)=>{
+        navigate(`/patient/doctors/${doctorId}`)
+
+    }
   return (
     <div className='w-auto h-[25vh] flex flex-row gap-1 hover:bg-blue-400 hover:bg-opacity-40 border shadow-xl p-2 rounded-lg'>
         <div className='w-[30%] h-full flex gap-4 '>
@@ -22,7 +28,7 @@ function DoctorCard(props) {
 
             <div className='w-[50%] h-full pb-8 flex flex-col gap-10 justify-end pr-5'>
                 <span className='text-lg font-bold opacity-80 flex justify-end items-center gap-2'><span className='font-medium'>consultation fee</span><FaRupeeSign/><span>{props.doctor.bookingPrice}</span></span>
-                <button className='w-full h-[5vh] font-medium border rounded-[5%] bg-orange-500 p-2 hover:bg-opacity-50'>Book Consult</button>
+                <button className='w-full h-[5vh] font-medium border rounded-[5%] bg-orange-500 p-2 hover:bg-opacity-50' onClick={(e)=>handleBook(props.doctor._id)}>Book Consult</button>
 
             </div>
 
