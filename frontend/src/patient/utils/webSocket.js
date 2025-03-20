@@ -26,7 +26,7 @@ export const createWebSocketConnection=async ({userId})=>{
         if(data.type=="meetingReminder"){
             const timeDiff=dayjs().diff(dayjs(`${data.booking.startTime}`,'H:mm A'),'minutes')
             // console.log('diff',timeDiff)
-            if(Math.abs(timeDiff)<=60){
+            if(timeDiff<=60 && timeDiff<=60 ){
                 // console.log("i'm here")
                 Swal.fire(`Meeting in ${Math.abs(timeDiff)} minutes`,"","warning")
             }
