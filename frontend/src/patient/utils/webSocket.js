@@ -24,10 +24,11 @@ export const createWebSocketConnection=async ({userId})=>{
         const data=JSON.parse(event?.data)
         // console.log("booking time",data.booking.startTime)
         if(data.type=="meetingReminder"){
-            const timeDiff=dayjs().diff(dayjs(`${data.booking.startTime}`,'H:mm A'),'minutes')
-            // console.log('diff',timeDiff)
-            if(timeDiff<=60 && timeDiff<=60 ){
-                // console.log("i'm here")
+            // const timeDiff=dayjs().diff(dayjs(`${data.booking.startTime}`,'H:mm A'),'minutes')
+            const timeDiff=dayjs(`${data.booking.startTime}`,'H:mm A').diff(dayjs(),'minutes')
+            console.log('diff',timeDiff)
+            if(timeDiff<=60 && timeDiff>0 ){
+                console.log("i'm here")
                 Swal.fire(`Meeting in ${Math.abs(timeDiff)} minutes`,"","warning")
             }
         }
