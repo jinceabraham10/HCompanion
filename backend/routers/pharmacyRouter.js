@@ -4,10 +4,10 @@ const { checkOtpRegisteration, checkOtpForgotPassword } = require("../controller
 const sessionMiddleware = require("../middlewares/sessionConfig")
 const jwtMiddleware = require("../middlewares/jwtConfig")
 const { getUserDetails } = require("../controllers/jwtController")
-const { addMedicineToInventory, updateMedicineStock, viewMedicineStocks, deleteMedicineFromInventory, viewMedicineDetails, pharmacy_updatePharmacyDetails, pharmacy_ViewProfileDetails,  } = require("../controllers/pharmacyController")
-const {uploadMedicineImage, uploadPharmacyProfileImage}=require('../middlewares/storageConfig')
+const { addMedicineToInventory, updateMedicineStock, viewMedicineStocks, deleteMedicineFromInventory, viewMedicineDetails, pharmacy_updatePharmacyDetails, pharmacy_ViewProfileDetails, pharmacy_approval_updatePharmacyDetails, pharmacy_approval_getAllDetails,  } = require("../controllers/pharmacyController")
+const {uploadMedicineImage, uploadPharmacyProfileImage, uploadPharmacyFile}=require('../middlewares/storageConfig')
 const { pharmacy_getRequestedMedicineFromDoctor, pharmacy_deliverRequestedMedicineFromDoctor, pharmacy_getDeliveredMedicine } = require("../controllers/medicineController")
-const { addAddress, pharmacy_updateAddressAndPhone, pharmacy_getAddressAndPhone } = require("../controllers/addressController")
+const { addAddress, pharmacy_updateAddressAndPhone, pharmacy_getAddressAndPhone, approval_addAddress } = require("../controllers/addressController")
 const router=express.Router()
 
 router.post('/medicine/add',jwtMiddleware,uploadMedicineImage.single("medicineImage"),addMedicineToInventory)
@@ -28,6 +28,18 @@ router.get('/profile/getProfileDetails',jwtMiddleware,pharmacy_ViewProfileDetail
 router.post('/profile/addAddress',jwtMiddleware,addAddress)
 router.post('/profile/updateContactDetails',jwtMiddleware,pharmacy_updateAddressAndPhone)
 router.get('/profile/getContactDetails',jwtMiddleware,pharmacy_getAddressAndPhone)
+
+
+//approval
+
+router.post('/approval/form/submit',jwtMiddleware,uploadPharmacyFile.fields([
+    {name:"profileImage",maxCount:1},
+    {name:"license",maxCount:1},
+]),pharmacy_approval_updatePharmacyDetails,approval_addAddress)
+
+router.get('/approval/viewDetails',jwtMiddleware,pharmacy_approval_getAllDetails)
+
+
 
 
 

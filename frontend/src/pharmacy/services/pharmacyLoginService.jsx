@@ -7,7 +7,7 @@ export const getPharmacyBasicDetails=async ({token})=>{
 
         const response=await axios.get(`${API}/pharmacy/getBasicDetails`,{
             headers:{
-                authorization:`Bearer ${token}`
+                authorization:`Bearer ${sessionStorage.getItem('token')}`
             }
         })
         console.log(response.data)

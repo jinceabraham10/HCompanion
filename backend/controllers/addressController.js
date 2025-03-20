@@ -62,7 +62,7 @@ exports.addAddress=async (req,res)=>{
     }
 }
 
-exports.doctor_approval_addAddress=async (req,res)=>{
+exports.approval_addAddress=async (req,res)=>{
     try {
         const {place,state,district,country,pincode,houseName}=req.body
         var userRole;

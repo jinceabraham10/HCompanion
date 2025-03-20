@@ -47,7 +47,7 @@ exports.doctorViewProfileDetails= async (req,res)=>{
 exports.getAllDoctors= async (req,res)=>{
     try {  
       // const profileDetails=req.body
-      const fetchedDoctors=await Doctor.find().populate("userId")
+      const fetchedDoctors=await Doctor.find({approvalStatus:"2"}).populate("userId")
       // if(!fetchedDetails)
       //   return res.status(404).json({message:"doctor Not found under the database",errorNoDoctor:true})
       // const uDetails=await Patient.updateOne({userId:req.user.userId},{profileDetails})

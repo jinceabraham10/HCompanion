@@ -26,6 +26,15 @@ addressId:{
     type: Number,
     default: "0",
   },
+  approvalStatus:{
+   type:String,
+   default:"0"
+},
+license:{
+   type:String,
+   default:""
+
+}
 },{timestamps:true});
 
 

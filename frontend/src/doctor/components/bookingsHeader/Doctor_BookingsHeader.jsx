@@ -7,6 +7,7 @@ function Doctor_BookingsHeader() {
         <div className='options w-full flex justify-start gap-10'>
             <Link className='w-auto h-auto px-16 py-6 text-md font-medium bg-blue-500 flex justify-center items-center shadow-lg shadow-emerald-400' to='currentBookings'>Booked</Link>
             <Link className='w-auto h-auto px-16 py-6 text-md font-medium bg-red-500 flex justify-center items-center shadow-lg shadow-emerald-400' to='pastCompletedBookings'>Past Bookings</Link>
+            <Link className='w-auto h-auto px-16 py-6 text-md font-medium bg-orange-500 flex justify-center items-center shadow-lg shadow-emerald-400' to='test/ordered'>Requested Test Results</Link>
         </div>
       
     </div>

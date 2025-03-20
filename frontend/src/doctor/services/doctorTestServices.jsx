@@ -111,3 +111,123 @@ export const doctor_requestTestAndLabService=async ({labTestId,patientId,booking
         
     }
 }
+
+export const doctor_getAllOrderedTestsFromDoctorService=async ()=>{
+    try {
+        const response=await axios.get(`${API}/doctor/patient/test/getOrderedTests`,{
+            headers:{
+                Authorization:`bearer ${sessionStorage.getItem('token')}`
+            }
+        })
+        console.log("ordered tests",response.data.orders)
+        return response.data.orders
+    } catch (error) {
+        console.log(error)
+        if(error.status=="500"&&error.response.status.errorServer){
+                Swal.fire({
+                    icon:"error",
+                    text:"Server Issue"
+                })
+            }
+            else if(error.status=="400"&&error.response.data.invalidToken){
+                Swal.fire({
+                    icon:"warning",
+                    text:"Log In"
+                })
+            }else if(error.status=="401"){
+                Swal.fire({
+                    icon:"warning",
+                    text:"Log In"
+                })
+            }else if(error.status=="404" && error.response.data.errorNoPatient){
+                Swal.fire({
+                    icon:"warning",
+                    text:"Patient Can't be found"
+                })
+            }
+    
+            return false
+        
+    }
+}
+
+export const doctor_getCompletedOrderTestDetailsService=async ({testOrderId})=>{
+    try {
+
+        const response=await axios.post(`${API}/doctor/patient/test/completed/details`,{testOrderId},{
+            headers:{
+                Authorization:`bearer ${sessionStorage.getItem('token')}`
+            }
+        })
+        // console.log(response.data)
+        return response.data.order
+        
+    } catch (error) {
+        console.log(error)
+         if(error.status=="500"&&error.response.status.errorServer){
+                    Swal.fire({
+                        icon:"error",
+                        text:"Server Issue"
+                    })
+                }
+                else if(error.status=="400"&&error.response.data.invalidToken){
+                    Swal.fire({
+                        icon:"warning",
+                        text:"Log In"
+                    })
+                }else if(error.status=="401"){
+                    Swal.fire({
+                        icon:"warning",
+                        text:"Log In"
+                    })
+                }else if(error.status=="400" && error.response.data.errorDatabase){
+                    Swal.fire({
+                        icon:"error",
+                        text:"Issue at the Database"
+                    })
+                }
+        
+                return false
+    }
+}
+
+export const doctor_getTestResultService=async ({testOrderId})=>{
+    try {
+        const response=await axios.post(`${API}/doctor/patient/test/completed/result`,{testOrderId},{
+            headers:{
+                Authorization:`bearer ${sessionStorage.getItem('token')}`
+            }
+        })
+        console.log(response.data)
+        return response.data.result
+        
+    } catch (error) {
+        console.log(error)
+        if(error.status=="500"&&error.response.status.errorServer){
+                Swal.fire({
+                    icon:"error",
+                    text:"Server Issue"
+                })
+            }
+            else if(error.status=="400"&&error.response.data.invalidToken){
+                Swal.fire({
+                    icon:"warning",
+                    text:"Log In"
+                })
+            }else if(error.status=="401"){
+                Swal.fire({
+                    icon:"warning",
+                    text:"Log In"
+                })
+            }else if(error.status=="404" && error.response.data.errorTestPresent){
+                Swal.fire({
+                    icon:"warning",
+                    text:"Test can't be found at database"
+                })
+            }
+    
+            return false
+        
+        
+    }
+}

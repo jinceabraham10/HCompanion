@@ -8,7 +8,7 @@ import { pharmacy_getProfileDetailsService } from '../../services/pharmacyProfil
 import { setPharmacy } from '../../../redux/slices/pharmacySlice'
 // import * as assets from '../../../assets'
 
-function NavBar() {
+function NotPharmacyNavBar() {
 
   const dispatch=useDispatch()
   const {username,email,role,isLoggedIn}=useSelector((state)=>state.user)
@@ -16,16 +16,10 @@ function NavBar() {
   const navigate=useNavigate()
 
   const onLoad=async ()=>{
-      if(sessionStorage.getItem('token')){
+      if(sessionStorage.getItem('token') && !isLoggedIn){
           const tempPharmacy=await getPharmacyBasicDetails({token:sessionStorage.getItem('token')})
           if(tempPharmacy){
             const tempProfile=await pharmacy_getProfileDetailsService()
-              if(tempProfile?.approvalStatus=="0"){
-                navigate('/pharmacy/approval/form')
-            }
-            else if(tempProfile?.approvalStatus=="1"){
-                navigate('/pharmacy/approval/submitted')
-            }
                 dispatch(setUser({
                   username:tempPharmacy.username,
                   email:tempPharmacy.email,
@@ -142,4 +136,4 @@ function NavBar() {
   )
 }
 
-export default NavBar
+export default NotPharmacyNavBar

@@ -109,6 +109,38 @@ const storageDoctorFiles=new CloudinaryStorage({
     }
 })
 
+const storagePharmacyFiles=new CloudinaryStorage({
+    cloudinary:cloudinary,
+    params:{
+        folder:'pharmacy/files',
+        allowed_formats:["jpeg", "png", "jpg","pdf"],
+        public_id:(req,file)=>{
+            
+            if(file.fieldname=="license")
+                return `${req.user.userId}_license`
+            if(file.fieldname=="profileImage")
+                return `${req.user.userId}_profileImage`
+            
+        }
+    }
+})
+
+const storageLaboratoryFiles=new CloudinaryStorage({
+    cloudinary:cloudinary,
+    params:{
+        folder:'pharmacy/files',
+        allowed_formats:["jpeg", "png", "jpg","pdf"],
+        public_id:(req,file)=>{
+            
+            if(file.fieldname=="license")
+                return `${req.user.userId}_license`
+            if(file.fieldname=="profileImage")
+                return `${req.user.userId}_profileImage`
+            
+        }
+    }
+})
+
 
 exports.uploadPatientProfileImage=multer({storage:storagePatientProfile})
 
@@ -123,3 +155,7 @@ exports.uploadPharmacyProfileImage=multer({storage:storagePharmacyProfile})
 exports.uploadLaboratoryProfileImage=multer({storage:storageLaboratoryProfile})
 
 exports.uploadDoctorFile=multer({storage:storageDoctorFiles})
+
+exports.uploadPharmacyFile=multer({storage:storagePharmacyFiles})
+
+exports.uploadLaboratoryFile=multer({storage:storageLaboratoryFiles})

@@ -189,3 +189,44 @@ exports.laboratory_ViewProfileDetails= async (req,res)=>{
         
     }
   }
+
+exports.laboratory_approval_updateLaboratoryDetails=async (req,res,next)=>{
+    try {
+  
+      const {laboratoryName,ownerName}=req.body
+      // await console.log('update Details',JSON.stringify(updateDetails))
+      // await console.log('req',req)
+      const laboratory=await Laboratory.findOne({userId:req.user.userId})
+      if(!laboratory)
+        return res.status(404).json({message:"No Laboratory found ",errorNoLaboratory:true})
+      const updatedDetails=await Laboratory.updateOne({_id:laboratory._id},{...{laboratoryName,ownerName},
+                                                                            profileImage:(req.files)?req.files['profileImage'][0].path:doctor.profileImage,
+                                                                                        license:(req.files)?req.files['license'][0].path:doctor.license,
+                                                                                            approvalStatus:"1"})
+      // await console.log(updatedDetails)
+      if(!updatedDetails)
+        return res.status(400).json({message:"Some issue happend at the server",errorDatabaseIssue:true})
+      return next()
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  
+  
+exports.laboratory_approval_getAllDetails= async (req,res)=>{
+    try {  
+      // const profileDetails=req.body
+      const fetchedDetails=await Laboratory.findOne({userId:req.user.userId}).populate({path:'userId'}).populate({path:"addressId"})
+      if(!fetchedDetails)
+        return res.status(404).json({message:"Pharmacy Not found under the database",errorNoLaboratory:true})
+      // const uDetails=await Patient.updateOne({userId:req.user.userId},{profileDetails})
+      await console.log(fetchedDetails)
+      res.status(200).json({message:"Details has been fetched",laboratoryDetails:fetchedDetails})
+       
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Faced issue on the backend",error:error})
+        
+    }
+  }

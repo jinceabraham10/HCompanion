@@ -75,6 +75,14 @@ import LaboratoryHome from './laboratory/pages/LaboratoryHome/LaboratoryHome'
 import NotDoctorPageBasic from './doctor/pages/notdoctorPageBasic copy/NotDoctorPageBasic'
 import Doctor_ApprovalForm from './doctor/pages/doctor_approvalSubmitForm/Doctor_ApprovalForm'
 import Doctor_ApprovalFormSubmitted from './doctor/pages/doctor_approvalSubmitedForm/Doctor_ApprovalFormSubmitted'
+import NotPharmacyPageBasic from './pharmacy/pages/noPharmacyPageBasic/NotPharmacyPageBasic'
+import Pharmacy_ApprovalForm from './pharmacy/pages/pharmacy_approvalSubmitForm/Pharmacy_ApprovalForm'
+import Pharmacy_ApprovalFormSubmitted from './pharmacy/pages/pharmacy_approvalSubmitedForm/Pharmacy_ApprovalFormSubmitted'
+import NotLaboratoryPageBasic from './laboratory/pages/noLaboratoryPageBasic/NotLaboratoryPageBasic'
+import Laboratory_ApprovalForm from './laboratory/pages/laboratory_approvalSubmitForm/Laboratory_ApprovalForm'
+import Laboratory_ApprovalFormSubmitted from './laboratory/pages/laboratory_approvalSubmitedForm/Laboratory_ApprovalFormSubmitted'
+import Doctor_OrderedTestPage from './doctor/pages/doctor_orderedestPage/Doctor_OrderedTestPage'
+import Doctor_TestResultPage from './doctor/pages/doctor_uploadedTestResult.jsx/Doctor_TestResultPage'
 
 
 
@@ -157,7 +165,13 @@ function App() {
                           <Route path='/pharmacy/order/requested' element={<Pharmacy_RecievedOrders/>}/>
                           <Route path='/pharmacy/order/delivered' element={<Pharmacy_DeliveredOrders/>}/>
                 </Route>
-          </Route>  
+          </Route> 
+
+          <Route path='/pharmacy/approval' element={<NotPharmacyPageBasic/>}>
+               <Route path='/pharmacy/approval/form' element={<Pharmacy_ApprovalForm/>}/>
+               <Route path='/pharmacy/approval/submitted' element={<Pharmacy_ApprovalFormSubmitted/>}/>
+          
+          </Route> 
 
 
           //Doctor
@@ -177,6 +191,8 @@ function App() {
                  <Route path='/doctor/bookings/medicine/:patientId/:bookingId' element={<Doctor_MedicinePage/>}/>
                  <Route path='/doctor/bookings/labtest/:patientId/:bookingId' element={<DoctorLabTestsPage/>}/>
                  <Route path='/doctor/bookings/labtest/testDetails/:patientId/:bookingId/:testId' element={<Doctor_LaboratoryPage/>}/>
+                 <Route path='/doctor/bookings/test/ordered' element={<Doctor_OrderedTestPage/>}/>
+                 <Route path='/doctor/bookings/test/completed/details' element={<Doctor_TestResultPage/>}/>
              </Route>
 
           
@@ -211,6 +227,12 @@ function App() {
                        <Route path='/laboratory/profile/passwordReset' element={<PasswordReset/>}/>
                 </Route>
                 
+          </Route>
+
+          <Route path='/laboratory/approval' element={<NotLaboratoryPageBasic/>}>
+               <Route path='/laboratory/approval/form' element={<Laboratory_ApprovalForm/>}/>
+               <Route path='/laboratory/approval/submitted' element={<Laboratory_ApprovalFormSubmitted/>}/>
+          
           </Route>
 
 

@@ -109,3 +109,37 @@ export const laboratory_updateContactDetailsService=async (contactDetails)=>{
     }
 }
 
+export const laboratory_approval_updateProfileDetailsService=async (details)=>{
+    try {
+        // console.log('updateDetails',updateDetails)
+        const response=await axios.post(`${API}/laboratory/approval/form/submit`,details,{
+            headers:{
+                Authorization:`bearer ${sessionStorage.getItem('token')}`,
+                'Content-Type':'multipart/form-data'
+            }
+        })
+
+        // console.log(response.data)
+        return true
+        
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
+export const laboratory_approval_getAllDetailsService=async ()=>{
+    try {
+        const response=await axios.get(`${API}/laboratory/approval/viewDetails`,{
+            headers:{
+                Authorization:`bearer ${sessionStorage.getItem('token')}`
+            }
+        })
+        // console.log(response.data)
+        return response.data.laboratoryDetails
+        
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}

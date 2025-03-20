@@ -7,11 +7,11 @@ const { getUserDetails } = require("../controllers/jwtController")
 const { doctorViewProfileDetails, doctor_updateDoctorDetails, doctor_approval_updateDoctorDetails, doctor_approval_getAllDetails } = require("../controllers/doctorController")
 const { getSlots, checkSlot, addSlot, doctor_removeSlot, doctor_getAllCurrentBookings, doctor_getPastBookings } = require("../controllers/bookingController")
 const { uploadDoctorProfileImage, uploadDoctorFile } = require("../middlewares/storageConfig")
-const { addAddress, doctor_getAddressAndPhone, doctor_updateAddressAndPhone, doctor_approval_addAddress } = require("../controllers/addressController")
+const { addAddress, doctor_getAddressAndPhone, doctor_updateAddressAndPhone, approval_addAddress } = require("../controllers/addressController")
 const { doctor_patientViewProfileDetails } = require("../controllers/patientController")
 const { doctor_addPrescription, doctor_onLoadPrescription } = require("../controllers/prescriptionController")
 const { doctor_requestMedicineForPatient } = require("../controllers/medicineController")
-const { doctor_getAllTestsAvailable, doctor_getTestDetailsAndLabs, doctor_requestTestForPatient } = require("../controllers/testController")
+const { doctor_getAllTestsAvailable, doctor_getTestDetailsAndLabs, doctor_requestTestForPatient, doctor_getOrderedTests, doctor_getCompletedTestOrderDetails, doctor_getuploadedTestResult } = require("../controllers/testController")
 const { doctor_createEducationalDetails } = require("../controllers/educationController")
 const router=express.Router()
 
@@ -49,6 +49,9 @@ router.post('/patient/medicine/request',jwtMiddleware,doctor_requestMedicineForP
 router.get('/patient/test/allTests',jwtMiddleware,doctor_getAllTestsAvailable)
 router.post('/patient/test/testDetails',jwtMiddleware,doctor_getTestDetailsAndLabs)
 router.post('/patient/test/request',jwtMiddleware,doctor_requestTestForPatient)
+router.get('/patient/test/getOrderedTests',jwtMiddleware,doctor_getOrderedTests)
+router.post('/patient/test/completed/details',jwtMiddleware,doctor_getCompletedTestOrderDetails)
+router.post('/patient/test/completed/result',jwtMiddleware,doctor_getuploadedTestResult)
 
 
 //approval
@@ -59,7 +62,7 @@ router.post('/approval/form/submit',jwtMiddleware,uploadDoctorFile.fields([
     {name:"tenCertificate",maxCount:1},
     {name:"twelfthCertificate",maxCount:1},
     {name:"collegeCertificate",maxCount:1},
-]),doctor_approval_updateDoctorDetails,doctor_createEducationalDetails,doctor_approval_addAddress)
+]),doctor_approval_updateDoctorDetails,doctor_createEducationalDetails,approval_addAddress)
 router.get('/approval/viewDetails',jwtMiddleware,doctor_approval_getAllDetails)
 
 

@@ -166,3 +166,46 @@ exports.pharmacy_ViewProfileDetails= async (req,res)=>{
         
     }
   }
+
+
+exports.pharmacy_approval_updatePharmacyDetails=async (req,res,next)=>{
+    try {
+  
+      const {pharmacyName,ownerName}=req.body
+      // await console.log('update Details',JSON.stringify(updateDetails))
+      // await console.log('req',req)
+      const pharmacy=await Pharmacy.findOne({userId:req.user.userId})
+      if(!pharmacy)
+        return res.status(404).json({message:"No Pharmacy found ",errorNoPharmacy:true})
+      const updatedDetails=await Pharmacy.updateOne({_id:pharmacy._id},{...{pharmacyName,ownerName},
+                                                                            profileImage:(req.files)?req.files['profileImage'][0].path:doctor.profileImage,
+                                                                                        license:(req.files)?req.files['license'][0].path:doctor.license,
+                                                                                            approvalStatus:"1"})
+      // await console.log(updatedDetails)
+      if(!updatedDetails)
+        return res.status(400).json({message:"Some issue happend at the server",errorDatabaseIssue:true})
+      return next()
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  
+  
+exports.pharmacy_approval_getAllDetails= async (req,res)=>{
+    try {  
+      // const profileDetails=req.body
+      const fetchedDetails=await Pharmacy.findOne({userId:req.user.userId}).populate({path:'userId'}).populate({path:"addressId"})
+      if(!fetchedDetails)
+        return res.status(404).json({message:"Pharmacy Not found under the database",errorNoPharmacy:true})
+      // const uDetails=await Patient.updateOne({userId:req.user.userId},{profileDetails})
+      await console.log(fetchedDetails)
+      res.status(200).json({message:"Details has been fetched",pharmacyDetails:fetchedDetails})
+       
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Faced issue on the backend",error:error})
+        
+    }
+  }
+    

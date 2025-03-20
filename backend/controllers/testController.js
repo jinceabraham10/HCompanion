@@ -490,3 +490,120 @@ exports.patient_getCompletedTestOrderDetails=async (req,res)=>{
 
 }
 
+
+exports.doctor_getOrderedTests=async (req,res)=>{
+  try {
+    // await console.log("heloooooooooo")
+    const fetchedDetails=await Doctor.findOne({userId:req.user.userId}).populate({path:'userId'})
+    if(!fetchedDetails)
+        return res.status(404).json({message:"Doctor Not found under the database",errorNoDoctor:true})
+    const requestedTestOrders=await TestOrder.find({orderStatus:{$ne:"0"}}).populate({path:"patientId",populate:[
+      {
+        path:"userId"
+      },
+      {
+        path:"addressId"
+      }
+
+    ]}).populate({path:"doctorId",populate:{
+            path:"userId"
+          }}).populate({path:"labTestId",populate:[
+                {
+                  path:"testId"
+                },
+                {
+                  path:"labId",
+                  populate:{
+                      path:"userId"
+                    
+                  }
+                }
+              ]
+              }).populate({path:"bookingId",populate:{
+                    path:"paymentId"
+                  }})
+    const filteredOrderedTestOrders=await requestedTestOrders.filter((order)=>(order.doctorId._id=fetchedDetails._id))
+    filteredOrderedTestOrders.sort((a,b)=>dayjs(b.createdAt).valueOf()-dayjs(a.createdAt).valueOf())
+    console.log("ordered tests",filteredOrderedTestOrders)
+    return res.status(200).json({message:"Requested Tests have been fetched",orders:filteredOrderedTestOrders})
+    
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message:"Faced issue on the backend",error:error})
+  }
+
+}
+
+exports.doctor_getCompletedTestOrderDetails=async (req,res)=>{
+  try {
+    const {testOrderId}=req.body
+    const fetchedDetails=await Doctor.findOne({userId:req.user.userId}).populate({path:'userId'})
+    if(!fetchedDetails)
+        return res.status(404).json({message:"Doctor Not found under the database",errorNoDoctor:true})
+    const requestedTestOrderDetails=await TestOrder.findOne({$and:[{orderStatus:"2"},{_id:testOrderId}]}).populate({path:"patientId",populate:[
+      {
+        path:"userId"
+      },
+      {
+        path:"addressId"
+      }
+
+    ]}).populate({path:"doctorId",populate:{
+            path:"userId"
+          }}).populate({path:"labTestId",populate:[
+                {
+                  path:"testId"
+                },
+                {
+                  path:"labId",
+                  populate:{
+                      path:"userId"
+                    
+                  }
+                }
+              ]
+              }).populate({path:"bookingId",populate:{
+                    path:"paymentId"
+                  }})
+    // const filteredRequestedTestOrders=await requestedTestOrders.filter((order)=>(order.labTestId.labId._id=fetchedDetails._id))
+
+    return res.status(200).json({message:"Completed Requested Tests have been fetched",order:requestedTestOrderDetails})
+    
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message:"Faced issue on the backend",error:error})
+  }
+
+}
+
+exports.doctor_getuploadedTestResult=async (req,res)=>{
+  try {
+    const {testOrderId}=req.body
+    const fetchedDetails=await Doctor.findOne({userId:req.user.userId}).populate({path:'userId'})
+    if(!fetchedDetails)
+        return res.status(404).json({message:"Doctor Not found under the database",errorNoDoctor:true})
+    const requestedTestResultDetails=await TestResult.findOne({testOrderId}).populate({path:"testOrderId",populate:{
+        path:"bookingId"
+      }
+    }).populate({path:"patientId",populate:[
+        {
+          path:"userId"
+        },
+        {
+          path:"addressId"
+        }
+
+      ]}).populate({path:"doctorId",populate:{
+              path:"userId"
+            }})
+    // const filteredRequestedTestOrders=await requestedTestOrders.filter((order)=>(order.labTestId.labId._id=fetchedDetails._id))
+
+    return res.status(200).json({message:"Completed Requested Tests have been fetched",result:requestedTestResultDetails})
+    
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message:"Faced issue on the backend",error:error})
+  }
+
+}
+

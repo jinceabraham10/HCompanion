@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { laboratory_getBasicDetailsService } from '../../services/laboratoryProfileDetailsService'
 import { setLaboratory } from '../../../redux/slices/laboratorySlice'
 
-function LaboratryNavbar() {
+function NotLaboratryNavbar() {
   const dispatch=useDispatch()
   const navigate=useNavigate()
   const {username,email}=useSelector((state)=>state.user)
@@ -14,14 +14,7 @@ function LaboratryNavbar() {
 
   const onLoad=async ()=>{
     const tempLaboratory=await laboratory_getBasicDetailsService()
-      if(tempLaboratory){
-
-          if(tempLaboratory?.approvalStatus=="0"){
-            navigate('/laboratory/approval/form')
-        }
-        else if(tempLaboratory?.approvalStatus=="1"){
-            navigate('/laboratory/approval/submitted')
-        }
+    if(tempLaboratory){
       dispatch(setUser({
         username:tempLaboratory.userId.username,
         email:tempLaboratory.userId.email,
@@ -129,4 +122,4 @@ function LaboratryNavbar() {
    )
 }
 
-export default LaboratryNavbar
+export default NotLaboratryNavbar

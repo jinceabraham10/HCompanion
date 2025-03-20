@@ -6,9 +6,9 @@ const jwtMiddleware = require("../middlewares/jwtConfig")
 const { getUserDetails } = require("../controllers/jwtController")
 const { doctorViewProfileDetails, doctor_updateDoctorDetails } = require("../controllers/doctorController")
 const { getSlots, checkSlot, addSlot, doctor_removeSlot } = require("../controllers/bookingController")
-const { uploadDoctorProfileImage, uploadLaboratoryProfileImage } = require("../middlewares/storageConfig")
-const { addAddress, doctor_getAddressAndPhone, doctor_updateAddressAndPhone, laboratory_updateAddressAndPhone, laboratory_getAddressAndPhone } = require("../controllers/addressController")
-const { laboratory_getBasicDetails, laboratory_addTest, laboratory_getAddedTests, laboratory_getAddedTestDetails, laboratory_updateAddedTestDetails, laboratory_deleteAddedTest, laboratory_ViewProfileDetails, laboratory_updateLaboratoryDetails } = require("../controllers/laboratoryController")
+const { uploadDoctorProfileImage, uploadLaboratoryProfileImage, uploadLaboratoryFile } = require("../middlewares/storageConfig")
+const { addAddress, doctor_getAddressAndPhone, doctor_updateAddressAndPhone, laboratory_updateAddressAndPhone, laboratory_getAddressAndPhone, approval_addAddress } = require("../controllers/addressController")
+const { laboratory_getBasicDetails, laboratory_addTest, laboratory_getAddedTests, laboratory_getAddedTestDetails, laboratory_updateAddedTestDetails, laboratory_deleteAddedTest, laboratory_ViewProfileDetails, laboratory_updateLaboratoryDetails, laboratory_approval_updateLaboratoryDetails, laboratory_approval_getAllDetails } = require("../controllers/laboratoryController")
 const { getTestsPresent, laboratory_getOrderedTests, laboratory_completedOrderedTests, laboratory_getCompletedOrderedTests, laboratory_uploadTestResultForRequested, laboratory_getCompletedTestOrderDetails, laboratory_getuploadedTestResult } = require("../controllers/testController")
 const router=express.Router()
 
@@ -36,7 +36,12 @@ router.post('/order/test/uploadResult',jwtMiddleware,laboratory_uploadTestResult
 router.post('/order/test/result/getDetails',jwtMiddleware,laboratory_getuploadedTestResult)
 router.post('/order/test/completed/testDetails',jwtMiddleware,laboratory_getCompletedTestOrderDetails)
 
+router.post('/approval/form/submit',jwtMiddleware,uploadLaboratoryFile.fields([
+    {name:"profileImage",maxCount:1},
+    {name:"license",maxCount:1},
+]),laboratory_approval_updateLaboratoryDetails,approval_addAddress)
 
+router.get('/approval/viewDetails',jwtMiddleware,laboratory_approval_getAllDetails)
 
 
 module.exports=router
