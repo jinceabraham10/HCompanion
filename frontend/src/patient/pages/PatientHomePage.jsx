@@ -22,7 +22,7 @@ function PatientHomePage() {
 
 
 
-        <div className='chatBot fixed w-auto h-auto right-2 bottom-0'>
+        {/* <div className='chatBot fixed w-auto h-auto right-2 bottom-0'>
          
           {
             (isChatBot) ?
@@ -41,7 +41,7 @@ function PatientHomePage() {
           }
           
           
-        </div>
+        </div> */}
 
       
     </div>

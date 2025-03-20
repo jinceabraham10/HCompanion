@@ -44,7 +44,7 @@ function Patient_BookingCard(props) {
                 <h4 className='text-sm font-medium opacity-40'>Cardiology</h4>
 
                 <div className='w-full h-auto'>
-                    <h4>{booking?.doctorId?.userId?.username}</h4>
+                    <h4>{booking?.doctorId?.firstName}</h4>
                 </div>
 
                 <div className='location w-full h-auto'>
