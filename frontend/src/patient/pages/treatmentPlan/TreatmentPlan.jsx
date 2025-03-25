@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
-import { getSuggestedDoctor } from '../../services/treatmentPlanServices'
+import { getSuggestedDoctor, patient_getSuggestedMedicinesService } from '../../services/treatmentPlanServices'
 import { getDoctorDetailsService } from '../../services/patientDoctorServices'
 import DoctorCard from '../../components/doctorCard/DoctorCard'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import ReactMarkdown from "react-markdown";
+import TreatmentMedicineCard from '../../components/treatmentMedicineCard/TreatmentMedicineCard'
 
 function TreatmentPlan() {
     const [treatmentPlan,setTreatmentPlan]=useState()
@@ -47,6 +48,14 @@ function TreatmentPlan() {
 
                 {
                     (diseaseName)&& <Patient_SuggestedPrecautions diseaseName={diseaseName}/>
+                }
+
+              </div>
+
+              <div className='flex w-full h-auto bg-black bg-opacity-20 p-2'>
+
+                {
+                    (diseaseName)&& <Patient_SuggestedMedicines diseaseName={diseaseName}/>
                 }
 
               </div>
@@ -127,10 +136,47 @@ function Patient_SuggestedPrecautions(props){
             <div className='w-full h-[5vh] bg-red-500 flex items-center justify-center'>
                 {`Precautions for ${diseaseName}`}
             </div>
-            <div className='w-full h-auto flex flex-col'>
+            <div className='w-full h-auto flex flex-col gap-2'>
                     {
                         <ReactMarkdown>{precaution}</ReactMarkdown>
                     }
+            </div>
+
+        </div>
+    )
+}
+
+
+function Patient_SuggestedMedicines(props){
+    const {diseaseName}=props
+    const [suggestdMedicines,setSuggestdMedicines]=useState([])
+    const onLoad=async ()=>{
+        const tempMedicines=await patient_getSuggestedMedicinesService({diseaseName})
+        setSuggestdMedicines(tempMedicines)
+       
+        
+    }
+    useEffect(()=>{
+        onLoad()
+
+    },[])
+
+    useEffect(()=>{
+        onLoad()
+
+    },[diseaseName])
+    return(
+        <div className='w-full h-full flex'>
+            <div className='w-full h-full grid grid-cols-2 gap-4'>
+                {
+                    (suggestdMedicines?.length>0) && (suggestdMedicines.map((medicine,index)=>(
+                        <div className='w-full h-auto' key={index}>
+                            <TreatmentMedicineCard medicineId={medicine}/>
+
+                        </div>
+                    )))
+                }
+
             </div>
 
         </div>

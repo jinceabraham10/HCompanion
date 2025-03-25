@@ -19,7 +19,7 @@ function DoctorCard(props) {
                 <div className=' w-auto'>
                     <span className='text-sm font-medium opacity-40'>{props?.doctor?.specialization}</span>
                 </div>
-                <span className='text-xl font-medium'>{`Dr. ${props.doctor.userId.username}`}</span>
+                <span className='text-xl font-medium'>{`Dr. ${`${props.doctor.firstName} ${props.doctor.lastName}`||props.doctor.userId.username}`}</span>
                 <span className='font-sm opacity-60'>16 years of experience</span>
                 
 

@@ -20,3 +20,33 @@ export const getSuggestedDoctor=async ({diseaseName})=>{
     }
 }
 
+export const patient_getSuggestedMedicinesService=async ({diseaseName})=>{
+    try {
+        const response=await axios.post('http://localhost:9000/predictMedicine',{
+            "disease":"asthma",
+            "symptoms":"high cholesterol",
+             "gender":"male"
+
+        })
+        console.log("medicines",response.data)
+        return response.data.recommended_medicines
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const patient_treatment_getMedicineDetailsService=async ({medicineId})=>{
+    try {
+        const response=await axios.post('http://localhost:5000/api/patient/treatmentPlan/medicineDetails',{
+           medicineId 
+        })
+        // console.log("medicine",response.data.medicine)
+        return response.data.medicine
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+

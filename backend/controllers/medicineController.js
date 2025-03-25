@@ -229,4 +229,22 @@ exports.pharmacy_getDeliveredMedicine= async (req,res)=>{
     }
 }
 
+exports.patient_treatmentPlan_viewMedicineDetails= async (req,res)=>{
+    try {  
+        
+        // const pharmacy=await Pharmacy.findOne({userId:req.user.userId})
+        const {medicineId}=req.body
+        const fetchedMedicineItem=await Medicine.findOne({_id:medicineId})
+        return res.status(200).json({message:"Medicine fetched",medicine:fetchedMedicineItem})       
+        
+          
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Faced issue on the backend",error:error})
+        
+    }
+}
+
+
+
 
