@@ -83,6 +83,15 @@ import Laboratory_ApprovalForm from './laboratory/pages/laboratory_approvalSubmi
 import Laboratory_ApprovalFormSubmitted from './laboratory/pages/laboratory_approvalSubmitedForm/Laboratory_ApprovalFormSubmitted'
 import Doctor_OrderedTestPage from './doctor/pages/doctor_orderedestPage/Doctor_OrderedTestPage'
 import Doctor_TestResultPage from './doctor/pages/doctor_uploadedTestResult.jsx/Doctor_TestResultPage'
+import Admin_UsersPageBasic from './admin/pages/adminUsersPageBasic/Admin_UsersPageBasic'
+import Admin_PatientPage from './admin/pages/admin_patientsPage/Admin_PatientPage'
+import Admin_DoctorsPage from './admin/pages/admin_doctorsPage/Admin_DoctorsPage'
+import Admin_PharmacyPage from './admin/pages/admin_pharmactPage/Admin_PharmacyPage'
+import Admin_LaboratoryPage from './admin/pages/admin_laboratoryPage/Admin_LaboratoryPage'
+import Admin_ApprovalPageBasic from './admin/pages/adminApprovalPageBasic/Admin_ApprovalPageBasic'
+import Admin_ApprovalDoctorsPage from './admin/pages/admin_ApprovalDoctorPage/Admin_ApprovalDoctorsPage'
+import Admin_ApprovalLaboratoryPage from './admin/pages/admin_ApprovalLaboratoryPage/Admin_ApprovalLaboratoryPage'
+import Admin_ApprovalPharmacyPage from './admin/pages/admin_ApprovalPharmacyPage copy/Admin_ApprovalPharmacyPage'
 
 
 
@@ -241,19 +250,20 @@ function App() {
 
           <Route path='/admin' element={<Admin_PageBasic/>}>
             {/* <Route path='/admin/' element={<SlotSettingPage/>}/> */}
-            {/* <Route path='/doctor/profile' element={<DoctorProfilePageBasic/>}>
-                      <Route path='/doctor/profile/details' element={<DoctorProfileDetails/>}/>
-                      <Route path='/doctor/profile/contact' element={<DoctorContactPage/>}/>
-                      <Route path='/doctor/profile/resetPassword' element={<DoctorResetPassword/>}/>
+            <Route path='/admin/users' element={<Admin_UsersPageBasic/>}>
+                      <Route path='/admin/users/patient' element={<Admin_PatientPage/>}/>
+                      <Route path='/admin/users/doctors' element={<Admin_DoctorsPage/>}/>
+                      <Route path='/admin/users/pharmacy' element={<Admin_PharmacyPage/>}/>
+                      <Route path='/admin/users/laboratory' element={<Admin_LaboratoryPage/>}/>
+                      
             </Route>
-            <Route path='/doctor/bookings' element={<Doctor_BookingsBasic/>}>
-                <Route path='/doctor/bookings/currentBookings' element={<Doctor_CurrentBookings/>}/>
-                <Route path='/doctor/bookings/pastCompletedBookings' element={<Doctor_PastBookings/>}/>
-                <Route path='/doctor/bookings/prescription/:patientId/:bookingId' element={<Doctor_PrescriptionPage/>}/>
-                <Route path='/doctor/bookings/medicine/:patientId/:bookingId' element={<Doctor_MedicinePage/>}/>
-                <Route path='/doctor/bookings/labtest/:patientId/:bookingId' element={<DoctorLabTestsPage/>}/>
-                <Route path='/doctor/bookings/labtest/testDetails/:patientId/:bookingId/:testId' element={<Doctor_LaboratoryPage/>}/>
-            </Route> */}
+            <Route path='/admin/approval' element={<Admin_ApprovalPageBasic/>}>
+                      <Route path='/admin/approval/doctors' element={<Admin_ApprovalDoctorsPage/>}/>
+                      <Route path='/admin/approval/pharmacy' element={<Admin_ApprovalPharmacyPage/>}/>
+                      <Route path='/admin/approval/laboratory' element={<Admin_ApprovalLaboratoryPage/>}/>
+                      
+            </Route>
+      
 
 
           </Route>

@@ -209,3 +209,26 @@ exports.pharmacy_approval_getAllDetails= async (req,res)=>{
     }
   }
     
+exports.admin_getAllPharmacies=async (req,res)=>{
+  try {
+    const pharmacies=await Pharmacy.find({approvalStatus:"2"}).populate({path:"userId"}).populate({path:"addressId"})
+    return res.status(200).json({message:"fetched pharmacies",pharmacies:pharmacies})
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: `error found : ${error}` });
+  }
+
+}
+
+exports.admin_approval_getAllPharmacies=async (req,res)=>{
+  try {
+    const pharmacies=await Pharmacy.find({approvalStatus:"1"}).populate({path:"userId"}).populate({path:"addressId"})
+    return res.status(200).json({message:"fetched pharmacies",pharmacies:pharmacies})
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: `error found : ${error}` });
+  }
+
+}
+
+

@@ -139,4 +139,25 @@ exports.doctor_approval_getAllDetails= async (req,res)=>{
   }
 }
   
+exports.admin_getAllDoctors=async (req,res)=>{
+  try {
+    const doctors=await Doctor.find({approvalStatus:"2"}).populate({path:"userId"}).populate({path:"addressId"}).populate({path:"educationId"})
+    return res.status(200).json({message:"fetched doctors",doctors:doctors})
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: `error found : ${error}` });
+  }
+
+}
+
+exports.admin_approval_getAllDoctorsRequests=async (req,res)=>{
+  try {
+    const doctors=await Doctor.find({approvalStatus:"1"}).populate({path:"userId"}).populate({path:"addressId"}).populate({path:"educationId"})
+    return res.status(200).json({message:"fetched doctors",doctors:doctors})
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: `error found : ${error}` });
+  }
+
+}
 

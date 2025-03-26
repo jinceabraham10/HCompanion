@@ -142,4 +142,15 @@ exports.doctor_patientViewProfileDetails= async (req,res)=>{
   }
 }
 
+exports.admin_getAllPatients=async (req,res)=>{
+  try {
+    const patients=await Patient.find({}).populate({path:"userId"}).populate({path:"addressId"})
+    return res.status(200).json({message:"fetched patients",patients:patients})
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: `error found : ${error}` });
+  }
+
+}
+
 
