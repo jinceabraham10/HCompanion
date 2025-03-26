@@ -161,3 +161,46 @@ exports.admin_approval_getAllDoctorsRequests=async (req,res)=>{
 
 }
 
+exports.admin_approval_getAllDoctorsDetails=async (req,res)=>{
+  try {
+    const {doctorId}=req.body
+    const doctors=await Doctor.findOne({$and:[{approvalStatus:"1"},{_id:doctorId}]}).populate({path:"userId"}).populate({path:"addressId"}).populate({path:"educationId"})
+    return res.status(200).json({message:"fetched doctors",doctor:doctors})
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: `error found : ${error}` });
+  }
+
+}
+
+exports.admin_approval_approveDoctor=async (req,res)=>{
+  try {
+    const {doctorId}=req.body
+    const updated=await Doctor.updateOne({$and:[{approvalStatus:"1"},{_id:doctorId}]},{approvalStatus:"2"})
+    if(updated.modifiedCount>0){
+      return res.status(200).json({message:"approved"})
+    }
+    res.status(400).json({ message: `error found : ${error}` ,errorDatabase:true});
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: `error found : ${error}` });
+  }
+
+}
+
+exports.admin_approval_rejectDoctor=async (req,res)=>{
+  try {
+    const {doctorId}=req.body
+    const updated=await Doctor.updateOne({$and:[{approvalStatus:"1"},{_id:doctorId}]},{approvalStatus:"3"})
+    if(updated.modifiedCount>0){
+      return res.status(200).json({message:"rejected doctor"})
+    }
+    res.status(400).json({ message: `error found : ${error}` ,errorDatabase:true});
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: `error found : ${error}` });
+  }
+
+}
+
+

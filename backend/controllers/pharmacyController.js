@@ -231,4 +231,46 @@ exports.admin_approval_getAllPharmacies=async (req,res)=>{
 
 }
 
+exports.admin_approval_getPharmacyDetails=async (req,res)=>{
+  try {
+    const {pharmacyId}=req.body
+    const pharmacies=await Pharmacy.findOne({$and:[{approvalStatus:"1"},{_id:pharmacyId}]}).populate({path:"userId"}).populate({path:"addressId"})
+    return res.status(200).json({message:"fetched pharmacies",pharmacy:pharmacies})
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: `error found : ${error}` });
+  }
+
+}
+
+exports.admin_approval_approvePharmacy=async (req,res)=>{
+  try {
+    const {pharmacyId}=req.body
+    const updated=await Pharmacy.updateOne({$and:[{approvalStatus:"1"},{_id:pharmacyId}]},{approvalStatus:"2"})
+    if(updated.modifiedCount>0){
+      return res.status(200).json({message:"approved"})
+    }
+    res.status(400).json({ message: `error found : ${error}` ,errorDatabase:true});
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: `error found : ${error}` });
+  }
+
+}
+
+exports.admin_approval_rejectPharmacy=async (req,res)=>{
+  try {
+    const {pharmacyId}=req.body
+    const updated=await Pharmacy.updateOne({$and:[{approvalStatus:"1"},{_id:pharmacyId}]},{approvalStatus:"3"})
+    if(updated.modifiedCount>0){
+      return res.status(200).json({message:"rejected doctor"})
+    }
+    res.status(400).json({ message: `error found : ${error}` ,errorDatabase:true});
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: `error found : ${error}` });
+  }
+
+}
+
 

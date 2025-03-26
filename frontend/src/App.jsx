@@ -92,6 +92,9 @@ import Admin_ApprovalPageBasic from './admin/pages/adminApprovalPageBasic/Admin_
 import Admin_ApprovalDoctorsPage from './admin/pages/admin_ApprovalDoctorPage/Admin_ApprovalDoctorsPage'
 import Admin_ApprovalLaboratoryPage from './admin/pages/admin_ApprovalLaboratoryPage/Admin_ApprovalLaboratoryPage'
 import Admin_ApprovalPharmacyPage from './admin/pages/admin_ApprovalPharmacyPage copy/Admin_ApprovalPharmacyPage'
+import Admin_ApprovalDoctorDetails from './admin/pages/admin_approvalDoctorsDetails/Admin_ApprovalDoctorDetails'
+import Admin_ApprovalPharmacyDetails from './admin/pages/admin_approvalPharmacyDetails/Admin_ApprovalPharmacyDetails'
+import Admin_ApprovalLabDetailsPage from './admin/pages/admin_ApprovalLaboratoryDetailsPage/Admin_ApprovalLabDetailsPage'
 
 
 
@@ -261,6 +264,9 @@ function App() {
                       <Route path='/admin/approval/doctors' element={<Admin_ApprovalDoctorsPage/>}/>
                       <Route path='/admin/approval/pharmacy' element={<Admin_ApprovalPharmacyPage/>}/>
                       <Route path='/admin/approval/laboratory' element={<Admin_ApprovalLaboratoryPage/>}/>
+                      <Route path='/admin/approval/doctorDetails' element={<Admin_ApprovalDoctorDetails/>}/>
+                      <Route path='/admin/approval/pharmacyDetails' element={<Admin_ApprovalPharmacyDetails/>}/>
+                      <Route path='/admin/approval/LaboratoryDetails' element={<Admin_ApprovalLabDetailsPage/>}/>
                       
             </Route>
       
