@@ -76,9 +76,9 @@ function Admin_ApprovalDoctorCard(props) {
                         <button className='cancel w-full h-auto p-2 bg-orange-500 font-medium flex items-center justify-center' onClick={(e)=>navigate(`/admin/approval/doctorDetails?doctorId=${user._id}`)}  >
                                 View Details
                         </button>
-                        <button className='cancel w-full h-auto p-2 bg-emerald-500 font-medium flex items-center justify-center'  >
+                        {/* <button className='cancel w-full h-auto p-2 bg-emerald-500 font-medium flex items-center justify-center'  >
                               Approve
-                        </button>
+                        </button> */}
 
                   </div>
                   

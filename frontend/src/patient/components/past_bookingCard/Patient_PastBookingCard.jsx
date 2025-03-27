@@ -79,7 +79,9 @@ function Patient_PastBookingCard(props) {
                          Join Meeting
                         </button>
                     }
-                    
+                    <button className='cancel w-full h-auto p-2 bg-red-500 font-medium flex items-center justify-center' onClick={(e)=>navigate(`/patient/profile/bookings/review?doctorId=${booking?.doctorId?._id}`)} >
+                       Add Review
+                    </button>
 
                 </div>
                 

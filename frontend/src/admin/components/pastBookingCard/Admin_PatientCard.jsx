@@ -48,17 +48,18 @@ function Admin_PatientCard(props) {
                       <h4 className='flex justify-center w-full text-emerald-500'>{`${user?.firstName} ${user?.lastName}`}</h4>
                   </div>
   
-                  <div className='location w-full h-auto bg-black bg-opacity-20 p-2'>
-                      <div className='flex gap-4 items-start'>
-                              <IoLocation/> 
-                              <div className='flex flex-col gap-2 w-auto h-full items-start justify-start'>
-                                <span className='flex items-center'>{user.addressId?.place}</span>
-                                <span className='flex items-center'>{user.addressId?.district}</span>
-  
-                              </div>
-                              
-                      </div>
-                  </div>
+                   <div className='location w-full h-auto bg-black bg-opacity-20 p-2'>
+                                        <div className='flex gap-4 items-start'>
+                                                <IoLocation/> 
+                                                <div className='flex flex-col gap-2 w-auto h-full items-start justify-start'>
+                                                  <span className='flex items-center'>{`place : ${user.addressId?.place}`}</span>
+                                                  <span className='flex items-center'>{`district : ${user.addressId?.district}`}</span>
+                                                  <span className='flex items-center'>{`pincode : ${user.addressId?.pincode}`}</span>
+                    
+                                                </div>
+                                                
+                                        </div>
+                    </div>
   
               </div>
   

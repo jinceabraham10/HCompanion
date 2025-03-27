@@ -27,8 +27,12 @@ function DoctorCard(props) {
             
 
             <div className='w-[50%] h-full pb-8 flex flex-col gap-10 justify-end pr-5'>
-                <span className='text-lg font-bold opacity-80 flex justify-end items-center gap-2'><span className='font-medium'>consultation fee</span><FaRupeeSign/><span>{props.doctor.bookingPrice}</span></span>
-                <button className='w-full h-[5vh] font-medium border rounded-[5%] bg-orange-500 p-2 hover:bg-opacity-50' onClick={(e)=>handleBook(props.doctor._id)}>Book Consult</button>
+                <span className='text-lg font-bold opacity-80 flex justify-end items-center gap-2'><span className='font-medium '>consultation fee</span><FaRupeeSign/><span>{props.doctor.bookingPrice}</span></span>
+                <div className='flex gap-4 w-full h-[5vh]'>
+                    <button className='w-full h-[5vh] font-medium border rounded-[5%] bg-orange-500 p-2 hover:bg-opacity-50 text-sm' onClick={()=>navigate(`/patient/doctors/${props.doctor._id}`)}>Book Consult</button>
+                    <button className='w-full h-[5vh] font-medium  text-sm border rounded-[5%] bg-orange-500 p-2 hover:bg-opacity-50' onClick={(e)=>navigate(`/patient/reviews?doctorId=${props.doctor._id}`)}>View Comments</button>
+
+                </div>
 
             </div>
 

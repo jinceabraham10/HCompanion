@@ -11,10 +11,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@google-apps/meet": "^0.3.0",
     "@google-cloud/local-auth": "^2.1.0",
     "@google/generative-ai": "^0.24.0",
     "@jitsi/react-sdk": "^1.4.4",
+    "@mui/material": "^7.0.0",
     "@reduxjs/toolkit": "^2.5.0",
     "agora-rtc-react": "^2.3.0",
     "axios": "^1.7.9",

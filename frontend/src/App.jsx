@@ -95,6 +95,8 @@ import Admin_ApprovalPharmacyPage from './admin/pages/admin_ApprovalPharmacyPage
 import Admin_ApprovalDoctorDetails from './admin/pages/admin_approvalDoctorsDetails/Admin_ApprovalDoctorDetails'
 import Admin_ApprovalPharmacyDetails from './admin/pages/admin_approvalPharmacyDetails/Admin_ApprovalPharmacyDetails'
 import Admin_ApprovalLabDetailsPage from './admin/pages/admin_ApprovalLaboratoryDetailsPage/Admin_ApprovalLabDetailsPage'
+import Patient_AddReview from './patient/pages/patient_addReview/Patient_AddReview'
+import DoctorReviews from './patient/pages/patient_doctorReviews/DoctorReviews'
 
 
 
@@ -122,6 +124,7 @@ function App() {
                     <Route path='/patient/profile/bookings' element={<Patient_BookingsPageBasic/>}>
                         <Route path='/patient/profile/bookings/currentBookings' element={<Patient_CurrentBookingPage/>}/>
                         <Route path='/patient/profile/bookings/pastBookings' element={<Patient_PastBookingPage/>}/>
+                        <Route path='/patient/profile/bookings/review' element={<Patient_AddReview/>}/>
                     </Route>
 
                     <Route path='/patient/profile/medicine' element={<Patient_MedicinePageBasic/>}>
@@ -154,6 +157,7 @@ function App() {
               
                <Route path='/patient/treatmentPlan' element={<TreatmentPlan/>}/>
                <Route path='/patient/alerts' element={<Patient_MeetingAlert/>}/>
+               <Route path='/patient/reviews' element={<DoctorReviews/>}/>
 
           </Route>
           
